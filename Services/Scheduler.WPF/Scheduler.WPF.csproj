@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net6.0-windows;net47</TargetFrameworks>
+		<UseWPF>true</UseWPF>
+		<AssemblyName>EllipticBit.Services.Scheduler.WPF</AssemblyName>
+		<RootNamespace>EllipticBit.Services.Scheduler</RootNamespace>
+		<Company>EllipticBit LLC</Company>
+		<Product>EllipticBit Services</Product>
+		<Authors>EllipticBit LLC</Authors>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Copyright>Copyright (c) 2023 EllipticBit, LLC</Copyright>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<AssemblyVersion>0.0.0.0</AssemblyVersion>
+		<FileVersion>0.0.0.0</FileVersion>
+		<Version>0.0.0</Version>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|AnyCPU'">
+	  <DefineConstants>$(DefineConstants)TRACE;WPF</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|AnyCPU'">
+	  <DefineConstants>$(DefineConstants)TRACE;WPF</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net47|AnyCPU'">
+	  <DefineConstants>$(DefineConstants)TRACE;WPF</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net47|AnyCPU'">
+	  <DefineConstants>$(DefineConstants)TRACE;WPF</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Include="..\Scheduler.NetStandard\ActionExecution.cs" Link="ActionExecution.cs" />
+	  <Compile Include="..\Scheduler.NetStandard\DefaultInstanceSynchronizationContext.cs" Link="DefaultInstanceSynchronizationContext.cs" />
+	  <Compile Include="..\Scheduler.NetStandard\InstanceSchedulerService.cs" Link="InstanceSchedulerService.cs" />
+	  <Compile Include="..\Scheduler.NetStandard\NetworkSchedulerService.cs" Link="NetworkSchedulerService.cs" />
+	  <Compile Include="..\Scheduler.NetStandard\ServiceCollectionExtensions.cs" Link="ServiceCollectionExtensions.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="2023.2.25.87" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+		<PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
+	</ItemGroup>
+
+</Project>

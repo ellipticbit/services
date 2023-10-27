@@ -1,0 +1,38 @@
+#include:
+#  - local: "Abstractions/.gitlab-ci.yml"
+#  - local: "Services/.gitlab-ci.yml"
+
+.before_script_template:
+    before_script:
+      - "git clean -fdxq"
+      - "pwsh -f ./AbstractionsReplaceVersion.ps1"
+      - "pwsh -f ./ServicesReplaceVersion.ps1"
+
+stages:
+  - abstractions
+  - services
+#  - post
+
+Increment Abstraction Build Counter:
+  stage: post
+  tags:
+    - linux
+  only:
+    refs:
+      - master
+    changes:
+      - Abstractions/**/*
+  script:
+    - "pwsh -f ./Abstractions/AbstractionsIncrementVersion.ps1"
+
+Increment Services Build Counter:
+  stage: post
+  tags:
+    - linux
+  only:
+    refs:
+      - master
+    changes:
+      - Services/**/*
+  script:
+    - "pwsh -f ./Services/ServicesIncrementVersion.ps1"

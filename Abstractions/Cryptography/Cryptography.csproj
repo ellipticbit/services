@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<AssemblyName>EllipticBit.Services.Cryptography.Abstractions</AssemblyName>
+		<RootNamespace>EllipticBit.Services.Cryptography</RootNamespace>
+		<Company>EllipticBit LLC</Company>
+		<Product>EllipticBit Services</Product>
+		<Authors>EllipticBit LLC</Authors>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Copyright>Copyright (c) 2020-2021 EllipticBit, LLC</Copyright>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<AssemblyVersion>0.0.0.0</AssemblyVersion>
+		<FileVersion>0.0.0.0</FileVersion>
+		<Version>0.0.0</Version>
+	</PropertyGroup>
+
+</Project>

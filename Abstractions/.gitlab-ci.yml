@@ -1,0 +1,280 @@
+# Address
+
+Build Address Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Abstractions/Address/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Address/Address.csproj"
+    - "dotnet build -c Debug ./Abstractions/Address/Address.csproj"
+
+Publish Address Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Abstractions/Address/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Address/Address.csproj"
+    - "dotnet build -c Release ./Abstractions/Address/Address.csproj"
+    - "dotnet nuget push ./Abstractions/Address/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+# Cryptography
+
+Build Cryptography Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Abstractions/Cryptography/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Cryptography/Cryptography.csproj"
+    - "dotnet build -c Debug ./Abstractions/Cryptography/Cryptography.csproj"
+
+Publish Cryptography Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Abstractions/Cryptography/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Cryptography/Cryptography.csproj"
+    - "dotnet build -c Release ./Abstractions/Cryptography/Cryptography.csproj"
+    - "dotnet nuget push ./Abstractions/Cryptography/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+# Database
+
+Build Database Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Abstractions/Database/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Database/Database.csproj"
+    - "dotnet build -c Debug ./Abstractions/Database/Database.csproj"
+
+Publish Database Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Abstractions/Database/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Database/Database.csproj"
+    - "dotnet build -c Release ./Abstractions/Database/Database.csproj"
+    - "dotnet nuget push ./Abstractions/Database/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+# Email
+
+Build Email Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Abstractions/Email/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Email/Email.csproj"
+    - "dotnet build -c Debug ./Abstractions/Email/Email.csproj"
+
+Publish Email Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Abstractions/Email/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Email/Email.csproj"
+    - "dotnet build -c Release ./Abstractions/Email/Email.csproj"
+    - "dotnet nuget push ./Abstractions/Email/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+# Extensions
+
+Build Extensions Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Abstractions/Extensions/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Extensions/Extensions.csproj"
+    - "dotnet build -c Debug ./Abstractions/Extensions/Extensions.csproj"
+
+Publish Extensions Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Abstractions/Extensions/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Extensions/Extensions.csproj"
+    - "dotnet build -c Release ./Abstractions/Extensions/Extensions.csproj"
+    - "dotnet nuget push ./Abstractions/Extensions/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+# Scheduler
+
+Build Scheduler Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Abstractions/Scheduler/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Scheduler/Scheduler.csproj"
+    - "dotnet build -c Debug ./Abstractions/Scheduler/Scheduler.csproj"
+
+Publish Scheduler Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Abstractions/Scheduler/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Scheduler/Scheduler.csproj"
+    - "dotnet build -c Release ./Abstractions/Scheduler/Scheduler.csproj"
+    - "dotnet nuget push ./Abstractions/Scheduler/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+# Secret
+
+Build Secret Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Abstractions/Secret/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Secret/Secret.csproj"
+    - "dotnet build -c Debug ./Abstractions/Secret/Secret.csproj"
+
+Publish Secret Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Abstractions/Secret/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Secret/Secret.csproj"
+    - "dotnet build -c Release ./Abstractions/Secret/Secret.csproj"
+    - "dotnet nuget push ./Abstractions/Secret/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+# Storage
+
+Build Storage Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Abstractions/Storage/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Storage/Storage.csproj"
+    - "dotnet build -c Debug ./Abstractions/Storage/Storage.csproj"
+
+Publish Storage Abstraction Package:
+  extends: .before_script_template
+  stage: abstractions
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Abstractions/Storage/**/*
+
+  script:
+    - "dotnet restore ./Abstractions/Storage/Storage.csproj"
+    - "dotnet build -c Release ./Abstractions/Storage/Storage.csproj"
+    - "dotnet nuget push ./Abstractions/Storage/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+

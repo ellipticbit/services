@@ -1,0 +1,444 @@
+# Address
+
+Build Address USPS Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Services/Address.USPS/**/*
+
+  script:
+    - "dotnet restore ./Services/Address.USPS/Address.USPS.csproj"
+    - "dotnet build -c Debug ./Services/Address.USPS/Address.USPS.csproj"
+
+Publish Address USPS Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Services/Address.USPS/**/*
+
+  script:
+    - "dotnet restore ./Services/Address.USPS/Address.USPS.csproj"
+    - "dotnet build -c Release ./Services/Address.USPS/Address.USPS.csproj"
+    - "dotnet nuget push ./Services/Address.USPS/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+# Cryptography
+
+Build Cyptography AspNetCore Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Services/Cyptography.AspNetCore/**/*
+
+  script:
+    - "dotnet restore ./Services/Cyptography.AspNetCore/Cyptography.AspNetCore.csproj"
+    - "dotnet build -c Debug ./Services/Cyptography.AspNetCore/Cyptography.AspNetCore.csproj"
+
+Build Cyptography DotNet Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Services/Cyptography.DotNet/**/*
+
+  script:
+    - "dotnet restore .Services/Cyptography.DotNet/Cyptography.DotNet.csproj"
+    - "dotnet build -c Debug ./Services/Cyptography.DotNet/Cyptography.DotNet.csproj"
+
+Build Cyptography NetStandard Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Services/Cyptography.NetStandard/**/*
+
+  script:
+    - "dotnet restore ./Services/Cyptography.NetStandard/Cyptography.NetStandard.csproj"
+    - "dotnet build -c Debug ./Services/Cyptography.NetStandard/Cyptography.NetStandard.csproj"
+
+Publish Cyptography AspNetCore Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Services/Cyptography.AspNetCore/**/*
+
+  script:
+    - "dotnet restore ./Services/Cyptography.AspNetCore/Cyptography.AspNetCore.csproj"
+    - "dotnet build -c Release ./Services/Cyptography.AspNetCore/Cyptography.AspNetCore.csproj"
+    - "dotnet nuget push ./Services/Cyptography.AspNetCore/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+Publish Cyptography DotNet Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Services/Cyptography.DotNet/**/*
+
+  script:
+    - "dotnet restore ./Services/Cyptography.DotNet/Cyptography.DotNet.csproj"
+    - "dotnet build -c Release ./Services/Cyptography.DotNet/Cyptography.DotNet.csproj"
+    - "dotnet nuget push ./Services/Cyptography.DotNet/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+Publish Cyptography NetStandard Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Services/Cyptography.NetStandard/**/*
+
+  script:
+    - "dotnet restore ./Services/Cyptography.NetStandard/Cyptography.NetStandard.csproj"
+    - "dotnet build -c Release ./Services/Cyptography.NetStandard/Cyptography.NetStandard.csproj"
+    - "dotnet nuget push ./Services/Cyptography.NetStandard/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+# Database
+
+Build EntityFrameworkCore Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Services/Database.EntityFrameworkCore/**/*
+
+  script:
+    - "dotnet restore ./Services/Database.EntityFrameworkCore/Database.EntityFrameworkCore.csproj"
+    - "dotnet build -c Debug ./Services/Database.EntityFrameworkCore/Database.EntityFrameworkCore.csproj"
+
+Publish EntityFrameworkCore Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Services/Database.EntityFrameworkCore/**/*
+
+  script:
+    - "dotnet restore ./Services/Database.EntityFrameworkCore/Database.EntityFrameworkCore.csproj"
+    - "dotnet build -c Release ./Services/Database.EntityFrameworkCore/Database.EntityFrameworkCore.csproj"
+    - "dotnet nuget push ./Services/Database.EntityFrameworkCore/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+# Dialog
+
+Build Dialog WPF Packages:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Services/Dialog.WPF/**/*
+
+  script:
+    - "dotnet restore ./Services/Dialog.WPF/Dialog.WPF.csproj"
+    - "dotnet build -c Debug ./Services/Dialog.WPF/Dialog.WPF.csproj"
+
+Publish Dialog WPF Packages:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Services/Dialog.WPF/**/*
+
+  script:
+    - "dotnet restore ./Services/Dialog.WPFDialog.WPF.csproj"
+    - "dotnet build -c Release ./Services/Dialog.WPF/Dialog.WPF.csproj"
+    - "dotnet nuget push ./Services/Dialog.WPF/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+# Email
+
+Build SendGrid Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Services/Email.SendGrid/**/*
+
+  script:
+    - "dotnet restore ./Services/Email.SendGrid/Email.SendGrid.csproj"
+    - "dotnet build -c Debug ./Services/Email.SendGrid/Email.SendGrid.csproj"
+
+Publish SendGrid Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Services/Email.SendGrid/**/*
+
+  script:
+    - "dotnet restore ./Services/Email.SendGrid/Email.SendGrid.csproj"
+    - "dotnet build -c Release ./Services/Email.SendGrid/Email.SendGrid.csproj"
+    - "dotnet nuget push ./Services/Email.SendGrid/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+#Scheduler
+
+Build Scheduler WPF Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Services/Scheduler.WPF/**/*
+
+  script:
+    - "dotnet restore ./Services/Scheduler.WPF/Scheduler.WPF.csproj"
+    - "dotnet build -c Debug ./Services/Scheduler.WPF/Scheduler.WPF.csproj"
+
+Build Scheduler NetStandard Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Services/Scheduler.NetStandard/**/*
+
+  script:
+    - "dotnet restore ./Services/Scheduler.NetStandard/Scheduler.NetStandard.csproj"
+    - "dotnet build -c Debug ./Services/Scheduler.NetStandard/Scheduler.NetStandard.csproj"
+
+Build Scheduler SqlServer Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Scheduler/SqlServer/**/*
+
+  script:
+    - "dotnet restore ./Services/Scheduler.SqlServer/Scheduler.SqlServer.csproj"
+    - "dotnet build -c Debug ./Services/Scheduler.SqlServer/Scheduler.SqlServer.csproj"
+
+Publish Scheduler WPF Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Scheduler/WPF/**/*
+
+  script:
+    - "dotnet restore ./Services/Scheduler.WPF/Scheduler.WPF.csproj"
+    - "dotnet build -c Release ./Services/Scheduler.WPF/Scheduler.WPF.csproj"
+    - "dotnet nuget push ./Services/Scheduler.WPF/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+Publish Scheduler NetStandard Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Services/Scheduler.NetStandard/**/*
+
+  script:
+    - "dotnet restore ./Services/Scheduler.NetStandard/Scheduler.NetStandard.csproj"
+    - "dotnet build -c Release ./Services/Scheduler.NetStandard/Scheduler.NetStandard.csproj"
+    - "dotnet nuget push ./Services/Scheduler.NetStandard/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+Publish Scheduler SqlServer Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Services/Scheduler.SqlServer/**/*
+
+  script:
+    - "dotnet restore ./Services/Scheduler.SqlServer/Scheduler.SqlServer.csproj"
+    - "dotnet build -c Release ./Services/Scheduler.SqlServer/Scheduler.SqlServer.csproj"
+    - "dotnet nuget push ./Services/Scheduler.SqlServer/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+# Secret
+
+Build Secret AzureKeyVault Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Services/Secret.AzureKeyVault/**/*
+
+  script:
+    - "dotnet restore ./Services/Secret.AzureKeyVault/Secret.AzureKeyVault.csproj"
+    - "dotnet build -c Debug ./Services/Secret.AzureKeyVault/Secret.AzureKeyVault.csproj"
+
+Publish Secret AzureKeyVault Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Services/Secret.AzureKeyVault/**/*
+
+  script:
+    - "dotnet restore ./Services/Secret.AzureKeyVault/Secret.AzureKeyVault.csproj"
+    - "dotnet build -c Release ./Services/Secret.AzureKeyVault/Secret.AzureKeyVault.csproj"
+    - "dotnet nuget push ./Services/Secret.AzureKeyVault/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+# Storage
+
+Build Storage AzureBlob Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Services/Storage.AzureBlob/**/*
+
+  script:
+    - "dotnet restore ./Services/Storage.AzureBlob/Storage.AzureBlob.csproj"
+    - "dotnet build -c Debug ./Services/Storage.AzureBlob/Storage.AzureBlob.csproj"
+
+Build Storage LocalFile Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Services/Storage.LocalFile/**/*
+
+  script:
+    - "dotnet restore ./Services/Storage.LocalFile/Storage.LocalFile.csproj"
+    - "dotnet build -c Debug ./Services/Storage.LocalFile/Storage.LocalFile.csproj"
+
+Publish Storage AzureBlob Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Services/Storage.AzureBlob/**/*
+
+  script:
+    - "dotnet restore ./Services/Storage.AzureBlob/Storage.AzureBlob.csproj"
+    - "dotnet build -c Release ./Services/Storage.AzureBlob/Storage.AzureBlob.csproj"
+    - "dotnet nuget push ./Services/Storage.AzureBlob/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
+Publish Storage LocalFile Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Services/Storage.LocalFile/**/*
+
+  script:
+    - "dotnet restore ./Services/Storage.LocalFile/Storage.LocalFile.csproj"
+    - "dotnet build -c Release ./Services/Storage.LocalFile/Storage.LocalFile.csproj"
+    - "dotnet nuget push ./Services/Storage.LocalFile/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
