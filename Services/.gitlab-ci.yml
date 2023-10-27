@@ -175,7 +175,7 @@ Build Dialog WPF Packages:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
@@ -202,7 +202,7 @@ Publish Dialog WPF Packages:
   script:
     - "dotnet restore ./Services/Dialog.WPF/Dialog.WPF.csproj"
     - "dotnet build -c Release ./Services/Dialog.WPF/Dialog.WPF.csproj"
-    - "dotnet nuget push ./Services/Dialog.WPF/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push ./Services/Dialog.WPF/bin/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 # Email
 
@@ -294,7 +294,7 @@ Publish Scheduler WPF Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
@@ -306,7 +306,7 @@ Publish Scheduler WPF Package:
   script:
     - "dotnet restore ./Services/Scheduler.WPF/Scheduler.WPF.csproj"
     - "dotnet build -c Release ./Services/Scheduler.WPF/Scheduler.WPF.csproj"
-    - "dotnet nuget push ./Services/Scheduler.WPF/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push ./Services/Scheduler.WPF/bin/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 Publish Scheduler NetStandard Package:
   extends: .before_script_template
