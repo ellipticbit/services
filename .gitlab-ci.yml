@@ -5,8 +5,8 @@ include:
 .before_script_template:
     before_script:
       - "git clean -fdxq"
-      - "pwsh -f ./AbstractionsReplaceVersion.ps1"
-      - "pwsh -f ./ServicesReplaceVersion.ps1"
+      - "pwsh -f ./Abstractions/AbstractionsReplaceVersion.ps1"
+      - "pwsh -f ./Services/ServicesReplaceVersion.ps1"
 
 stages:
   - abstractions
@@ -25,14 +25,14 @@ Increment Abstraction Build Counter:
   script:
     - "pwsh -f ./Abstractions/AbstractionsIncrementVersion.ps1"
 
-Increment Services Build Counter:
-  stage: post
-  tags:
-    - linux
-  only:
-    refs:
-      - master
-    changes:
-      - Services/**/*
-  script:
-    - "pwsh -f ./Services/ServicesIncrementVersion.ps1"
+#Increment Services Build Counter:
+#  stage: post
+#  tags:
+#    - linux
+#  only:
+#    refs:
+#      - master
+#    changes:
+#      - Services/**/*
+#  script:
+#    - "pwsh -f ./Services/ServicesIncrementVersion.ps1"
