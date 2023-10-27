@@ -136,7 +136,7 @@ Publish Cryptography NetStandard Package:
 
 # Database
 
-Build EntityFrameworkCore Package:
+Build Database EntityFrameworkCore Package:
   extends: .before_script_template
   stage: services
   tags:
@@ -152,7 +152,7 @@ Build EntityFrameworkCore Package:
     - "dotnet restore ./Services/Database.EntityFrameworkCore/Database.EntityFrameworkCore.csproj"
     - "dotnet build -c Debug ./Services/Database.EntityFrameworkCore/Database.EntityFrameworkCore.csproj"
 
-Publish EntityFrameworkCore Package:
+Publish Database EntityFrameworkCore Package:
   extends: .before_script_template
   stage: services
   tags:
@@ -206,7 +206,7 @@ Publish Dialog WPF Packages:
 
 # Email
 
-Build SendGrid Package:
+Build Email SendGrid Package:
   extends: .before_script_template
   stage: services
   tags:
@@ -222,7 +222,7 @@ Build SendGrid Package:
     - "dotnet restore ./Services/Email.SendGrid/Email.SendGrid.csproj"
     - "dotnet build -c Debug ./Services/Email.SendGrid/Email.SendGrid.csproj"
 
-Publish SendGrid Package:
+Publish Email SendGrid Package:
   extends: .before_script_template
   stage: services
   tags:
@@ -251,6 +251,7 @@ Build Scheduler WPF Package:
     refs:
       - dev
     changes:
+      - Services/Scheduler.NetStandard/**/*
       - Services/Scheduler.WPF/**/*
 
   script:
@@ -299,7 +300,8 @@ Publish Scheduler WPF Package:
     refs:
       - master
     changes:
-      - Scheduler/Scheduler.WPF/**/*
+      - Services/Scheduler.NetStandard/**/*
+      - Services/Scheduler.WPF/**/*
 
   script:
     - "dotnet restore ./Services/Scheduler.WPF/Scheduler.WPF.csproj"
