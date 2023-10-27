@@ -202,7 +202,7 @@ Publish Dialog WPF Packages:
   script:
     - "dotnet restore ./Services/Dialog.WPF/Dialog.WPF.csproj"
     - "dotnet build -c Release ./Services/Dialog.WPF/Dialog.WPF.csproj"
-    - "dotnet nuget push .\\Service\\Dialog.WPF\\bin\\Release\\*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push .\\Services\\Dialog.WPF\\bin\\Release\\*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 # Email
 
