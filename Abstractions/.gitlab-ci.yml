@@ -1,6 +1,6 @@
 # Address
 
-Build Address Abstraction Package:
+Build Address Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -16,7 +16,7 @@ Build Address Abstraction Package:
     - "dotnet restore ./Abstractions/Address/Address.csproj"
     - "dotnet build -c Debug ./Abstractions/Address/Address.csproj"
 
-Publish Address Abstraction Package:
+Publish Address Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -35,7 +35,7 @@ Publish Address Abstraction Package:
 
 # Cryptography
 
-Build Cryptography Abstraction Package:
+Build Cryptography Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -51,7 +51,7 @@ Build Cryptography Abstraction Package:
     - "dotnet restore ./Abstractions/Cryptography/Cryptography.csproj"
     - "dotnet build -c Debug ./Abstractions/Cryptography/Cryptography.csproj"
 
-Publish Cryptography Abstraction Package:
+Publish Cryptography Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -70,7 +70,7 @@ Publish Cryptography Abstraction Package:
 
 # Database
 
-Build Database Abstraction Package:
+Build Database Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -86,7 +86,7 @@ Build Database Abstraction Package:
     - "dotnet restore ./Abstractions/Database/Database.csproj"
     - "dotnet build -c Debug ./Abstractions/Database/Database.csproj"
 
-Publish Database Abstraction Package:
+Publish Database Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -105,7 +105,7 @@ Publish Database Abstraction Package:
 
 # Email
 
-Build Email Abstraction Package:
+Build Email Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -121,7 +121,7 @@ Build Email Abstraction Package:
     - "dotnet restore ./Abstractions/Email/Email.csproj"
     - "dotnet build -c Debug ./Abstractions/Email/Email.csproj"
 
-Publish Email Abstraction Package:
+Publish Email Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -140,7 +140,7 @@ Publish Email Abstraction Package:
 
 # Extensions
 
-Build Extensions Abstraction Package:
+Build Extensions Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -156,7 +156,7 @@ Build Extensions Abstraction Package:
     - "dotnet restore ./Abstractions/Extensions/Extensions.csproj"
     - "dotnet build -c Debug ./Abstractions/Extensions/Extensions.csproj"
 
-Publish Extensions Abstraction Package:
+Publish Extensions Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -175,7 +175,7 @@ Publish Extensions Abstraction Package:
 
 # Scheduler
 
-Build Scheduler Abstraction Package:
+Build Scheduler Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -191,7 +191,7 @@ Build Scheduler Abstraction Package:
     - "dotnet restore ./Abstractions/Scheduler/Scheduler.csproj"
     - "dotnet build -c Debug ./Abstractions/Scheduler/Scheduler.csproj"
 
-Publish Scheduler Abstraction Package:
+Publish Scheduler Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -210,7 +210,7 @@ Publish Scheduler Abstraction Package:
 
 # Secret
 
-Build Secret Abstraction Package:
+Build Secret Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -226,7 +226,7 @@ Build Secret Abstraction Package:
     - "dotnet restore ./Abstractions/Secret/Secret.csproj"
     - "dotnet build -c Debug ./Abstractions/Secret/Secret.csproj"
 
-Publish Secret Abstraction Package:
+Publish Secret Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -245,7 +245,7 @@ Publish Secret Abstraction Package:
 
 # Storage
 
-Build Storage Abstraction Package:
+Build Storage Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
@@ -261,7 +261,7 @@ Build Storage Abstraction Package:
     - "dotnet restore ./Abstractions/Storage/Storage.csproj"
     - "dotnet build -c Debug ./Abstractions/Storage/Storage.csproj"
 
-Publish Storage Abstraction Package:
+Publish Storage Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
