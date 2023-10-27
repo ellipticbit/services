@@ -1,6 +1,6 @@
 include:
   - local: "Abstractions/.gitlab-ci.yml"
-#  - local: "Services/.gitlab-ci.yml"
+  - local: "Services/.gitlab-ci.yml"
 
 .before_script_template:
     before_script:
@@ -17,6 +17,7 @@ Increment Abstraction Build Counter:
   stage: post
   tags:
     - linux
+    - dotnet
   only:
     refs:
       - master
@@ -25,14 +26,15 @@ Increment Abstraction Build Counter:
   script:
     - "pwsh -f ./Abstractions/AbstractionsIncrementVersion.ps1"
 
-#Increment Services Build Counter:
-#  stage: post
-#  tags:
-#    - linux
-#  only:
-#    refs:
-#      - master
-#    changes:
-#      - Services/**/*
-#  script:
-#    - "pwsh -f ./Services/ServicesIncrementVersion.ps1"
+Increment Services Build Counter:
+  stage: post
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Services/**/*
+  script:
+    - "pwsh -f ./Services/ServicesIncrementVersion.ps1"

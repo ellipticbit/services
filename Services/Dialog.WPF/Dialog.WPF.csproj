@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net5.0-windows;net461</TargetFrameworks>
+		<TargetFrameworks>net6.0-windows;net461</TargetFrameworks>
 		<UseWPF>true</UseWPF>
 		<AssemblyName>EllipticBit.Services.Dialog.WPF</AssemblyName>
 		<RootNamespace>EllipticBit.Services.Dialog.WPF</RootNamespace>
@@ -10,7 +10,7 @@
 		<Authors>EllipticBit LLC</Authors>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<Copyright>Copyright (c) 2020-2021 EllipticBit, LLC</Copyright>
+		<Copyright>Copyright (c) 2020-2023 EllipticBit, LLC</Copyright>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<AssemblyVersion>0.0.0.0</AssemblyVersion>
 		<FileVersion>0.0.0.0</FileVersion>

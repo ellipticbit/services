@@ -9,7 +9,7 @@
 		<Authors>EllipticBit LLC</Authors>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<Copyright>Copyright (c) 2020 EllipticBit, LLC</Copyright>
+		<Copyright>Copyright (c) 2020-2023 EllipticBit, LLC</Copyright>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<AssemblyVersion>0.0.0.0</AssemblyVersion>
 		<FileVersion>0.0.0.0</FileVersion>
@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EllipticBit.Services.Email.Abstractions" Version="2023.2.8.86" />
+		<PackageReference Include="EllipticBit.Services.Email.Abstractions" Version="1.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />

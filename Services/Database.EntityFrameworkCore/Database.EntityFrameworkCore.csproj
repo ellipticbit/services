@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EllipticBit.Services.Database.Abstractions" Version="2022.12.5.67" />
+		<PackageReference Include="EllipticBit.Services.Database.Abstractions" Version="1.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.32" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.24" Condition="'$(TargetFramework)' == 'net6.0'" />
 	</ItemGroup>
