@@ -8,7 +8,7 @@
 		<Product>EllipticBit Services</Product>
 		<Authors>EllipticBit LLC</Authors>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageLicenseExpression>BSL-1.0</PackageLicenseExpression>
 		<Copyright>Copyright (c) 2017-2023 EllipticBit, LLC</Copyright>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EllipticBit.Services.Cryptography.Abstractions" Version="1.0.0" />
+		<PackageReference Include="EllipticBit.Services.Cryptography.Abstractions" Version="1.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="7.0.13" />
 	</ItemGroup>
 
