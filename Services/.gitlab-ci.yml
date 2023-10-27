@@ -35,7 +35,7 @@ Publish Address USPS Package:
 
 # Cryptography
 
-Build Cyptography AspNetCore Package:
+Build Cryptography AspNetCore Package:
   extends: .before_script_template
   stage: services
   tags:
@@ -45,13 +45,13 @@ Build Cyptography AspNetCore Package:
     refs:
       - dev
     changes:
-      - Services/Cyptography.AspNetCore/**/*
+      - Services/Cryptography.AspNetCore/**/*
 
   script:
-    - "dotnet restore ./Services/Cyptography.AspNetCore/Cyptography.AspNetCore.csproj"
-    - "dotnet build -c Debug ./Services/Cyptography.AspNetCore/Cyptography.AspNetCore.csproj"
+    - "dotnet restore ./Services/Cryptography.AspNetCore/Cryptography.AspNetCore.csproj"
+    - "dotnet build -c Debug ./Services/Cryptography.AspNetCore/Cryptography.AspNetCore.csproj"
 
-Build Cyptography DotNet Package:
+Build Cryptography DotNet Package:
   extends: .before_script_template
   stage: services
   tags:
@@ -61,13 +61,13 @@ Build Cyptography DotNet Package:
     refs:
       - dev
     changes:
-      - Services/Cyptography.DotNet/**/*
+      - Services/Cryptography.DotNet/**/*
 
   script:
-    - "dotnet restore .Services/Cyptography.DotNet/Cyptography.DotNet.csproj"
-    - "dotnet build -c Debug ./Services/Cyptography.DotNet/Cyptography.DotNet.csproj"
+    - "dotnet restore .Services/Cryptography.DotNet/Cryptography.DotNet.csproj"
+    - "dotnet build -c Debug ./Services/Cryptography.DotNet/Cryptography.DotNet.csproj"
 
-Build Cyptography NetStandard Package:
+Build Cryptography NetStandard Package:
   extends: .before_script_template
   stage: services
   tags:
@@ -77,13 +77,13 @@ Build Cyptography NetStandard Package:
     refs:
       - dev
     changes:
-      - Services/Cyptography.NetStandard/**/*
+      - Services/Cryptography.NetStandard/**/*
 
   script:
-    - "dotnet restore ./Services/Cyptography.NetStandard/Cyptography.NetStandard.csproj"
-    - "dotnet build -c Debug ./Services/Cyptography.NetStandard/Cyptography.NetStandard.csproj"
+    - "dotnet restore ./Services/Cryptography.NetStandard/Cryptography.NetStandard.csproj"
+    - "dotnet build -c Debug ./Services/Cryptography.NetStandard/Cryptography.NetStandard.csproj"
 
-Publish Cyptography AspNetCore Package:
+Publish Cryptography AspNetCore Package:
   extends: .before_script_template
   stage: services
   tags:
@@ -93,14 +93,14 @@ Publish Cyptography AspNetCore Package:
     refs:
       - master
     changes:
-      - Services/Cyptography.AspNetCore/**/*
+      - Services/Cryptography.AspNetCore/**/*
 
   script:
-    - "dotnet restore ./Services/Cyptography.AspNetCore/Cyptography.AspNetCore.csproj"
-    - "dotnet build -c Release ./Services/Cyptography.AspNetCore/Cyptography.AspNetCore.csproj"
-    - "dotnet nuget push ./Services/Cyptography.AspNetCore/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet restore ./Services/Cryptography.AspNetCore/Cryptography.AspNetCore.csproj"
+    - "dotnet build -c Release ./Services/Cryptography.AspNetCore/Cryptography.AspNetCore.csproj"
+    - "dotnet nuget push ./Services/Cryptography.AspNetCore/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
-Publish Cyptography DotNet Package:
+Publish Cryptography DotNet Package:
   extends: .before_script_template
   stage: services
   tags:
@@ -110,14 +110,14 @@ Publish Cyptography DotNet Package:
     refs:
       - master
     changes:
-      - Services/Cyptography.DotNet/**/*
+      - Services/Cryptography.DotNet/**/*
 
   script:
-    - "dotnet restore ./Services/Cyptography.DotNet/Cyptography.DotNet.csproj"
-    - "dotnet build -c Release ./Services/Cyptography.DotNet/Cyptography.DotNet.csproj"
-    - "dotnet nuget push ./Services/Cyptography.DotNet/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet restore ./Services/Cryptography.DotNet/Cryptography.DotNet.csproj"
+    - "dotnet build -c Release ./Services/Cryptography.DotNet/Cryptography.DotNet.csproj"
+    - "dotnet nuget push ./Services/Cryptography.DotNet/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
-Publish Cyptography NetStandard Package:
+Publish Cryptography NetStandard Package:
   extends: .before_script_template
   stage: services
   tags:
@@ -127,12 +127,12 @@ Publish Cyptography NetStandard Package:
     refs:
       - master
     changes:
-      - Services/Cyptography.NetStandard/**/*
+      - Services/Cryptography.NetStandard/**/*
 
   script:
-    - "dotnet restore ./Services/Cyptography.NetStandard/Cyptography.NetStandard.csproj"
-    - "dotnet build -c Release ./Services/Cyptography.NetStandard/Cyptography.NetStandard.csproj"
-    - "dotnet nuget push ./Services/Cyptography.NetStandard/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet restore ./Services/Cryptography.NetStandard/Cryptography.NetStandard.csproj"
+    - "dotnet build -c Release ./Services/Cryptography.NetStandard/Cryptography.NetStandard.csproj"
+    - "dotnet nuget push ./Services/Cryptography.NetStandard/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 # Database
 
@@ -191,7 +191,7 @@ Publish Dialog WPF Packages:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
@@ -200,7 +200,7 @@ Publish Dialog WPF Packages:
       - Services/Dialog.WPF/**/*
 
   script:
-    - "dotnet restore ./Services/Dialog.WPFDialog.WPF.csproj"
+    - "dotnet restore ./Services/Dialog.WPF/Dialog.WPF.csproj"
     - "dotnet build -c Release ./Services/Dialog.WPF/Dialog.WPF.csproj"
     - "dotnet nuget push ./Services/Dialog.WPF/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
@@ -245,7 +245,7 @@ Build Scheduler WPF Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
@@ -283,7 +283,7 @@ Build Scheduler SqlServer Package:
     refs:
       - dev
     changes:
-      - Scheduler/SqlServer/**/*
+      - Scheduler/Scheduler.SqlServer/**/*
 
   script:
     - "dotnet restore ./Services/Scheduler.SqlServer/Scheduler.SqlServer.csproj"
@@ -299,7 +299,7 @@ Publish Scheduler WPF Package:
     refs:
       - master
     changes:
-      - Scheduler/WPF/**/*
+      - Scheduler/Scheduler.WPF/**/*
 
   script:
     - "dotnet restore ./Services/Scheduler.WPF/Scheduler.WPF.csproj"
