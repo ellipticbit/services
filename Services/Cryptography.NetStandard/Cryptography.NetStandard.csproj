@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<AssemblyName>EllipticBit.Services.Cryptography.NetCore20</AssemblyName>
+		<AssemblyName>EllipticBit.Services.Cryptography.NetStandard</AssemblyName>
 		<RootNamespace>EllipticBit.Services.Cryptography</RootNamespace>
 		<Company>EllipticBit LLC</Company>
 		<Product>EllipticBit Services</Product>
