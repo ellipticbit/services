@@ -63,9 +63,8 @@ namespace EllipticBit.Services.Cryptography
 		/// </summary>
 		/// <param name="key">The key used to encrypt the data.</param>
 		/// <param name="data">The data to encrypt.</param>
-		/// <param name="salt">The salt value used to secure the data during encryption.</param>
 		/// <returns>Returns a byte array with the decrypted plaintext.</returns>
-		string Encrypt(byte[] key, byte[] data, byte[] salt = null);
+		string Encrypt(byte[] key, byte[] data);
 		/// <summary>
 		///	Encrypts data securely for storage.
 		/// </summary>
@@ -79,9 +78,8 @@ namespace EllipticBit.Services.Cryptography
 		/// </summary>
 		/// <param name="key">The key used to decrypt the data.</param>
 		/// <param name="data">The data to decrypt.</param>
-		/// <param name="salt">The salt value used to secure the data during encryption.</param>
 		/// <returns>Returns a byte array with the decrypted plaintext.</returns>
-		byte[] Decrypt(byte[] key, string data, byte[] salt = null);
+		byte[] Decrypt(byte[] key, string data);
 		/// <summary>
 		///	Decrypts data previously encrypted with the Encrypt method.
 		/// </summary>
