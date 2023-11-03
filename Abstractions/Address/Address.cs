@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// Copyright (c) 2020 EllipticBit, LLC All Rights Reserved.
+// Copyright (c) 2020-2023 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
 namespace EllipticBit.Services.Address

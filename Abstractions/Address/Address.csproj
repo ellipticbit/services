@@ -8,6 +8,7 @@
 		<Product>EllipticBit Services</Product>
 		<Authors>EllipticBit LLC</Authors>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageLicenseExpression>BSL-1.0</PackageLicenseExpression>
 		<Copyright>Copyright (c) 2020-2023 EllipticBit, LLC</Copyright>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>

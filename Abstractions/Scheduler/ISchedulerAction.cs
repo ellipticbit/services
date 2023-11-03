@@ -1,4 +1,8 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------------
+// Copyright (c) 2023 EllipticBit, LLC All Rights Reserved.
+//-----------------------------------------------------------------------------
+
+using System;
 using System.Threading.Tasks;
 
 namespace EllipticBit.Services.Scheduler
@@ -21,22 +25,63 @@ namespace EllipticBit.Services.Scheduler
 
 	public enum SchedulerActionIntervalMode
 	{
-		Command,
+		/// <summary>
+		/// Action will not execute unless requested manually.
+		/// </summary>
+		Manual,
+		/// <summary>
+		/// Interval is expressed in seconds.
+		/// </summary>
 		Second,
+		/// <summary>
+		/// Interval is expressed in minutes.
+		/// </summary>
 		Minute,
+		/// <summary>
+		/// Interval is expressed in hours.
+		/// </summary>
 		Hour,
+		/// <summary>
+		/// Interval is expressed in days.
+		/// </summary>
 		Day,
 	}
 
 	public interface ISchedulerAction
 	{
+		/// <summary>
+		/// ID used by the service to identify executions.
+		/// </summary>
 		int Id { get; }
+		/// <summary>
+		/// Friendly name used by the scheduler service to identify executions.
+		/// </summary>
 		string Name { get; }
+		/// <summary>
+		/// The synchronization level required by this Action.
+		/// </summary>
 		SchedulerActionSynchronizationMode SynchronizationMode { get; }
+		/// <summary>
+		/// The synchronization method used by this action.
+		/// </summary>
 		SchedulerActionIntervalMode IntervalMode { get; }
+		/// <summary>
+		/// The interval between executions. Executions may overlap if the prior execution has not completed when the next execution begins.
+		/// </summary>
 		int Interval { get; }
+		/// <summary>
+		/// Delay past the interval ordinal.
+		/// </summary>
 		TimeSpan? IntervalOffset { get; }
+		/// <summary>
+		/// Run the Action immediately after starting the scheduler, then execute as scheduled.
+		/// </summary>
+		bool ExecuteOnStart { get; }
 
+		/// <summary>
+		/// Executes the Action manually.
+		/// </summary>
+		/// <returns>A Task representing the running Action.</returns>
 		Task Execute();
 	}
 }
