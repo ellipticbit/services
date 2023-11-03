@@ -6,6 +6,9 @@ using System.IO;
 
 namespace EllipticBit.Services.Cryptography
 {
+	/// <summary>
+	/// The result of the Password Verification
+	/// </summary>
 	public enum VerifyPasswordResult
 	{
 		Success,

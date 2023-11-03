@@ -47,6 +47,9 @@ namespace EllipticBit.Services.Scheduler
 		Day,
 	}
 
+	/// <summary>
+	/// Required implementation interface for all Actions.
+	/// </summary>
 	public interface ISchedulerAction
 	{
 		/// <summary>
