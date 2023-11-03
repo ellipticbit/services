@@ -12,7 +12,7 @@ using Microsoft.Data.SqlClient;
 
 namespace EllipticBit.Services.Scheduler
 {
-	public class SqlSeverSchedulerSynchronization : ISchedulerSynchronizationContext
+	internal class SqlSeverSchedulerSynchronization : ISchedulerSynchronizationContext
 	{
 		private readonly SqlServerNetworkSynchronizationOptions options;
 		private readonly ILogger logger;

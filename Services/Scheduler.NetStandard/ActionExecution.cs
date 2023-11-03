@@ -12,6 +12,7 @@ namespace EllipticBit.Services.Scheduler
 		public DateTimeOffset Next { get; set; }
 		public SchedulerActionSynchronizationMode Mode => action.SynchronizationMode;
 		public SchedulerActionIntervalMode IntervalMode => action.IntervalMode;
+		public bool ExecuteOnStart => action.ExecuteOnStart;
 
 		public ActionExecution(ISchedulerAction action, ISchedulerSynchronizationContext sync) {
 			if (action.IntervalMode == SchedulerActionIntervalMode.Second && action.SynchronizationMode == SchedulerActionSynchronizationMode.Network) throw new NotSupportedException("Network Synchronization does not support SchedulerActionIntervalMode.Second");

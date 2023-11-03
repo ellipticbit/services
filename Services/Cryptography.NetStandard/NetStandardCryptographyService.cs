@@ -12,7 +12,7 @@ using System.Text;
 
 namespace EllipticBit.Services.Cryptography
 {
-	public class NetStandardCryptographyService : ICryptographyService
+	internal class NetStandardCryptographyService : ICryptographyService
 	{
 		private readonly NetStandardCryptographyServiceOptions options;
 
@@ -20,6 +20,7 @@ namespace EllipticBit.Services.Cryptography
 			this.options = options;
 		}
 
+		/// <inheritdoc />
 		public bool ConstantTimeEquality(byte[] a, byte[] b) {
 			if (a == null || b == null ||
 				(a.Length != b.Length))
@@ -33,6 +34,7 @@ namespace EllipticBit.Services.Cryptography
 			return differentbits == 0;
 		}
 
+		/// <inheritdoc />
 		public byte[] Decrypt(string key, string data, byte[] salt = null)
 		{
 			int rb = (options.EncryptionAlgorithm == EncryptionAlgorithm.AES256GCM || options.EncryptionAlgorithm == EncryptionAlgorithm.AES256CBC) ? 32 :
@@ -40,6 +42,7 @@ namespace EllipticBit.Services.Cryptography
 			return Decrypt(DeriveKey(key, salt ?? Encoding.UTF8.GetBytes(key), rb), data);
 		}
 
+		/// <inheritdoc />
 		public byte[] Decrypt(byte[] key, string data) {
 			var dataParts = data.Split(new[] { "." }, StringSplitOptions.None);
 			var encryptionAlgorithm = (EncryptionAlgorithm)Convert.ToInt32(dataParts[0]);
@@ -83,12 +86,14 @@ namespace EllipticBit.Services.Cryptography
 			return oms.ToArray();
 		}
 
+		/// <inheritdoc />
 		public string Encrypt(string key, byte[] data, byte[] salt = null) {
 			int rb = (options.EncryptionAlgorithm == EncryptionAlgorithm.AES256GCM || options.EncryptionAlgorithm == EncryptionAlgorithm.AES256CBC) ? 32 :
 				(options.EncryptionAlgorithm == EncryptionAlgorithm.AES192CBC || options.EncryptionAlgorithm == EncryptionAlgorithm.AES192GCM) ? 24 : 16;
 			return Encrypt(DeriveKey(key, salt ?? Encoding.UTF8.GetBytes(key), rb), data);
 		}
 
+		/// <inheritdoc />
 		public string Encrypt(byte[] key, byte[] data) {
 			var encryptionAlgorithm = options.EncryptionAlgorithm;
 			var hashAlgorithm = options.HashAlgorithm;
@@ -121,61 +126,82 @@ namespace EllipticBit.Services.Cryptography
 			return string.Join(".", new[] { Convert.ToInt32(encryptionAlgorithm).ToString(), Convert.ToInt32(hashAlgorithm).ToString(), th, ti, tc });
 		}
 
-		public byte[] Hash(byte[] data, HashAlgorithm algorithm = HashAlgorithm.Default) {
-			if (algorithm == HashAlgorithm.Default) {
+		/// <inheritdoc />
+		public byte[] Hash(byte[] data, HashAlgorithm algorithm = HashAlgorithm.Default)
+		{
+			using var ms = new MemoryStream(data);
+			return Hash(ms, algorithm);
+		}
+
+		/// <inheritdoc />
+		public byte[] Hash(Stream data, HashAlgorithm algorithm = HashAlgorithm.Default)
+		{
+			if (algorithm == HashAlgorithm.Default)
+			{
 				return Hash(data, options.HashAlgorithm);
 			}
-			if (algorithm == HashAlgorithm.SHA256) {
-				using (var hash = new SHA256CryptoServiceProvider()) {
-					return hash.ComputeHash(data);
-				}
+			if (algorithm == HashAlgorithm.SHA256)
+			{
+				using var hash = new SHA256CryptoServiceProvider();
+				return hash.ComputeHash(data);
 			}
-			if (algorithm == HashAlgorithm.SHA384) {
-				using (var hash = new SHA384CryptoServiceProvider()) {
-					return hash.ComputeHash(data);
-				}
+			if (algorithm == HashAlgorithm.SHA384)
+			{
+				using var hash = new SHA384CryptoServiceProvider();
+				return hash.ComputeHash(data);
 			}
-			if (algorithm == HashAlgorithm.SHA512) {
-				using (var hash = new SHA512CryptoServiceProvider()) {
-					return hash.ComputeHash(data);
-				}
-			}
-
-			throw new NotSupportedException("Unsupported Hash Algorithm specified.");
-		}
-
-		public byte[] Hash(byte[] key, byte[] data, HashAlgorithm algorithm = HashAlgorithm.Default) {
-			if (algorithm == HashAlgorithm.Default) {
-				return Hash(data, key, options.HashAlgorithm);
-			}
-			if (algorithm == HashAlgorithm.SHA256) {
-				using (var hash = new HMACSHA256(key)) {
-					return hash.ComputeHash(data);
-				}
-			}
-			if (algorithm == HashAlgorithm.SHA384) {
-				using (var hash = new HMACSHA384(key)) {
-					return hash.ComputeHash(data);
-				}
-			}
-			if (algorithm == HashAlgorithm.SHA512) {
-				using (var hash = new HMACSHA512(key)) {
-					return hash.ComputeHash(data);
-				}
+			if (algorithm == HashAlgorithm.SHA512)
+			{
+				using var hash = new SHA512CryptoServiceProvider();
+				return hash.ComputeHash(data);
 			}
 
 			throw new NotSupportedException("Unsupported Hash Algorithm specified.");
 		}
 
+		/// <inheritdoc />
+		public byte[] Hash(byte[] key, byte[] data, HashAlgorithm algorithm = HashAlgorithm.Default)
+		{
+			using var ms = new MemoryStream(data);
+			return Hash(key, ms, algorithm);
+		}
+
+		/// <inheritdoc />
+		public byte[] Hash(byte[] key, Stream data, HashAlgorithm algorithm = HashAlgorithm.Default)
+		{
+			if (algorithm == HashAlgorithm.Default)
+			{
+				return Hash(key, data, options.HashAlgorithm);
+			}
+			if (algorithm == HashAlgorithm.SHA256)
+			{
+				using var hash = new HMACSHA256(key);
+				return hash.ComputeHash(data);
+			}
+			if (algorithm == HashAlgorithm.SHA384)
+			{
+				using var hash = new HMACSHA384(key);
+				return hash.ComputeHash(data);
+			}
+			if (algorithm == HashAlgorithm.SHA512)
+			{
+				using var hash = new HMACSHA512(key);
+				return hash.ComputeHash(data);
+			}
+
+			throw new NotSupportedException("Unsupported Hash Algorithm specified.");
+		}
+
+		/// <inheritdoc />
 		public byte[] RandomBytes(int bytes) {
-			using (var rng = new RNGCryptoServiceProvider()) {
-				var bl = new byte[bytes];
-				rng.GetBytes(bl);
-				return bl;
-			}
+			using var rng = new RNGCryptoServiceProvider();
+			var bl = new byte[bytes];
+			rng.GetBytes(bl);
+			return bl;
 		}
 
-		public string SecurePasssword(string password, byte[] pepper = null, byte[] associatedData = null) {
+		/// <inheritdoc />
+		public string SecurePassword(string password, byte[] pepper = null, byte[] associatedData = null) {
 			if (options.PasswordAlgorithm == PasswordAlgorithm.PBKDF2) {
 				var salt = RandomBytes(32); //TODO: This may need to be changed to match the HMAC key width.
 				var passwordHash = KeyDerivation.Pbkdf2(password, salt, options.PBKDF2Algorithm, options.PBKDF2Iterations, options.PBKDF2OutputLength);
@@ -201,7 +227,8 @@ namespace EllipticBit.Services.Cryptography
 			}
 		}
 
-		public VerifyPasswordResult VerifyPasssword(string storedPassword, string suppliedPassword, byte[] pepper = null, byte[] associatedData = null) {
+		/// <inheritdoc />
+		public VerifyPasswordResult VerifyPassword(string storedPassword, string suppliedPassword, byte[] pepper = null, byte[] associatedData = null) {
 			var dataParts = storedPassword.Split(new[] { "." }, StringSplitOptions.None);
 			var version = Convert.ToInt32(dataParts[0]);
 			var passwordAlgorithm = (PasswordAlgorithm)Convert.ToInt32(dataParts[1]);
@@ -239,6 +266,7 @@ namespace EllipticBit.Services.Cryptography
 			return VerifyPasswordResult.Success;
 		}
 
+		/// <inheritdoc />
 		public byte[] DeriveKey(string password, byte[] salt, int requiredBytes) {
 			if (options.PasswordAlgorithm == PasswordAlgorithm.PBKDF2) {
 				return KeyDerivation.Pbkdf2(password, salt, options.PBKDF2Algorithm, options.PBKDF2Iterations, requiredBytes);

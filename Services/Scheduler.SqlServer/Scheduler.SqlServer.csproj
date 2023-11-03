@@ -18,8 +18,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="1.0.1" />
-		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="1.0.2" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
 	</ItemGroup>

@@ -60,14 +60,14 @@ namespace EllipticBit.Services.Scheduler
 
 		private static Task RunInstanceScheduled()
 		{
-			var el = enabledActions.Values.Where(a => a.IntervalMode != SchedulerActionIntervalMode.Command && a.Mode != SchedulerActionSynchronizationMode.Network && a.Next < DateTimeOffset.UtcNow).ToList();
+			var el = enabledActions.Values.Where(a => a.IntervalMode != SchedulerActionIntervalMode.Manual && a.Mode != SchedulerActionSynchronizationMode.Network && a.Next < DateTimeOffset.UtcNow).ToList();
 
 			return Task.WhenAll(el.Select(action => action.Execute()).ToArray());
 		}
 
 		private static Task RunNetworkScheduled()
 		{
-			var el = enabledActions.Values.Where(a => a.IntervalMode != SchedulerActionIntervalMode.Command && a.Mode == SchedulerActionSynchronizationMode.Network).ToList();
+			var el = enabledActions.Values.Where(a => a.IntervalMode != SchedulerActionIntervalMode.Manual && a.Mode == SchedulerActionSynchronizationMode.Network).ToList();
 
 			return Task.WhenAll(el.Select(action => action.Execute()).ToArray());
 		}
@@ -86,7 +86,12 @@ namespace EllipticBit.Services.Scheduler
 			this.networkSync = networkSync;
 		}
 
-		public void Start() {
+		public async void Start() {
+			if (enabledActions.Any(a => a.Value.ExecuteOnStart))
+			{
+				await Task.WhenAll(enabledActions.Where(a => a.Value.ExecuteOnStart).Select(ea => ea.Value.Execute()).ToArray()).ConfigureAwait(true);
+			}
+
 			itimer.Start();
 			ntimer.Start();
 		}

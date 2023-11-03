@@ -42,7 +42,7 @@ namespace EllipticBit.Services.Scheduler
 #endif
 
 		private static Task RunScheduled() {
-			var el = enabledActions.Values.Where(a => a.IntervalMode != SchedulerActionIntervalMode.Command && a.Next < DateTimeOffset.UtcNow).ToList();
+			var el = enabledActions.Values.Where(a => a.IntervalMode != SchedulerActionIntervalMode.Manual && a.Next < DateTimeOffset.UtcNow).ToList();
 
 			return Task.WhenAll(el.Select(action => action.Execute()).ToArray());
 		}
@@ -54,7 +54,11 @@ namespace EllipticBit.Services.Scheduler
 			this.instanceSync = instanceSync;
 		}
 
-		public void Start() {
+		public async void Start() {
+			if (enabledActions.Any(a => a.Value.ExecuteOnStart)) {
+				await Task.WhenAll(enabledActions.Where(a => a.Value.ExecuteOnStart).Select(ea => ea.Value.Execute()).ToArray()).ConfigureAwait(true);
+			}
+
 			timer.Start();
 		}
 
