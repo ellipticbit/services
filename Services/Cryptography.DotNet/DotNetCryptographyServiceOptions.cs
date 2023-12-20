@@ -19,7 +19,6 @@ namespace EllipticBit.Services.Cryptography
 		public KeyDerivationPrf PBKDF2Algorithm { get; set; }
 		public int PBKDF2Iterations { get; set; }
 		public int PBKDF2OutputLength { get; set; }
-		public int BCryptWorkFactor { get; set; }
 		public int Argon2Parallelism { get; set; }
 		public int Argon2MemorySize { get; set; }
 		public int Argon2Iterations { get; set; }
@@ -37,7 +36,6 @@ namespace EllipticBit.Services.Cryptography
 			PBKDF2Iterations = 100000;
 			PBKDF2Algorithm = KeyDerivationPrf.HMACSHA512;
 			PBKDF2OutputLength = 64;
-			BCryptWorkFactor = 11;
 			Argon2Parallelism = 2;
 			Argon2MemorySize = 8192;
 			Argon2Iterations = 3;

@@ -214,8 +214,6 @@ namespace EllipticBit.Services.Cryptography
 				var passwordHash = KeyDerivation.Pbkdf2(password, salt, options.PBKDF2Algorithm, options.PBKDF2Iterations, options.PBKDF2OutputLength);
 				var parameters = string.Join(",", ((int)options.PBKDF2Algorithm).ToString(), options.PBKDF2Iterations.ToString());
 				return string.Join(".", options.PasswordParametersVersion.ToString(), ((int)options.PasswordAlgorithm).ToString(), parameters, Convert.ToBase64String(salt), Convert.ToBase64String(passwordHash));
-			} else if (options.PasswordAlgorithm == PasswordAlgorithm.BCrypt) {
-				return string.Join(".", options.PasswordParametersVersion.ToString(), ((int)options.PasswordAlgorithm).ToString(), BCrypt.Net.BCrypt.EnhancedHashPassword(password, options.BCryptWorkFactor));
 			} else if (options.PasswordAlgorithm == PasswordAlgorithm.Argon2) {
 				var salt = RandomBytes(32);
 				var argon = new Argon2id(System.Text.Encoding.UTF8.GetBytes(password)) {
@@ -249,8 +247,6 @@ namespace EllipticBit.Services.Cryptography
 				var pwhashstr = BitConverter.ToString(Hash(pepper ?? options.Pepper ?? salt, System.Text.Encoding.UTF8.GetBytes(suppliedPassword))).Replace("-", "").ToUpperInvariant();
 				var suppliedHash = KeyDerivation.Pbkdf2(pwhashstr, salt, prf, iterations, ciphertext.Length);
 				if (!ConstantTimeEquality(suppliedHash, ciphertext)) return VerifyPasswordResult.Failure;
-			} else if (options.PasswordAlgorithm == PasswordAlgorithm.BCrypt) {
-				if (!BCrypt.Net.BCrypt.EnhancedVerify(suppliedPassword, dataParts[2])) return VerifyPasswordResult.Failure;
 			} else if (options.PasswordAlgorithm == PasswordAlgorithm.Argon2) {
 				var parameters = dataParts[2].Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(a => Convert.ToInt32(a)).ToArray();
 				var salt = Convert.FromBase64String(dataParts[3]);
