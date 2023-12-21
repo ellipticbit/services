@@ -3,6 +3,7 @@
 //-----------------------------------------------------------------------------
 
 using System.IO;
+using System.Threading.Tasks;
 
 namespace EllipticBit.Services.Cryptography
 {
@@ -18,7 +19,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">The data to generate an HMAC for.</param>
 		/// <param name="func">The Hash function used to generate the MAC.</param>
 		/// <returns>A byte array containing the Authentication Code.</returns>
-		byte[] Hmac(ISymmetricKey key, Stream data, HashAlgorithm func);
+		Task<byte[]> Hmac(ISymmetricKey key, Stream data, HashAlgorithm func);
 	}
 
 	/// <summary>
@@ -34,10 +35,9 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">A byte array containing the data to generate the MAC.</param>
 		/// <param name="func">The Hash function used to generate the MAC.</param>
 		/// <returns>A byte array containing the Authentication Code.</returns>
-		public static byte[] Hmac(this ICryptographyMac mac, ISymmetricKey key, byte[] data, HashAlgorithm func) {
-			using (var stream = new MemoryStream(data)) {
-				return mac.Hmac(key, stream, func);
-			}
+		public static async Task<byte[]> Hmac(this ICryptographyMac mac, ISymmetricKey key, byte[] data, HashAlgorithm func) {
+			using var stream = new MemoryStream(data);
+			return await mac.Hmac(key, stream, func);
 		}
 
 		/// <summary>
@@ -48,10 +48,9 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="path">A path to the file to generate the MAC.</param>
 		/// <param name="func">The Hash function used to generate the MAC.</param>
 		/// <returns>A byte array containing the Authentication Code.</returns>
-		public static byte[] Hmac(this ICryptographyMac mac, ISymmetricKey key, string path, HashAlgorithm func) {
-			using (var stream = new FileStream(path, FileMode.Open)) {
-				return mac.Hmac(key, stream, func);
-			}
+		public static async Task<byte[]> Hmac(this ICryptographyMac mac, ISymmetricKey key, string path, HashAlgorithm func) {
+			using var stream = new FileStream(path, FileMode.Open);
+			return await mac.Hmac(key, stream, func);
 		}
 	}
 }

@@ -3,6 +3,8 @@
 //-----------------------------------------------------------------------------
 
 using System.Security.Cryptography;
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
 
 namespace EllipticBit.Services.Cryptography
 {
@@ -14,41 +16,41 @@ namespace EllipticBit.Services.Cryptography
 		/// <summary>
 		/// Use AES-128 in CBC Mode.
 		/// </summary>
-		Aes128Cbc = 1,
+		AES128CBC = 1,
 		/// <summary>
 		/// Use AES-192 in CBC Mode.
 		/// </summary>
-		Aes192Cbc = 2,
+		AES192CBC = 2,
 		/// <summary>
 		/// Use AES-256 in CBC Mode.
 		/// </summary>
-		Aes256Cbc = 3,
+		AES256CBC = 3,
 
 		/// <summary>
 		/// Use AES-128 in CFB Mode.
 		/// </summary>
-		Aes128Cfb = 4,
+		AES128CFB = 4,
 		/// <summary>
 		/// Use AES-192 in CFB Mode.
 		/// </summary>
-		Aes192Cfb = 5,
+		AES192CFB = 5,
 		/// <summary>
 		/// Use AES-256 in CFB Mode.
 		/// </summary>
-		Aes256Cfb = 6,
+		AES256CFB = 6,
 
 		/// <summary>
 		/// Use AES-128 in GCM Mode.
 		/// </summary>
-		Aes128Gcm = 7,
+		AES128GCM = 7,
 		/// <summary>
 		/// Use AES-192 in GCM Mode.
 		/// </summary>
-		Aes192Gcm = 8,
+		AES192GCM = 8,
 		/// <summary>
 		/// Use AES-256 in GCM Mode.
 		/// </summary>
-		Aes256Gcm = 9,
+		AES256GCM = 9,
 
 		/// <summary>
 		/// Use ChaCha20 with the Poly1305 authentication mode.
@@ -58,7 +60,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <summary>
 		/// The Default cryptography function is AES-256-GCM.
 		/// </summary>
-		Default = Aes256Gcm,
+		Default = AES256GCM,
 	}
 
 	/// <summary>
@@ -74,33 +76,33 @@ namespace EllipticBit.Services.Cryptography
 		/// <summary>
 		/// Use the SHA2-256 hash function.
 		/// </summary>
-		Sha2256 = 1,
+		SHA2_256 = 1,
 		/// <summary>
 		/// Use the SHA2-384 hash function.
 		/// </summary>
-		Sha2384 = 2,
+		SHA2_384 = 2,
 		/// <summary>
 		/// Use the SHA2-512 hash function.
 		/// </summary>
-		Sha2512 = 3,
+		SHA2_512 = 3,
 
 		/// <summary>
 		/// Use the SHA3-256 hash function.
 		/// </summary>
-		Sha3256 = 4,
+		SHA3_256 = 4,
 		/// <summary>
 		/// Use the SHA3-384 hash function.
 		/// </summary>
-		Sha3384 = 5,
+		SHA3_384 = 5,
 		/// <summary>
 		/// Use the SHA3-512 hash function.
 		/// </summary>
-		Sha3512 = 6,
+		SHA3_512 = 6,
 
 		/// <summary>
 		/// The Default Hash algorithm is SHA2-384.
 		/// </summary>
-		Default = Sha2384,
+		Default = SHA2_384,
 	}
 
 	/// <summary>
@@ -147,17 +149,17 @@ namespace EllipticBit.Services.Cryptography
 		/// <returns>An int with the required key length.</returns>
 		public static int GetCipherKeyLength(this EncryptionAlgorithm algorithm) {
 			switch (algorithm) {
-				case EncryptionAlgorithm.Aes128Cbc:
-				case EncryptionAlgorithm.Aes128Cfb:
-				case EncryptionAlgorithm.Aes128Gcm:
+				case EncryptionAlgorithm.AES128CBC:
+				case EncryptionAlgorithm.AES128CFB:
+				case EncryptionAlgorithm.AES128GCM:
 					return 16;
-				case EncryptionAlgorithm.Aes192Cbc:
-				case EncryptionAlgorithm.Aes192Cfb:
-				case EncryptionAlgorithm.Aes192Gcm:
+				case EncryptionAlgorithm.AES192CBC:
+				case EncryptionAlgorithm.AES192CFB:
+				case EncryptionAlgorithm.AES192GCM:
 					return 24;
-				case EncryptionAlgorithm.Aes256Cbc:
-				case EncryptionAlgorithm.Aes256Cfb:
-				case EncryptionAlgorithm.Aes256Gcm:
+				case EncryptionAlgorithm.AES256CBC:
+				case EncryptionAlgorithm.AES256CFB:
+				case EncryptionAlgorithm.AES256GCM:
 				case EncryptionAlgorithm.ChaCha20Poly1305:
 					return 32;
 				default:
@@ -173,9 +175,9 @@ namespace EllipticBit.Services.Cryptography
 		public static int GetCipherIVLength(this EncryptionAlgorithm algorithm) {
 			switch (algorithm)
 			{
-				case EncryptionAlgorithm.Aes128Gcm:
-				case EncryptionAlgorithm.Aes192Gcm:
-				case EncryptionAlgorithm.Aes256Gcm:
+				case EncryptionAlgorithm.AES128GCM:
+				case EncryptionAlgorithm.AES192GCM:
+				case EncryptionAlgorithm.AES256GCM:
 				case EncryptionAlgorithm.ChaCha20Poly1305:
 					return 12;
 				default:
@@ -192,9 +194,9 @@ namespace EllipticBit.Services.Cryptography
 		{
 			switch (algorithm)
 			{
-				case EncryptionAlgorithm.Aes128Gcm:
-				case EncryptionAlgorithm.Aes192Gcm:
-				case EncryptionAlgorithm.Aes256Gcm:
+				case EncryptionAlgorithm.AES128GCM:
+				case EncryptionAlgorithm.AES192GCM:
+				case EncryptionAlgorithm.AES256GCM:
 				case EncryptionAlgorithm.ChaCha20Poly1305:
 					return true;
 				default:
@@ -212,9 +214,9 @@ namespace EllipticBit.Services.Cryptography
 		{
 			switch (algorithm)
 			{
-				case EncryptionAlgorithm.Aes128Gcm:
-				case EncryptionAlgorithm.Aes192Gcm:
-				case EncryptionAlgorithm.Aes256Gcm:
+				case EncryptionAlgorithm.AES128GCM:
+				case EncryptionAlgorithm.AES192GCM:
+				case EncryptionAlgorithm.AES256GCM:
 				case EncryptionAlgorithm.ChaCha20Poly1305:
 					return 16;
 				default:
@@ -233,12 +235,12 @@ namespace EllipticBit.Services.Cryptography
 			switch (func)
 			{
 				case HashAlgorithm.None: return 0;
-				case HashAlgorithm.Sha2256: return 32;
-				case HashAlgorithm.Sha2384: return 48;
-				case HashAlgorithm.Sha2512: return 64;
-				case HashAlgorithm.Sha3256: return 32;
-				case HashAlgorithm.Sha3384: return 48;
-				case HashAlgorithm.Sha3512: return 64;
+				case HashAlgorithm.SHA2_256: return 32;
+				case HashAlgorithm.SHA2_384: return 48;
+				case HashAlgorithm.SHA2_512: return 64;
+				case HashAlgorithm.SHA3_256: return 32;
+				case HashAlgorithm.SHA3_384: return 48;
+				case HashAlgorithm.SHA3_512: return 64;
 				default:
 					throw new CryptographicException($"Hash Function '{func}' is not supported.");
 			}

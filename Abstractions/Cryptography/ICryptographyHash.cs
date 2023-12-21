@@ -3,6 +3,7 @@
 //-----------------------------------------------------------------------------
 
 using System.IO;
+using System.Threading.Tasks;
 
 namespace EllipticBit.Services.Cryptography
 {
@@ -17,7 +18,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">A stream containing the data to hash.</param>
 		/// <param name="func">The has function to use.</param>
 		/// <returns>A byte array containing the calculated hash value.</returns>
-		byte[] Hash(Stream data, HashAlgorithm func);
+		Task<byte[]> Hash(Stream data, HashAlgorithm func);
 	}
 
 	/// <summary>
@@ -32,10 +33,9 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">A byte array containing the data to hash.</param>
 		/// <param name="func">The has function to use.</param>
 		/// <returns>A byte array containing the calculated hash value.</returns>
-		public static byte[] Hash(this ICryptographyHash hash, byte[] data, HashAlgorithm func) {
-			using (var stream = new MemoryStream(data)) {
-				return hash.Hash(stream, func);
-			}
+		public static async Task<byte[]> Hash(this ICryptographyHash hash, byte[] data, HashAlgorithm func) {
+			using var stream = new MemoryStream(data);
+			return await hash.Hash(stream, func);
 		}
 
 		/// <summary>
@@ -45,10 +45,9 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="path">A string containing a path to the file to hash.</param>
 		/// <param name="func">The has function to use.</param>
 		/// <returns>A byte array containing the calculated hash value.</returns>
-		public static byte[] Hash(this ICryptographyHash hash, string path, HashAlgorithm func) {
-			using (var stream = new FileStream(path, FileMode.Open)) {
-				return hash.Hash(stream, func);
-			}
+		public static async Task<byte[]> Hash(this ICryptographyHash hash, string path, HashAlgorithm func) {
+			using var stream = new FileStream(path, FileMode.Open);
+			return await hash.Hash(stream, func);
 		}
 	}
 }
