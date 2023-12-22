@@ -5,13 +5,7 @@
 namespace EllipticBit.Services.Cryptography
 {
 	/// <summary>
-	/// Opaque interface that contains a cryptographically secure key.
+	/// Opaque interface that contains a cryptographically secure key. To retrieve a Base64 encoded copy of the key, use the ToString() method.
 	/// </summary>
-	public interface ISymmetricKey
-	{
-		/// <summary>
-		/// Retrieve the key as a byte array.
-		/// </summary>
-		public byte[] Key { get; }
-	}
+	public interface ICryptographyKey { }
 }

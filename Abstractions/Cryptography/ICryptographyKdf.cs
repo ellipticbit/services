@@ -31,7 +31,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="outputLen">The required numbers of key bytes to generate.</param>
 		/// <param name="func">The hashing function to use.</param>
 		/// <returns>A byte array containing the encryption key.</returns>
-		byte[] HKDF(ISymmetricKey key, byte[] salt, byte[] info, int outputLen, HashAlgorithm func);
+		byte[] HKDF(ICryptographyKey key, byte[] salt, byte[] info, int outputLen, HashAlgorithm func);
 
 
 		/// <summary>
@@ -86,7 +86,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="info">Optional info to use during the key derivation.</param>
 		/// <param name="outputLen">The required numbers of key bytes to generate.</param>
 		/// <returns>A byte array containing the encryption key.</returns>
-		public static byte[] HKDF(this ICryptographyKdf kdf, ISymmetricKey key, byte[] salt, string info, int outputLen) {
+		public static byte[] HKDF(this ICryptographyKdf kdf, ICryptographyKey key, byte[] salt, string info, int outputLen) {
 			return kdf.HKDF(key, salt, Encoding.UTF8.GetBytes(info), outputLen, HashAlgorithm.Default);
 		}
 

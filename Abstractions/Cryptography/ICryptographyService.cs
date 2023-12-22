@@ -2,6 +2,7 @@
 // Copyright (c) 2020-2023 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
+using System;
 using System.IO;
 using System.Text;
 
@@ -53,7 +54,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">The data stream to hash.</param>
 		/// <param name="algorithm">Optional. Used to specify which Hashing algorithm to use.</param>
 		/// <returns>The hash value as an array of bytes.</returns>
-		byte[] Hmac(ISymmetricKey key, Stream data, HashAlgorithm algorithm = HashAlgorithm.Default);
+		byte[] Hmac(ICryptographyKey key, Stream data, HashAlgorithm algorithm = HashAlgorithm.Default);
 
 		/// <summary>
 		/// Securely hashes the provided password for storage.
@@ -79,16 +80,24 @@ namespace EllipticBit.Services.Cryptography
 		/// </summary>
 		/// <param name="password">The password to derive the key from.</param>
 		/// <param name="salt">A salt value to secure the password during derivation.</param>
-		/// <param name="requiredBytes">The number of required bytes.</param>
-		/// <returns>A byte array containing the key material.</returns>
-		ISymmetricKey DeriveKey(byte[] keyMaterial, byte[] salt, int requiredBytes);
+		/// <param name="algorithm">The symmetric encryption algorithm this key is intended to be used with. Use EncryptionAlgorithm.None to specify a key for non-symmetric operations.</param>
+		/// <returns>An ICryptographyKey type containing the key.</returns>
+		ICryptographyKey DeriveKey(byte[] password, out byte[] salt, EncryptionAlgorithm algorithm);
 
 		/// <summary>
 		/// Generates a cryptographically secure random key.
 		/// </summary>
-		/// <param name="requiredBytes">The number of required bytes.</param>
-		/// <returns>A byte array containing the key material.</returns>
-		ISymmetricKey GenerateKey(int requiredBytes);
+		/// <param name="algorithm">The symmetric encryption algorithm this key is intended to be used with. Use EncryptionAlgorithm.None to specify a key for non-symmetric operations.</param>
+		/// <returns>An ICryptographyKey type containing the key.</returns>
+		ICryptographyKey GenerateKey(EncryptionAlgorithm algorithm);
+
+		/// <summary>
+		/// Initializes a ICryptographyKey with pre-existing key value.
+		/// </summary>
+		/// <param name="keyBytes">The key bytes.</param>
+		/// <param name="algorithm">The symmetric encryption algorithm this key is intended to be used with. Use EncryptionAlgorithm.None to specify a key for non-symmetric operations.</param>
+		/// <returns>An ICryptographyKey type containing the key.</returns>
+		ICryptographyKey InitializeKey(byte[] keyBytes, EncryptionAlgorithm algorithm);
 
 		/// <summary>
 		///	Encrypts data securely for storage.
@@ -97,7 +106,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">The data to encrypt.</param>
 		/// <param name="associatedData">The associated data to use during encryption.</param>
 		/// <returns>Returns a byte array with the decrypted plaintext.</returns>
-		EncryptedData Encrypt(ISymmetricKey key, byte[] data, byte[] associatedData = null);
+		EncryptedData Encrypt(ICryptographyKey key, byte[] data, byte[] associatedData = null);
 
 		/// <summary>
 		///	Decrypts data previously encrypted with the Encrypt method.
@@ -106,7 +115,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">The data to decrypt.</param>
 		/// <param name="associatedData">The associated data to use during encryption.</param>
 		/// <returns>Returns a byte array with the decrypted plaintext.</returns>
-		byte[] Decrypt(ISymmetricKey key, EncryptedData data, byte[] associatedData = null);
+		byte[] Decrypt(ICryptographyKey key, EncryptedData data, byte[] associatedData = null);
 	}
 
 	/// <summary>
@@ -134,7 +143,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">The data to hash.</param>
 		/// <param name="algorithm">Optional. Used to specify which Hashing algorithm to use.</param>
 		/// <returns>The hash value as an array of bytes.</returns>
-		public static byte[] Hmac(this ICryptographyService service, ISymmetricKey key, byte[] data, HashAlgorithm algorithm = HashAlgorithm.Default) {
+		public static byte[] Hmac(this ICryptographyService service, ICryptographyKey key, byte[] data, HashAlgorithm algorithm = HashAlgorithm.Default) {
 			using var ms = new MemoryStream(data);
 			return service.Hmac(key, ms, algorithm);
 		}
@@ -147,7 +156,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">The data to encrypt.</param>
 		/// <param name="associatedData">The associated data to use during encryption.</param>
 		/// <returns>Returns a byte array with the decrypted plaintext.</returns>
-		public static EncryptedData Encrypt(this ICryptographyService service, ISymmetricKey key, Stream data, byte[] associatedData = null) {
+		public static EncryptedData Encrypt(this ICryptographyService service, ICryptographyKey key, Stream data, byte[] associatedData = null) {
 			using var ms = new MemoryStream();
 			data.CopyTo(ms);
 			return service.Encrypt(key, ms.ToArray(), associatedData);
@@ -161,7 +170,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">The raw bytes data to decrypt.</param>
 		/// <param name="associatedData">The associated data to use during encryption.</param>
 		/// <returns>Returns a byte array with the decrypted plaintext.</returns>
-		public static byte[] Decrypt(this ICryptographyService service, ISymmetricKey key, byte[] data, byte[] associatedData = null) {
+		public static byte[] Decrypt(this ICryptographyService service, ICryptographyKey key, byte[] data, byte[] associatedData = null) {
 			return service.Decrypt(key, EncryptedData.FromBytes(data), associatedData);
 		}
 
@@ -173,7 +182,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">The Base64 encoded data to decrypt.</param>
 		/// <param name="associatedData">The associated data to use during encryption.</param>
 		/// <returns>Returns a byte array with the decrypted plaintext.</returns>
-		public static byte[] Decrypt(this ICryptographyService service, ISymmetricKey key, string data, byte[] associatedData = null) {
+		public static byte[] Decrypt(this ICryptographyService service, ICryptographyKey key, string data, byte[] associatedData = null) {
 			return service.Decrypt(key, EncryptedData.FromBase64(data), associatedData);
 
 		}
@@ -186,7 +195,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">The stream data to decrypt.</param>
 		/// <param name="associatedData">The associated data to use during encryption.</param>
 		/// <returns>Returns a byte array with the decrypted plaintext.</returns>
-		public static byte[] Decrypt(this ICryptographyService service, ISymmetricKey key, Stream data, byte[] associatedData = null) {
+		public static byte[] Decrypt(this ICryptographyService service, ICryptographyKey key, Stream data, byte[] associatedData = null) {
 			return service.Decrypt(key, EncryptedData.FromStream(data), associatedData);
 		}
 
@@ -196,20 +205,31 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="service">The ICryptographyService interface.</param>
 		/// <param name="password">The password to derive the key from.</param>
 		/// <param name="salt">A salt value to secure the password during derivation.</param>
-		/// <param name="requiredBytes">The number of required bytes.</param>
+		/// <param name="algorithm">Optional. The symmetric encryption algorithm this key is intended to be used with. Use EncryptionAlgorithm.None to specify a key for non-symmetric operations.</param>
 		/// <returns>A byte array containing the key material.</returns>
-		public static ISymmetricKey DeriveKey(this ICryptographyService service, string password, byte[] salt, int requiredBytes) {
-			return service.DeriveKey(Encoding.UTF8.GetBytes(password), salt, requiredBytes);
+		public static ICryptographyKey DeriveKey(this ICryptographyService service, string password, out byte[] salt, EncryptionAlgorithm algorithm = EncryptionAlgorithm.Default) {
+			return service.DeriveKey(Encoding.UTF8.GetBytes(password), out salt, algorithm);
 		}
 
 		/// <summary>
 		/// Generates a cryptographically secure random key.
 		/// </summary>
 		/// <param name="service">The ICryptographyService interface.</param>
-		/// <param name="algorithm">Optional. Used to specify which Encryption algorithm to use.</param>
+		/// <param name="algorithm">Optional. The symmetric encryption algorithm this key is intended to be used with. Use EncryptionAlgorithm.None to specify a key for non-symmetric operations.</param>
 		/// <returns>A byte array containing the key material.</returns>
-		public static ISymmetricKey GenerateKey(this ICryptographyService service, EncryptionAlgorithm algorithm = EncryptionAlgorithm.Default) {
-			return service.GenerateKey(algorithm.GetCipherKeyLength());
+		public static ICryptographyKey GenerateKey(this ICryptographyService service, EncryptionAlgorithm algorithm = EncryptionAlgorithm.Default) {
+			return service.GenerateKey(algorithm);
+		}
+
+		/// <summary>
+		/// Initializes a ICryptographyKey with pre-existing key value.
+		/// </summary>
+		/// <param name="service">The ICryptographyService interface.</param>
+		/// <param name="keyString">The Base64 encoded key bytes.</param>
+		/// <param name="algorithm">Optional. The symmetric encryption algorithm this key is intended to be used with. Use EncryptionAlgorithm.None to specify a key for non-symmetric operations.</param>
+		/// <returns>An ICryptographyKey type containing the key.</returns>
+		public static ICryptographyKey InitializeKey(this ICryptographyService service, string keyString, EncryptionAlgorithm algorithm = EncryptionAlgorithm.Default) {
+			return service.InitializeKey(Convert.FromBase64String(keyString), algorithm);
 		}
 	}
 }
