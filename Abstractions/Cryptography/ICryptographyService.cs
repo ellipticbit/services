@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EllipticBit.Services.Cryptography
 {
@@ -45,7 +46,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">The data stream to hash.</param>
 		/// <param name="algorithm">Optional. Used to specify which Hashing algorithm to use.</param>
 		/// <returns>The hash value as an array of bytes.</returns>
-		byte[] Hash(Stream data, HashAlgorithm algorithm = HashAlgorithm.Default);
+		Task<byte[]> Hash(Stream data, HashAlgorithm algorithm = HashAlgorithm.Default);
 
 		/// <summary>
 		/// Calculates a cryptographically secure hash of the provided byte array using the provided key material.
@@ -54,7 +55,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">The data stream to hash.</param>
 		/// <param name="algorithm">Optional. Used to specify which Hashing algorithm to use.</param>
 		/// <returns>The hash value as an array of bytes.</returns>
-		byte[] Hmac(ICryptographyKey key, Stream data, HashAlgorithm algorithm = HashAlgorithm.Default);
+		Task<byte[]> Hmac(ICryptographyKey key, Stream data, HashAlgorithm algorithm = HashAlgorithm.Default);
 
 		/// <summary>
 		/// Securely hashes the provided password for storage.
@@ -130,9 +131,9 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">The data to hash.</param>
 		/// <param name="algorithm">Optional. Used to specify which Hashing algorithm to use.</param>
 		/// <returns>The hash value as an array of bytes.</returns>
-		public static byte[] Hash(this ICryptographyService service, byte[] data, HashAlgorithm algorithm = HashAlgorithm.Default) {
+		public static async Task<byte[]> Hash(this ICryptographyService service, byte[] data, HashAlgorithm algorithm = HashAlgorithm.Default) {
 			using var ms = new MemoryStream(data);
-			return service.Hash(ms, algorithm);
+			return await service.Hash(ms, algorithm);
 		}
 
 		/// <summary>
@@ -143,9 +144,9 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="data">The data to hash.</param>
 		/// <param name="algorithm">Optional. Used to specify which Hashing algorithm to use.</param>
 		/// <returns>The hash value as an array of bytes.</returns>
-		public static byte[] Hmac(this ICryptographyService service, ICryptographyKey key, byte[] data, HashAlgorithm algorithm = HashAlgorithm.Default) {
+		public static async Task<byte[]> Hmac(this ICryptographyService service, ICryptographyKey key, byte[] data, HashAlgorithm algorithm = HashAlgorithm.Default) {
 			using var ms = new MemoryStream(data);
-			return service.Hmac(key, ms, algorithm);
+			return await service.Hmac(key, ms, algorithm);
 		}
 
 		/// <summary>

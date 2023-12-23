@@ -14,6 +14,10 @@ namespace EllipticBit.Services.Cryptography
 	public enum EncryptionAlgorithm
 	{
 		/// <summary>
+		/// No encryption algorithm specified.
+		/// </summary>
+		None = 0,
+		/// <summary>
 		/// Use AES-128 in CBC Mode.
 		/// </summary>
 		AES128CBC = 1,
