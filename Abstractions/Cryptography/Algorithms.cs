@@ -112,7 +112,7 @@ namespace EllipticBit.Services.Cryptography
 	/// <summary>
 	/// The available key derivation algorithms.
 	/// </summary>
-	public enum KeyDerivationAlgorithm
+	public enum PasswordAlgorithm
 	{
 		/// <summary>
 		/// Do not use a KDF.
