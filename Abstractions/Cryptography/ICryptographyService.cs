@@ -64,19 +64,19 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="pepper">A pepper value to secure the password during derivation.</param>
 		/// <param name="associatedData">Unencrypted associated data to be stored with the secured password.</param>
 		/// <param name="algorithm">The KDF algorithm to use for securing the password.</param>
-		/// <returns>A byte array containing the secured password.</returns>
-		string SecurePassword(string password, byte[] pepper = null, byte[] associatedData = null, PasswordAlgorithm algorithm = PasswordAlgorithm.Default);
+		/// <returns>A KdfResult containing the secured password and the generated salt value.</returns>
+		HashedPassword SecurePassword(string password, byte[] pepper = null, byte[] associatedData = null, PasswordAlgorithm algorithm = PasswordAlgorithm.Default);
 
 		/// <summary>
 		/// Verifies a user supplied password with a previously secured password.
 		/// </summary>
-		/// <param name="storedPassword">The hashed password to verify.</param>
 		/// <param name="suppliedPassword">The password from the user.</param>
+		/// <param name="storedPassword">The hashed password to verify.</param>
 		/// <param name="pepper">The pepper value used to secure the password during derivation.</param>
 		/// <param name="associatedData">Unencrypted associated data stored with the secured password.</param>
 		/// <param name="algorithm">The KDF algorithm to use for securing the password.</param>
 		/// <returns>A byte array containing the secured password.</returns>
-		VerifyPasswordResult VerifyPassword(string storedPassword, string suppliedPassword, byte[] pepper = null, byte[] associatedData = null, PasswordAlgorithm algorithm = PasswordAlgorithm.Default);
+		VerifyPasswordResult VerifyPassword(string suppliedPassword, HashedPassword storedPassword, byte[] pepper = null, byte[] associatedData = null, PasswordAlgorithm algorithm = PasswordAlgorithm.Default);
 
 		/// <summary>
 		/// Derives key material from a password and salt.
@@ -85,7 +85,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="salt">A salt value to secure the password during derivation.</param>
 		/// <param name="algorithm">The symmetric encryption algorithm this key is intended to be used with. Use EncryptionAlgorithm.None to specify a key for non-symmetric operations.</param>
 		/// <returns>An ICryptographyKey type containing the key.</returns>
-		ICryptographyKey DeriveKey(byte[] password, out byte[] salt, EncryptionAlgorithm algorithm);
+		ICryptographyKey DeriveKey(byte[] password, byte[] salt, EncryptionAlgorithm algorithm);
 
 		/// <summary>
 		/// Generates a cryptographically secure random key.
@@ -210,8 +210,8 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="salt">A salt value to secure the password during derivation.</param>
 		/// <param name="algorithm">Optional. The symmetric encryption algorithm this key is intended to be used with. Use EncryptionAlgorithm.None to specify a key for non-symmetric operations.</param>
 		/// <returns>A byte array containing the key material.</returns>
-		public static ICryptographyKey DeriveKey(this ICryptographyService service, string password, out byte[] salt, EncryptionAlgorithm algorithm = EncryptionAlgorithm.Default) {
-			return service.DeriveKey(Encoding.UTF8.GetBytes(password), out salt, algorithm);
+		public static ICryptographyKey DeriveKey(this ICryptographyService service, string password, byte[] salt, EncryptionAlgorithm algorithm = EncryptionAlgorithm.Default) {
+			return service.DeriveKey(Encoding.UTF8.GetBytes(password), salt, algorithm);
 		}
 
 		/// <summary>
