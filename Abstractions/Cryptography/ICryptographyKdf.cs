@@ -2,6 +2,8 @@
 // Copyright (c) 2020-2023 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Linq;
 using System.Text;
 
 namespace EllipticBit.Services.Cryptography
@@ -71,10 +73,14 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="kdf">The IKdfService interface.</param>
 		/// <param name="password">The password from which to generate the key.</param>
 		/// <param name="salt">The salt used by the KDF.</param>
+		/// <param name="pepper">The pepper value used by the KDF.</param>
 		/// <param name="outputLen">The required numbers of key bytes to generate.</param>
 		/// <returns>A byte array containing the encryption key.</returns>
-		public static byte[] PBKDF2(this ICryptographyKdf kdf, string password, byte[] salt, int outputLen) {
-			return kdf.PBKDF2(password, salt, outputLen, 1048576, HashAlgorithm.Default);
+		public static byte[] PBKDF2(this ICryptographyKdf kdf, string password, byte[] salt, byte[] pepper, int outputLen) {
+			if (salt == null || salt.Length == 0) throw new ArgumentNullException(nameof(salt));
+			if (pepper == null || pepper.Length == 0) throw new ArgumentNullException(nameof(pepper));
+			var combined = salt.Concat(pepper);
+			return kdf.PBKDF2(password, combined.ToArray(), outputLen, 1048576, HashAlgorithm.Default);
 		}
 
 		/// <summary>
@@ -96,10 +102,14 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="kdf">The IKdfService interface.</param>
 		/// <param name="password">The password from which to generate the key.</param>
 		/// <param name="salt">The salt used by the KDF.</param>
+		/// <param name="pepper">The pepper value used by the KDF.</param>
 		/// <param name="outputLen">The required numbers of key bytes to generate.</param>
 		/// <returns>A byte array containing the encryption key.</returns>
-		public static byte[] SCrypt(this ICryptographyKdf kdf, string password, byte[] salt, int outputLen) {
-			return kdf.SCrypt(password, salt, outputLen, 1048576, 8, 1);
+		public static byte[] SCrypt(this ICryptographyKdf kdf, string password, byte[] salt, byte[] pepper, int outputLen) {
+			if (salt == null || salt.Length == 0) throw new ArgumentNullException(nameof(salt));
+			if (pepper == null || pepper.Length == 0) throw new ArgumentNullException(nameof(pepper));
+			var combined = salt.Concat(pepper);
+			return kdf.SCrypt(password, combined.ToArray(), outputLen, 1048576, 8, 1);
 		}
 
 		/// <summary>
@@ -108,11 +118,14 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="kdf">The IKdfService interface.</param>
 		/// <param name="password">The password from which to generate the key.</param>
 		/// <param name="salt">The salt used by the KDF.</param>
+		/// <param name="pepper">The pepper value used by the KDF.</param>
 		/// <param name="info">Optional info to use during the key derivation.</param>
 		/// <param name="outputLen">The required numbers of key bytes to generate.</param>
 		/// <returns>A byte array containing the encryption key.</returns>
-		public static byte[] Argon2(this ICryptographyKdf kdf, string password, byte[] salt, byte[] info, int outputLen) {
-			return kdf.Argon2(password, salt, null, info, outputLen, 2, 8, 1048576);
+		public static byte[] Argon2(this ICryptographyKdf kdf, string password, byte[] salt, byte[] pepper, byte[] info, int outputLen) {
+			if (salt == null || salt.Length == 0) throw new ArgumentNullException(nameof(salt));
+			if (pepper == null || pepper.Length == 0) throw new ArgumentNullException(nameof(pepper));
+			return kdf.Argon2(password, salt, pepper, info, outputLen, 2, 8, 1048576);
 		}
 	}
 }

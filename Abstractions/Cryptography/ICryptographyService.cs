@@ -62,10 +62,10 @@ namespace EllipticBit.Services.Cryptography
 		/// </summary>
 		/// <param name="password">The password to store.</param>
 		/// <param name="pepper">A pepper value to secure the password during derivation.</param>
-		/// <param name="associatedData">Unencrypted associated data to be stored with the secured password.</param>
+		/// <param name="associatedData">Unencrypted associated data to be stored with the secured password. Only used when using the Argon2 KDF.</param>
 		/// <param name="algorithm">The KDF algorithm to use for securing the password.</param>
 		/// <returns>A KdfResult containing the secured password and the generated salt value.</returns>
-		HashedPassword SecurePassword(string password, byte[] pepper = null, byte[] associatedData = null, PasswordAlgorithm algorithm = PasswordAlgorithm.Default);
+		HashedPassword SecurePassword(string password, byte[] pepper, byte[] associatedData = null, PasswordAlgorithm algorithm = PasswordAlgorithm.Default);
 
 		/// <summary>
 		/// Verifies a user supplied password with a previously secured password.
@@ -73,10 +73,9 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="suppliedPassword">The password from the user.</param>
 		/// <param name="storedPassword">The hashed password to verify.</param>
 		/// <param name="pepper">The pepper value used to secure the password during derivation.</param>
-		/// <param name="associatedData">Unencrypted associated data stored with the secured password.</param>
-		/// <param name="algorithm">The KDF algorithm to use for securing the password.</param>
+		/// <param name="associatedData">Unencrypted associated data to be stored with the secured password. Only used when using the Argon2 KDF.</param>
 		/// <returns>A byte array containing the secured password.</returns>
-		VerifyPasswordResult VerifyPassword(string suppliedPassword, HashedPassword storedPassword, byte[] pepper = null, byte[] associatedData = null, PasswordAlgorithm algorithm = PasswordAlgorithm.Default);
+		VerifyPasswordResult VerifyPassword(string suppliedPassword, HashedPassword storedPassword, byte[] pepper, byte[] associatedData = null);
 
 		/// <summary>
 		/// Derives key material from a password and salt.
