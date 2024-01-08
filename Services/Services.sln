@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptography.AspNetCore", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptography.DotNet", "Cryptography.DotNet\Cryptography.DotNet.csproj", "{C71D603D-1406-4AD8-8C77-217B108A5BD6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptography.NetStandard", "Cryptography.NetStandard\Cryptography.NetStandard.csproj", "{3F670B5D-F69E-459A-8042-A299E64DAFB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptography.NetFramework", "Cryptography.NetFramework\Cryptography.NetFramework.csproj", "{3F670B5D-F69E-459A-8042-A299E64DAFB5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.EntityFrameworkCore", "Database.EntityFrameworkCore\Database.EntityFrameworkCore.csproj", "{A4FF86C6-C96C-4BE0-B115-3E16767CC790}"
 EndProject

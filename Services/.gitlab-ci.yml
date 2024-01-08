@@ -117,7 +117,7 @@ Publish Cryptography DotNet Package:
     - "dotnet build -c Release ./Services/Cryptography.DotNet/Cryptography.DotNet.csproj"
     - "dotnet nuget push ./Services/Cryptography.DotNet/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
-Publish Cryptography NetStandard Package:
+Publish Cryptography NetFramework Package:
   extends: .before_script_template
   stage: services
   tags:
@@ -127,12 +127,12 @@ Publish Cryptography NetStandard Package:
     refs:
       - master
     changes:
-      - Services/Cryptography.NetStandard/**/*
+      - Services/Cryptography.NetFramework/**/*
 
   script:
-    - "dotnet restore ./Services/Cryptography.NetStandard/Cryptography.NetStandard.csproj"
-    - "dotnet build -c Release ./Services/Cryptography.NetStandard/Cryptography.NetStandard.csproj"
-    - "dotnet nuget push ./Services/Cryptography.NetStandard/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet restore ./Services/Cryptography.NetFramework/Cryptography.NetFramework.csproj"
+    - "dotnet build -c Release ./Services/Cryptography.NetFramework/Cryptography.NetFramework.csproj"
+    - "dotnet nuget push ./Services/Cryptography.NetFramework/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 # Database
 
