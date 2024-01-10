@@ -9,7 +9,7 @@ namespace EllipticBit.Services.Cryptography
 {
 	internal static class RandomNumberGenerator
 	{
-		public static byte[] GetBytes( int bytes)
+		public static byte[] GetBytes(int bytes)
 		{
 			var ret = new byte[bytes];
 			using var tmp = new RNGCryptoServiceProvider();

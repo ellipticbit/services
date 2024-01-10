@@ -18,12 +18,16 @@ namespace System.Security.Cryptography
 		private readonly BCrypt.BCRYPT_KEY_HANDLE phKey;
 
 		public ChaCha20Poly1305(ReadOnlySpan<byte> key) {
-			BCrypt.BCryptOpenAlgorithmProvider(out BCrypt.SafeBCRYPT_ALG_HANDLE pa, "CHACHA20_POLY1305", BCrypt.KnownProvider.MS_PRIMITIVE_PROVIDER);
+			var result = BCrypt.BCryptOpenAlgorithmProvider(out BCrypt.SafeBCRYPT_ALG_HANDLE pa, "CHACHA20_POLY1305", BCrypt.KnownProvider.MS_PRIMITIVE_PROVIDER);
 			this.phAlgorithm = pa;
-			BCrypt.BCryptGenerateSymmetricKey(phAlgorithm, out BCrypt.SafeBCRYPT_KEY_HANDLE pk, null, 0, key.ToArray(), (uint)key.Length);
+
+			if (result != NTStatus.STATUS_NOT_FOUND) throw new CryptographicException("ChaCha20_Poly1305 is not supported on this Operating System.");
+
+			byte[] bcm = Encoding.Unicode.GetBytes(BCrypt.ChainingMode.BCRYPT_CHAIN_MODE_CCM);
+			result =BCrypt.BCryptSetProperty(new BCrypt.BCRYPT_HANDLE(phAlgorithm.DangerousGetHandle()), "ChainingMode", bcm, (uint)bcm.Length);
+
+			result = BCrypt.BCryptGenerateSymmetricKey(phAlgorithm, out BCrypt.SafeBCRYPT_KEY_HANDLE pk, new IntPtr(), 0, key.ToArray(), (uint)key.Length);
 			this.phKey = pk;
-			byte[] bcm = Encoding.Unicode.GetBytes(BCrypt.ChainingMode.BCRYPT_CHAIN_MODE_GCM);
-			BCrypt.BCryptSetProperty(new BCrypt.BCRYPT_HANDLE(phAlgorithm.DangerousGetHandle()), "ChainingMode", bcm, (uint)bcm.Length);
 		}
 
 		public void Encrypt(ReadOnlySpan<byte> iv, ReadOnlySpan<byte> plainText, Span<byte> cipherText, Span<byte> tag, ReadOnlySpan<byte> associatedData = default) {
@@ -38,7 +42,7 @@ namespace System.Security.Cryptography
 				fixed (byte* pPlain = plainText)
 				fixed (byte* pTag = tag)
 				fixed (byte* pAd = associatedData) {
-					BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO sinfo = new BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO() {
+					var sinfo = new BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO() {
 						cbSize = (uint)sizeof(BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO),
 						dwInfoVersion = 1,
 						pbNonce = new IntPtr(pIv),
@@ -47,7 +51,7 @@ namespace System.Security.Cryptography
 						cbAuthData = (uint)associatedData.Length,
 						pbTag = new IntPtr(pTag),
 						cbTag = (uint)tag.Length,
-						pbMacContext = new IntPtr(0),
+						pbMacContext = new IntPtr(),
 						cbMacContext = 0,
 						cbAAD = 0,
 						cbData = 0,
@@ -56,13 +60,14 @@ namespace System.Security.Cryptography
 					IntPtr info = Marshal.AllocHGlobal(sizeof(BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO));
 					Marshal.StructureToPtr(sinfo, info, false);
 
-					result = BCrypt.BCryptEncrypt(phKey, plainText.ToArray(), (uint)plainText.Length, info, new IntPtr(pIv), (uint)iv.Length, new IntPtr(pOutput), (uint)output.Length, out outputLen, 0);
+					result = BCrypt.BCryptEncrypt(phKey, plainText.ToArray(), (uint)plainText.Length, info, new IntPtr(), 0, new IntPtr(pOutput), (uint)output.Length, out outputLen, 0);
 
 					Marshal.FreeHGlobal(info);
 				}
 
 				result.ThrowIfFailed();
-				cipherText = outputLen == output.Length ? output : output.Take((int)outputLen).ToArray();
+				var to = outputLen == output.Length ? output : output.Take((int)outputLen).ToArray();
+				to.CopyTo(cipherText);
 			}
 		}
 
@@ -76,11 +81,11 @@ namespace System.Security.Cryptography
 				uint outputLen = 0;
 				fixed (byte* pIv = iv)
 				fixed (byte* pOutput = output)
-				fixed (byte* pPlain = plainText)
+				fixed (byte* pCipher = cipherText)
 				fixed (byte* pTag = tag)
 				fixed (byte* pAd = associatedData)
 				{
-					BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO sinfo = new BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO()
+					var sinfo = new BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO()
 					{
 						cbSize = (uint)sizeof(BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO),
 						dwInfoVersion = 1,
@@ -90,7 +95,7 @@ namespace System.Security.Cryptography
 						cbAuthData = (uint)associatedData.Length,
 						pbTag = new IntPtr(pTag),
 						cbTag = (uint)tag.Length,
-						pbMacContext = new IntPtr(0),
+						pbMacContext = new IntPtr(),
 						cbMacContext = 0,
 						cbAAD = 0,
 						cbData = 0,
@@ -105,7 +110,8 @@ namespace System.Security.Cryptography
 				}
 
 				result.ThrowIfFailed();
-				cipherText = outputLen == output.Length ? output : output.Take((int)outputLen).ToArray();
+				var to = outputLen == output.Length ? output : output.Take((int)outputLen).ToArray();
+				to.CopyTo(plainText);
 			}
 		}
 

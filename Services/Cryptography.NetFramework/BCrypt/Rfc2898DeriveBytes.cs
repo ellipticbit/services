@@ -19,8 +19,7 @@ namespace EllipticBit.Services.Cryptography
 				fixed (byte* pPassword = password)
 				fixed (byte* pSalt = salt)
 				{
-					var tr = new IntPtr(pResult);
-					BCrypt.BCryptOpenAlgorithmProvider(out BCrypt.SafeBCRYPT_ALG_HANDLE pAlgorithm, func.Name, BCrypt.KnownProvider.MS_PRIMITIVE_PROVIDER, 0);
+					BCrypt.BCryptOpenAlgorithmProvider(out BCrypt.SafeBCRYPT_ALG_HANDLE pAlgorithm, func.Name, BCrypt.KnownProvider.MS_PRIMITIVE_PROVIDER, BCrypt.AlgProviderFlags.BCRYPT_ALG_HANDLE_HMAC_FLAG);
 					try
 					{
 						BCrypt.BCryptDeriveKeyPBKDF2(pAlgorithm, new IntPtr(pPassword), (uint)password.Length, new IntPtr(pSalt), (uint)salt.Length, (ulong)iterations, new IntPtr(pResult), (uint)outputLen, 0);

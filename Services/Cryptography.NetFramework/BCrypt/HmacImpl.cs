@@ -4,6 +4,7 @@
 
 using System;
 using System.IO;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 using Vanara.PInvoke;
@@ -46,7 +47,7 @@ namespace EllipticBit.Services.Cryptography
 		{
 			using var ms = new MemoryStream();
 			await data.CopyToAsync(ms);
-			return HmacImpl.Hmac(key, ms.ToArray(), EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_256);
+			return HmacImpl.Hmac(key, ms.ToArray(), HashAlgorithm.SHA3_256);
 		}
 	}
 
@@ -56,7 +57,7 @@ namespace EllipticBit.Services.Cryptography
 		{
 			using var ms = new MemoryStream();
 			await data.CopyToAsync(ms);
-			return HmacImpl.Hmac(key, ms.ToArray(), EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_384);
+			return HmacImpl.Hmac(key, ms.ToArray(), HashAlgorithm.SHA3_384);
 		}
 	}
 
@@ -66,13 +67,13 @@ namespace EllipticBit.Services.Cryptography
 		{
 			using var ms = new MemoryStream();
 			await data.CopyToAsync(ms);
-			return HmacImpl.Hmac(key, ms.ToArray(), EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_512);
+			return HmacImpl.Hmac(key, ms.ToArray(), HashAlgorithm.SHA3_512);
 		}
 	}
 
 	internal static class HmacImpl
 	{
-		public static byte[] Hmac(byte[] key, byte[] data, EllipticBit.Services.Cryptography.HashAlgorithm func)
+		public static byte[] Hmac(byte[] key, byte[] data, HashAlgorithm func)
 		{
 			var result = new byte[func.GetHashLength()];
 			unsafe
@@ -82,7 +83,9 @@ namespace EllipticBit.Services.Cryptography
 				fixed (byte* pData = data)
 				{
 					var tr = new IntPtr(pResult);
-					BCrypt.BCryptOpenAlgorithmProvider(out BCrypt.SafeBCRYPT_ALG_HANDLE pAlgorithm, func.ToAlgId(), BCrypt.KnownProvider.MS_PRIMITIVE_PROVIDER, 0);
+					var r = BCrypt.BCryptOpenAlgorithmProvider(out BCrypt.SafeBCRYPT_ALG_HANDLE pAlgorithm, func.ToAlgId(), BCrypt.KnownProvider.MS_PRIMITIVE_PROVIDER, BCrypt.AlgProviderFlags.BCRYPT_ALG_HANDLE_HMAC_FLAG);
+					if (r != NTStatus.STATUS_SUCCESS) throw new CryptographicException($"{func.ToAlgId()} is not supported on this Operating System.");
+
 					try
 					{
 						BCrypt.BCryptHash(pAlgorithm, new IntPtr(pKey), (uint)key.Length, new IntPtr(pData), (uint)data.Length, tr, (uint)result.Length);

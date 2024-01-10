@@ -47,7 +47,7 @@ namespace EllipticBit.Services.Cryptography
 		{
 			using var ms = new MemoryStream();
 			await data.CopyToAsync(ms);
-			return HashImpl.Hash(ms.ToArray(), EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_256);
+			return HashImpl.Hash(ms.ToArray(), HashAlgorithm.SHA3_256);
 		}
 	}
 
@@ -57,7 +57,7 @@ namespace EllipticBit.Services.Cryptography
 		{
 			using var ms = new MemoryStream();
 			await data.CopyToAsync(ms);
-			return HashImpl.Hash(ms.ToArray(), EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_384);
+			return HashImpl.Hash(ms.ToArray(), HashAlgorithm.SHA3_384);
 		}
 	}
 
@@ -67,20 +67,23 @@ namespace EllipticBit.Services.Cryptography
 		{
 			using var ms = new MemoryStream();
 			await data.CopyToAsync(ms);
-			return HashImpl.Hash(ms.ToArray(), EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_512);
+			return HashImpl.Hash(ms.ToArray(), HashAlgorithm.SHA3_512);
 		}
 	}
 
 	internal static class HashImpl
 	{
-		public static byte[] Hash(byte[] data, EllipticBit.Services.Cryptography.HashAlgorithm func) {
+		public static byte[] Hash(byte[] data, HashAlgorithm func) {
 			var result = new byte[func.GetHashLength()];
 			unsafe {
 				fixed (byte* pResult = result)
 				fixed (byte* pData = data) {
 					var tr = new IntPtr(pResult);
-					BCrypt.BCryptOpenAlgorithmProvider(out BCrypt.SafeBCRYPT_ALG_HANDLE pAlgorithm, func.ToAlgId(), BCrypt.KnownProvider.MS_PRIMITIVE_PROVIDER, 0);
-					try {
+					var r = BCrypt.BCryptOpenAlgorithmProvider(out BCrypt.SafeBCRYPT_ALG_HANDLE pAlgorithm, func.ToAlgId(), BCrypt.KnownProvider.MS_PRIMITIVE_PROVIDER, 0);
+					if (r!= NTStatus.STATUS_SUCCESS) throw new CryptographicException($"{func.ToAlgId()} is not supported on this Operating System.");
+
+					try
+					{
 						BCrypt.BCryptHash(pAlgorithm, default(IntPtr), 0, new IntPtr(pData), (uint)data.Length, tr, (uint)result.Length);
 					}
 					finally {
@@ -94,18 +97,18 @@ namespace EllipticBit.Services.Cryptography
 
 		public static string ToAlgId(this EllipticBit.Services.Cryptography.HashAlgorithm func) {
 			switch (func) {
-				case EllipticBit.Services.Cryptography.HashAlgorithm.SHA2_256:
+				case HashAlgorithm.SHA2_256:
 					return "SHA256";
-				case EllipticBit.Services.Cryptography.HashAlgorithm.SHA2_384:
+				case HashAlgorithm.SHA2_384:
 					return "SHA384";
-				case EllipticBit.Services.Cryptography.HashAlgorithm.SHA2_512:
+				case HashAlgorithm.SHA2_512:
 					return "SHA512";
-				case EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_256:
-					return "SHA3_256";
-				case EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_384:
-					return "SHA3_384";
-				case EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_512:
-					return "SHA3_512";
+				case HashAlgorithm.SHA3_256:
+					return "SHA3-256";
+				case HashAlgorithm.SHA3_384:
+					return "SHA3-384";
+				case HashAlgorithm.SHA3_512:
+					return "SHA3-512";
 			}
 			return String.Empty;
 		}

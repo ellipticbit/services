@@ -13,12 +13,12 @@ namespace System.Security.Cryptography
 	{
 		public static byte[] DeriveKey(HashAlgorithmName algorithm, byte[] key, int outputLen, byte[] salt, byte[] info = null) {
 			//Perform extraction
-			var extractMac = HMAC.Create(algorithm.Name);
+			var extractMac = HMAC.Create("HMAC" + algorithm.Name);
 			extractMac.Key = salt;
 			byte[] extract = extractMac.ComputeHash(key);
 
 			//Perform expansion
-			var expandMac = HMAC.Create(algorithm.Name);
+			var expandMac = HMAC.Create("HMAC" + algorithm.Name);
 			expandMac.Key = extract;
 
 			int outputIndex = 0;
@@ -41,9 +41,9 @@ namespace System.Security.Cryptography
 			if (func == HashAlgorithmName.SHA256) return EllipticBit.Services.Cryptography.HashAlgorithm.SHA2_256;
 			if (func == HashAlgorithmName.SHA384) return EllipticBit.Services.Cryptography.HashAlgorithm.SHA2_384;
 			if (func == HashAlgorithmName.SHA512) return EllipticBit.Services.Cryptography.HashAlgorithm.SHA2_512;
-			if (func.Name == "SHA3_256") return EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_256;
-			if (func.Name == "SHA3_384") return EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_384;
-			if (func.Name == "SHA3_512") return EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_512;
+			if (func.Name == "SHA3-256") return EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_256;
+			if (func.Name == "SHA3-384") return EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_384;
+			if (func.Name == "SHA3-512") return EllipticBit.Services.Cryptography.HashAlgorithm.SHA3_512;
 			return EllipticBit.Services.Cryptography.HashAlgorithm.None;
 		}
 	}
