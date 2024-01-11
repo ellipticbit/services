@@ -67,7 +67,7 @@ namespace EllipticBit.Services.Cryptography
 				if (supplied.ConstantTimeEquality(storedPassword.Derived)) return VerifyPasswordResult.Rehash;
 			}
 
-			if (storedPassword.Algorithm == PasswordAlgorithm.Argon2 && storedPassword.ParameterVersion == 1) {
+			if (storedPassword.Algorithm == PasswordAlgorithm.SCrypt && storedPassword.ParameterVersion == 1) {
 				var supplied = kdfService.SCrypt(suppliedPassword, storedPassword.Salt, pepper, 64);
 				if (supplied.ConstantTimeEquality(storedPassword.Derived)) return VerifyPasswordResult.Success;
 			}

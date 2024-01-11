@@ -18,7 +18,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <summary>
 		/// The version of the hash parameters used to secure the password.
 		/// </summary>
-		public short ParameterVersion { get; }
+		public ushort ParameterVersion { get; }
 		/// <summary>
 		/// The salt used by the hashing function.
 		/// </summary>
@@ -35,7 +35,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="salt">The salt used by the hashing function.</param>
 		/// <param name="algorithm">The hashing algorithm used to secure the password.</param>
 		/// <param name="paramVersion">The version of the hash parameters used to secure the password.</param>
-		public HashedPassword(byte[] derived, byte[] salt, PasswordAlgorithm algorithm, short paramVersion)
+		public HashedPassword(byte[] derived, byte[] salt, PasswordAlgorithm algorithm, ushort paramVersion)
 		{
 			Algorithm = algorithm;
 			ParameterVersion = paramVersion;
@@ -48,7 +48,7 @@ namespace EllipticBit.Services.Cryptography
 		/// </summary>
 		/// <returns>The encoded password string</returns>
 		public override string ToString() {
-			return $"{Convert.ToInt16(Algorithm)}.{ParameterVersion}.{Convert.ToBase64String(Salt)}.{Convert.ToBase64String(Derived)}";
+			return $"{Convert.ToUInt16(Algorithm)}.{ParameterVersion}.{Convert.ToBase64String(Salt)}.{Convert.ToBase64String(Derived)}";
 		}
 
 		/// <summary>

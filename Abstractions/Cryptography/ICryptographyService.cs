@@ -81,10 +81,10 @@ namespace EllipticBit.Services.Cryptography
 		/// Derives key material from a password and salt.
 		/// </summary>
 		/// <param name="password">The password to derive the key from.</param>
-		/// <param name="salt">A salt value to secure the password during derivation.</param>
 		/// <param name="algorithm">The symmetric encryption algorithm this key is intended to be used with. Use EncryptionAlgorithm.None to specify a key for non-symmetric operations.</param>
+		/// <param name="kdf">A salt value to secure the password during derivation.</param>
 		/// <returns>An ICryptographyKey type containing the key.</returns>
-		ICryptographyKey DeriveKey(byte[] password, byte[] salt, EncryptionAlgorithm algorithm);
+		ICryptographyKey GenerateKey(string password, EncryptionAlgorithm algorithm, PasswordAlgorithm kdf = PasswordAlgorithm.Default);
 
 		/// <summary>
 		/// Generates a cryptographically secure random key.
@@ -206,11 +206,9 @@ namespace EllipticBit.Services.Cryptography
 		/// </summary>
 		/// <param name="service">The ICryptographyService interface.</param>
 		/// <param name="password">The password to derive the key from.</param>
-		/// <param name="salt">A salt value to secure the password during derivation.</param>
-		/// <param name="algorithm">Optional. The symmetric encryption algorithm this key is intended to be used with. Use EncryptionAlgorithm.None to specify a key for non-symmetric operations.</param>
 		/// <returns>A byte array containing the key material.</returns>
-		public static ICryptographyKey DeriveKey(this ICryptographyService service, string password, byte[] salt, EncryptionAlgorithm algorithm = EncryptionAlgorithm.Default) {
-			return service.DeriveKey(Encoding.UTF8.GetBytes(password), salt, algorithm);
+		public static ICryptographyKey GenerateKey(this ICryptographyService service, string password) {
+			return service.GenerateKey(password, EncryptionAlgorithm.Default);
 		}
 
 		/// <summary>
