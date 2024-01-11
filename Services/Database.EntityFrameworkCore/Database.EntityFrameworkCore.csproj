@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
 		<AssemblyName>EllipticBit.Services.Database.EntityFrameworkCore</AssemblyName>
 		<RootNamespace>EllipticBit.Services.Database</RootNamespace>
 		<Company>EllipticBit LLC</Company>
@@ -19,7 +19,7 @@
 	<ItemGroup>
 		<PackageReference Include="EllipticBit.Services.Database.Abstractions" Version="1.0.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.32" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.24" Condition="'$(TargetFramework)' == 'net6.0'" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.1" Condition="'$(TargetFramework)' == 'net8.0'" />
 	</ItemGroup>
 
 </Project>

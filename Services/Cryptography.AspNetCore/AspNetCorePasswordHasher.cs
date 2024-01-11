@@ -15,11 +15,11 @@ namespace EllipticBit.Services.Cryptography
 		}
 
 		public string HashPassword(TUser user, string password) {
-			return cryptographyService.SecurePassword(password);
+			return cryptographyService.SecurePassword(password, null).ToString();
 		}
 
 		public PasswordVerificationResult VerifyHashedPassword(TUser user, string hashedPassword, string providedPassword) {
-			var result = cryptographyService.VerifyPassword(hashedPassword, providedPassword);
+			var result = cryptographyService.VerifyPassword(hashedPassword, HashedPassword.FromBase64(providedPassword), null);
 			return result == VerifyPasswordResult.Failure ? PasswordVerificationResult.Failed : result == VerifyPasswordResult.Success ? PasswordVerificationResult.Success : PasswordVerificationResult.SuccessRehashNeeded;
 		}
 	}

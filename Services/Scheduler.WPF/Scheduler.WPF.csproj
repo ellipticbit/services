@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-windows;net47</TargetFrameworks>
+		<TargetFrameworks>net8.0-windows;net47</TargetFrameworks>
 		<UseWPF>true</UseWPF>
 		<AssemblyName>EllipticBit.Services.Scheduler.WPF</AssemblyName>
 		<RootNamespace>EllipticBit.Services.Scheduler</RootNamespace>
@@ -19,11 +19,11 @@
 		<LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|AnyCPU'">
 	  <DefineConstants>$(DefineConstants)TRACE;WPF</DefineConstants>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows|AnyCPU'">
 	  <DefineConstants>$(DefineConstants)TRACE;WPF</DefineConstants>
 	</PropertyGroup>
 
@@ -45,9 +45,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="1.0.2" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
-		<PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+		<PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
 	</ItemGroup>
 
 </Project>
