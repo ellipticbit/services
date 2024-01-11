@@ -60,7 +60,7 @@ namespace EllipticBit.Services.Cryptography
 		public static HashedPassword FromBase64(string encoded) {
 			var parts = encoded.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
 			if (parts.Length != 4) throw new ArgumentOutOfRangeException(nameof(encoded), "Invalid string provided.");
-			return new HashedPassword(Convert.FromBase64String(parts[3]), Convert.FromBase64String(parts[2]), (PasswordAlgorithm)Convert.ToInt16(parts[0]), Convert.ToInt16(parts[1]));
+			return new HashedPassword(Convert.FromBase64String(parts[3]), Convert.FromBase64String(parts[2]), (PasswordAlgorithm)Convert.ToInt16(parts[0]), Convert.ToUInt16(parts[1]));
 		}
 	}
 }
