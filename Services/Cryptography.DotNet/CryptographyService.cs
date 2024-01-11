@@ -86,8 +86,20 @@ namespace EllipticBit.Services.Cryptography
 			return VerifyPasswordResult.Failure;
 		}
 
-		public ICryptographyKey DeriveKey(byte[] password, byte[] salt, EncryptionAlgorithm algorithm) {
-			return new SymmetricKey(kdfService.HKDF(password, salt, null, algorithm.GetCipherKeyLength()), algorithm);
+		public ICryptographyKey GenerateKey(string password, EncryptionAlgorithm algorithm, PasswordAlgorithm kdf = PasswordAlgorithm.Default) {
+			byte[] pwdKey;
+			if (kdf == PasswordAlgorithm.Argon2) {
+				pwdKey = kdfService.Argon2(password, null, null, null, algorithm.GetCipherKeyLength());
+			} else if (kdf == PasswordAlgorithm.Pbkdf2) {
+				pwdKey = kdfService.PBKDF2(password, null, null, algorithm.GetCipherKeyLength());
+			} else if (kdf == PasswordAlgorithm.SCrypt) {
+				pwdKey = kdfService.SCrypt(password, null, null, algorithm.GetCipherKeyLength());
+			}
+			else {
+				throw new CryptographicException($"PasswordAlgorithm.{kdf} is not supported for key generation.");
+			}
+
+			return new SymmetricKey(pwdKey, algorithm);
 		}
 
 		public ICryptographyKey GenerateKey(EncryptionAlgorithm algorithm) {
@@ -108,13 +120,19 @@ namespace EllipticBit.Services.Cryptography
 			var tk = key as SymmetricKey;
 			if (tk == null) throw new ArgumentNullException(nameof(key));
 			byte[] iv = RandomNumberGenerator.GetBytes(EncryptionAlgorithm.Default.GetCipherIVLength());
-			return symmetricService.Encrypt(data, associatedData, tk.Key, iv, tk.Algorithm, HashAlgorithm.Default);
+			byte[] dkey = DeriveKey(tk.Key, iv, EncryptionAlgorithm.Default);
+			return symmetricService.Encrypt(data, associatedData, dkey, iv, tk.Algorithm, HashAlgorithm.Default);
 		}
 
 		public byte[] Decrypt(ICryptographyKey key, EncryptedData data, byte[] associatedData = null) {
 			var tk = key as SymmetricKey;
 			if (tk == null) throw new ArgumentNullException(nameof(key));
-			return symmetricService.Decrypt(data, associatedData, tk.Key);
+			byte[] dkey = DeriveKey(tk.Key, data.IV.ToArray(), EncryptionAlgorithm.Default);
+			return symmetricService.Decrypt(data, associatedData, dkey);
+		}
+
+		private byte[] DeriveKey(byte[] password, byte[] salt, EncryptionAlgorithm algorithm) {
+			return kdfService.HKDF(password, salt, null, algorithm.GetCipherKeyLength());
 		}
 	}
 }
