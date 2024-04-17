@@ -48,24 +48,24 @@ namespace System
 
 		public static string StringToUrlBase64Utf8(this string str)
 		{
-			return Convert.ToBase64String(Encoding.UTF8.GetBytes(str)).TrimEnd('=').Replace('-', '+').Replace('_', '/');
+			return Convert.ToBase64String(Encoding.UTF8.GetBytes(str)).TrimEnd('=').Replace('+', '-').Replace('/', '_');
 		}
 
 		public static string StringFromUrlBase64Utf8(this string str)
 		{
 			str += (str.Length % 4 == 2 ? "==" : str.Length % 4 == 3 ? "=" : string.Empty);
-			return Encoding.UTF8.GetString(Convert.FromBase64String(str.Replace('+', '-').Replace('/', '_')));
+			return Encoding.UTF8.GetString(Convert.FromBase64String(str.Replace('-', '+').Replace('_', '/')));
 		}
 
 		public static string ArrayToUrlBase64(this byte[] str)
 		{
-			return Convert.ToBase64String(str).TrimEnd('=').Replace('-', '+').Replace('_', '/');
+			return Convert.ToBase64String(str).TrimEnd('=').Replace('+', '-').Replace('/', '_');
 		}
 
 		public static byte[] ArrayFromUrlBase64(this string str)
 		{
 			str += (str.Length % 4 == 2 ? "==" : str.Length % 4 == 3 ? "=" : string.Empty);
-			return Convert.FromBase64String(str.Replace('+', '-').Replace('/', '_'));
+			return Convert.FromBase64String(str.Replace('-', '+').Replace('_', '/'));
 		}
 
 		public static string ToHexString(this byte[] bytes) {
