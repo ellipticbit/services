@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EllipticBit.Services.Cryptography.Abstractions" Version="1.0.10" />
+		<PackageReference Include="EllipticBit.Services.Cryptography.Abstractions" Version="1.0.12" />
 		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.4" />
 	</ItemGroup>
 

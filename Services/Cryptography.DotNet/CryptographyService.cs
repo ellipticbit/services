@@ -127,7 +127,7 @@ namespace EllipticBit.Services.Cryptography
 		public byte[] Decrypt(ICryptographyKey key, EncryptedData data, byte[] associatedData = null) {
 			var tk = key as SymmetricKey;
 			if (tk == null) throw new ArgumentNullException(nameof(key));
-			byte[] dkey = DeriveKey(tk.Key, data.IV.ToArray(), EncryptionAlgorithm.Default);
+			byte[] dkey = DeriveKey(tk.Key, data.IV, EncryptionAlgorithm.Default);
 			return symmetricService.Decrypt(data, associatedData, dkey);
 		}
 
