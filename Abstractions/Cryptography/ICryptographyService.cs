@@ -102,13 +102,6 @@ namespace EllipticBit.Services.Cryptography
 		ICryptographyKey InitializeKey(byte[] keyBytes, EncryptionAlgorithm algorithm);
 
 		/// <summary>
-		/// Initializes a ICryptographyKey with pre-existing key value for use with HMACs. NOTE: This key will be invalid for use in symmetric operations requiring a pre-defined key size.
-		/// </summary>
-		/// <param name="keyBytes">The key bytes.</param>
-		/// <returns>An ICryptographyKey type containing the key.</returns>
-		ICryptographyKey InitializeKey(byte[] keyBytes);
-
-		/// <summary>
 		///	Encrypts data securely for storage.
 		/// </summary>
 		/// <param name="key">The key used to encrypt the data.</param>
@@ -237,6 +230,15 @@ namespace EllipticBit.Services.Cryptography
 		/// <returns>An ICryptographyKey type containing the key.</returns>
 		public static ICryptographyKey InitializeKey(this ICryptographyService service, string keyString, EncryptionAlgorithm algorithm = EncryptionAlgorithm.Default) {
 			return service.InitializeKey(Convert.FromBase64String(keyString), algorithm);
+		}
+
+		/// <summary>
+		/// Initializes a ICryptographyKey with pre-existing key value for use with HMACs. NOTE: This key will be invalid for use in symmetric operations requiring a pre-defined key size.
+		/// </summary>
+		/// <param name="keyBytes">The key bytes.</param>
+		/// <returns>An ICryptographyKey type containing the key.</returns>
+		public static ICryptographyKey InitializeKey(this ICryptographyService service, byte[] keyBytes) {
+			return service.InitializeKey(keyBytes, EncryptionAlgorithm.None);
 		}
 	}
 }

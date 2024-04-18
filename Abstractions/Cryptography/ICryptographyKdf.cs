@@ -77,8 +77,8 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="outputLen">The required numbers of key bytes to generate.</param>
 		/// <returns>A byte array containing the encryption key.</returns>
 		public static byte[] PBKDF2(this ICryptographyKdf kdf, string password, byte[] salt, byte[] pepper, int outputLen) {
-			if (salt == null || salt.Length == 0) throw new ArgumentNullException(nameof(salt));
-			if (pepper == null || pepper.Length == 0) throw new ArgumentNullException(nameof(pepper));
+			//if (salt == null || salt.Length == 0) throw new ArgumentNullException(nameof(salt));
+			//if (pepper == null || pepper.Length == 0) throw new ArgumentNullException(nameof(pepper));
 			var combined = salt.Concat(pepper);
 			return kdf.PBKDF2(password, combined.ToArray(), outputLen, 1048576, HashAlgorithm.Default);
 		}
@@ -106,8 +106,8 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="outputLen">The required numbers of key bytes to generate.</param>
 		/// <returns>A byte array containing the encryption key.</returns>
 		public static byte[] SCrypt(this ICryptographyKdf kdf, string password, byte[] salt, byte[] pepper, int outputLen) {
-			if (salt == null || salt.Length == 0) throw new ArgumentNullException(nameof(salt));
-			if (pepper == null || pepper.Length == 0) throw new ArgumentNullException(nameof(pepper));
+			//if (salt == null || salt.Length == 0) throw new ArgumentNullException(nameof(salt));
+			//if (pepper == null || pepper.Length == 0) throw new ArgumentNullException(nameof(pepper));
 			var combined = salt.Concat(pepper);
 			return kdf.SCrypt(password, combined.ToArray(), outputLen, 1048576, 8, 1);
 		}
@@ -123,8 +123,8 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="outputLen">The required numbers of key bytes to generate.</param>
 		/// <returns>A byte array containing the encryption key.</returns>
 		public static byte[] Argon2(this ICryptographyKdf kdf, string password, byte[] salt, byte[] pepper, byte[] info, int outputLen) {
-			if (salt == null || salt.Length == 0) throw new ArgumentNullException(nameof(salt));
-			if (pepper == null || pepper.Length == 0) throw new ArgumentNullException(nameof(pepper));
+			//if (salt == null || salt.Length == 0) throw new ArgumentNullException(nameof(salt));
+			//if (pepper == null || pepper.Length == 0) throw new ArgumentNullException(nameof(pepper));
 			return kdf.Argon2(password, salt, pepper, info, outputLen, 2, 8, 1048576);
 		}
 	}
