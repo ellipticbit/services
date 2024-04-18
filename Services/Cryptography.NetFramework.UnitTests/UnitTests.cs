@@ -1,4 +1,8 @@
+using System;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using EllipticBit.Services.Cryptography;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -77,8 +81,8 @@ namespace Cryptography.NetFramework.UnitTests
 			byte[] salt = new byte[48] {0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF,
 				0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF,
 				0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF };
-			var vec1 = kdf.HKDF("abc"u8.ToArray(), salt, Encoding.UTF8.GetBytes(string.Empty), 64, HashAlgorithm.SHA2_384);
-			var vec2 = kdf.HKDF("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"u8.ToArray(), salt, "test"u8.ToArray(), 64, HashAlgorithm.SHA2_384);
+			var vec1 = kdf.HKDF(Encoding.UTF8.GetBytes("abc"), salt, Encoding.UTF8.GetBytes(string.Empty), 64, HashAlgorithm.SHA2_384);
+			var vec2 = kdf.HKDF(Encoding.UTF8.GetBytes("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"), salt, Encoding.UTF8.GetBytes("test"), 64, HashAlgorithm.SHA2_384);
 
 			var vr1 = BitConverter.ToString(vec1).Replace("-", string.Empty);
 			Assert.AreEqual("65e464a5d7026678a3af78bf0282592472f85ccd7d1040e2dea5cea9218276a960367d418154a1e95019182a3c857286860aa0711955829e896b5bcdb1224794".ToUpperInvariant(), vr1);
@@ -91,7 +95,7 @@ namespace Cryptography.NetFramework.UnitTests
 			byte[] key = new byte[32] {0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF,
 				0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF };
 			byte[] iv = new byte[12] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB };
-			byte[] data = "The quick brown fox jumps over the lazy dog."u8.ToArray();
+			byte[] data = Encoding.UTF8.GetBytes("The quick brown fox jumps over the lazy dog.");
 
 			var cipherText = symmetric.Encrypt(data, null, key, iv, out byte[] tag, EncryptionAlgorithm.AES256GCM, HashAlgorithm.None);
 			var plainText = symmetric.Decrypt(cipherText, null, key, iv, tag, EncryptionAlgorithm.AES256GCM, HashAlgorithm.None);
@@ -106,7 +110,7 @@ namespace Cryptography.NetFramework.UnitTests
 			byte[] key = new byte[32] {0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF,
 				0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF };
 			byte[] iv = new byte[16] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF };
-			byte[] data = "The quick brown fox jumps over the lazy dog."u8.ToArray();
+			byte[] data = Encoding.UTF8.GetBytes("The quick brown fox jumps over the lazy dog.");
 
 			var cipherText = symmetric.Encrypt(data, null, key, iv, out byte[] tag, EncryptionAlgorithm.ChaCha20Poly1305, HashAlgorithm.None);
 			var plainText = symmetric.Decrypt(cipherText, null, key, iv, tag, EncryptionAlgorithm.ChaCha20Poly1305, HashAlgorithm.None);

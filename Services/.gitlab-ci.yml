@@ -115,7 +115,7 @@ Publish Cryptography DotNet Package:
   script:
     - "dotnet restore ./Services/Cryptography.DotNet/Cryptography.DotNet.csproj"
     - "dotnet build -c Release ./Services/Cryptography.DotNet/Cryptography.DotNet.csproj"
-#    - "dotnet nuget push ./Services/Cryptography.DotNet/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push ./Services/Cryptography.DotNet/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 Publish Cryptography NetFramework Package:
   extends: .before_script_template
@@ -132,7 +132,7 @@ Publish Cryptography NetFramework Package:
   script:
     - "dotnet restore ./Services/Cryptography.NetFramework/Cryptography.NetFramework.csproj"
     - "dotnet build -c Release ./Services/Cryptography.NetFramework/Cryptography.NetFramework.csproj"
-#    - "dotnet nuget push ./Services/Cryptography.NetFramework/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push ./Services/Cryptography.NetFramework/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 # Database
 
