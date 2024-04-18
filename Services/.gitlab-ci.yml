@@ -127,6 +127,7 @@ Publish Cryptography NetFramework Package:
     refs:
       - master
     changes:
+      - Services/Cryptography.DotNet/**/*
       - Services/Cryptography.NetFramework/**/*
 
   script:
