@@ -78,11 +78,11 @@ namespace EllipticBit.Services.Cryptography
 		VerifyPasswordResult VerifyPassword(string suppliedPassword, HashedPassword storedPassword, byte[] pepper, byte[] associatedData = null);
 
 		/// <summary>
-		/// Derives key material from a password and salt.
+		/// Derives key material from a user supplied password.
 		/// </summary>
 		/// <param name="password">The password to derive the key from.</param>
 		/// <param name="algorithm">The symmetric encryption algorithm this key is intended to be used with. Use EncryptionAlgorithm.None to specify a key for non-symmetric operations.</param>
-		/// <param name="kdf">A salt value to secure the password during derivation.</param>
+		/// <param name="kdf">The KDF used to derive the key.</param>
 		/// <returns>An ICryptographyKey type containing the key.</returns>
 		ICryptographyKey GenerateKey(string password, EncryptionAlgorithm algorithm, PasswordAlgorithm kdf = PasswordAlgorithm.Default);
 
@@ -94,12 +94,19 @@ namespace EllipticBit.Services.Cryptography
 		ICryptographyKey GenerateKey(EncryptionAlgorithm algorithm);
 
 		/// <summary>
-		/// Initializes a ICryptographyKey with pre-existing key value.
+		/// Initializes a ICryptographyKey with a pre-existing key value.
 		/// </summary>
 		/// <param name="keyBytes">The key bytes.</param>
 		/// <param name="algorithm">The symmetric encryption algorithm this key is intended to be used with. Use EncryptionAlgorithm.None to specify a key for non-symmetric operations.</param>
 		/// <returns>An ICryptographyKey type containing the key.</returns>
 		ICryptographyKey InitializeKey(byte[] keyBytes, EncryptionAlgorithm algorithm);
+
+		/// <summary>
+		/// Initializes a ICryptographyKey with pre-existing key value for use with HMACs. NOTE: This key will be invalid for use in symmetric operations requiring a pre-defined key size.
+		/// </summary>
+		/// <param name="keyBytes">The key bytes.</param>
+		/// <returns>An ICryptographyKey type containing the key.</returns>
+		ICryptographyKey InitializeKey(byte[] keyBytes);
 
 		/// <summary>
 		///	Encrypts data securely for storage.
