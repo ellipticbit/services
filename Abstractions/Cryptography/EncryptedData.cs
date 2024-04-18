@@ -10,24 +10,24 @@ namespace EllipticBit.Services.Cryptography
 	/// <summary>
 	/// Contains the encrypted data and metadata.
 	/// </summary>
-	public readonly ref struct EncryptedData
+	public class EncryptedData
 	{
 		private const int StreamBufferSize = 1048576;
 
 		/// <summary>
 		/// A stream of the encrypted data.
 		/// </summary>
-		public ReadOnlySpan<byte> CipherText { get; }
+		public byte[] CipherText { get; }
 
 		/// <summary>
 		/// The IV used to initialize the Cipher.
 		/// </summary>
-		public ReadOnlySpan<byte> IV { get; }
+		public byte[] IV { get; }
 
 		/// <summary>
 		/// The authentication tag generated on the ciphertext.
 		/// </summary>
-		public ReadOnlySpan<byte> AuthTag { get; }
+		public byte[] AuthTag { get; }
 
 		/// <summary>
 		/// The encryption algorithm to use.
@@ -40,9 +40,9 @@ namespace EllipticBit.Services.Cryptography
 		public HashAlgorithm HashAlgorithm { get; }
 
 		internal EncryptedData(ReadOnlySpan<byte> cipherText, ReadOnlySpan<byte> iv, ReadOnlySpan<byte> authTag, EncryptionAlgorithm encryptionAlgorithm, HashAlgorithm hashAlgorithm) {
-			CipherText = cipherText;
-			IV = iv;
-			AuthTag = authTag;
+			CipherText = cipherText.ToArray();
+			IV = iv.ToArray();
+			AuthTag = authTag.ToArray();
 			EncryptionAlgorithm = encryptionAlgorithm;
 			HashAlgorithm = hashAlgorithm;
 		}
@@ -61,9 +61,9 @@ namespace EllipticBit.Services.Cryptography
 		/// <returns>The byte array containing the ciphertext.</returns>
 		public byte[] ToBytes() {
 			using var ms = new MemoryStream();
-			ms.Write(IV.ToArray(), 0, IV.Length);
-			ms.Write(CipherText.ToArray(), 0, CipherText.Length);
-			ms.Write(AuthTag.ToArray(), 0, AuthTag.Length);
+			ms.Write(IV, 0, IV.Length);
+			ms.Write(CipherText, 0, CipherText.Length);
+			ms.Write(AuthTag, 0, AuthTag.Length);
 			return ms.ToArray();
 		}
 
@@ -73,9 +73,9 @@ namespace EllipticBit.Services.Cryptography
 		/// <returns>The MemoryStream containing the ciphertext.</returns>
 		public Stream ToStream() {
 			var ms = new MemoryStream();
-			ms.Write(IV.ToArray(), 0, IV.Length);
-			ms.Write(CipherText.ToArray(), 0, CipherText.Length);
-			ms.Write(AuthTag.ToArray(), 0, AuthTag.Length);
+			ms.Write(IV, 0, IV.Length);
+			ms.Write(CipherText, 0, CipherText.Length);
+			ms.Write(AuthTag, 0, AuthTag.Length);
 			ms.Position = 0;
 			return ms;
 		}
