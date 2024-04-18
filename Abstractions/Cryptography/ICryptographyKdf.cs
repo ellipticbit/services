@@ -93,7 +93,7 @@ namespace EllipticBit.Services.Cryptography
 		/// <param name="outputLen">The required numbers of key bytes to generate.</param>
 		/// <returns>A byte array containing the encryption key.</returns>
 		public static byte[] HKDF(this ICryptographyKdf kdf, byte[] key, byte[] salt, string info, int outputLen) {
-			return kdf.HKDF(key, salt, Encoding.UTF8.GetBytes(info), outputLen, HashAlgorithm.Default);
+			return kdf.HKDF(key, salt, info == null ? null : Encoding.UTF8.GetBytes(info), outputLen, HashAlgorithm.Default);
 		}
 
 		/// <summary>
