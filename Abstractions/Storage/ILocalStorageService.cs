@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// Copyright (c) 2020 EllipticBit, LLC All Rights Reserved.
+// Copyright (c) 2020-2024 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
 using System.IO;
@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace EllipticBit.Services.Storage {
 	public interface ILocalStorageService {
-		Task<bool> Exists(string path, string fileName);
-		Task<Stream> Read(string path, string fileName);
-		Task Write(string path, string fileName, Stream data);
-		Task Delete(string path, string fileName);
-		Task<bool> Move(string sourcePath, string sourceName, string targetPath, string targetName = null);
-		Task<bool> Copy(string sourcePath, string sourceName, string targetPath, string targetName = null);
+		Task<bool> Exists(string path);
+		Task<Stream> Read(string path);
+		Task Write(string path, Stream data);
+		Task Delete(string path);
+		Task<bool> Move(string sourcePath, string targetPath);
+		Task<bool> Copy(string sourcePath, string targetPath);
 	}
 }
