@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// Copyright (c) 2020 EllipticBit, LLC All Rights Reserved.
+// Copyright (c) 2020-2024 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
 using System.IO;
@@ -14,8 +14,8 @@ namespace EllipticBit.Services.Storage {
 			this.rootPath = configuration.GetSection("Storage").GetSection("File").GetSection("RootPath").Value;
 		}
 
-		public Task Delete(string path, string fileName) {
-			var cp = Path.Combine(rootPath, path, fileName);
+		public Task Delete(string path) {
+			var cp = Path.Combine(rootPath, path);
 			if (File.Exists(cp)) {
 				File.Delete(cp);
 			}
@@ -23,8 +23,8 @@ namespace EllipticBit.Services.Storage {
 			return Task.CompletedTask;
 		}
 
-		public Task<Stream> Read(string path, string fileName) {
-			var cp = Path.Combine(rootPath, path, fileName);
+		public Task<Stream> Read(string path) {
+			var cp = Path.Combine(rootPath, path);
 
 			if (!File.Exists(cp)) {
 				throw new FileNotFoundException("Unable to locate specified file.", cp);
@@ -33,26 +33,9 @@ namespace EllipticBit.Services.Storage {
 			return Task.FromResult((Stream)File.OpenRead(cp));
 		}
 
-		public Task<bool> Exists(string path, string fileName) {
-			var cp = Path.Combine(rootPath, path, fileName);
-			return Task.FromResult(File.Exists(cp));
-		}
-
-		public Task<bool> Move(string sourcePath, string sourceName, string targetPath, string targetName = null) {
-			var dir = Path.Combine(rootPath, sourcePath);
-			var tgtdir = Path.Combine(rootPath, targetPath);
-			File.Move(Path.Combine(dir, sourceName), Path.Combine(tgtdir, targetName ?? sourceName));
-			return Task.FromResult(true);
-		}
-
-		public Task<bool> Copy(string sourcePath, string sourceName, string targetPath, string targetName = null) {
-			File.Copy(Path.Combine(sourcePath, sourceName), Path.Combine(targetPath, targetName ?? sourceName));
-			return Task.FromResult(true);
-		}
-
-		public async Task Write(string path, string fileName, Stream data) {
-			var dir = Path.Combine(rootPath, path);
-			var cp = Path.Combine(rootPath, path, fileName);
+		public async Task Write(string path, Stream data) {
+			var cp = Path.Combine(rootPath, path);
+			var dir = Path.GetDirectoryName(cp);
 
 			if (!Directory.Exists(dir)) {
 				Directory.CreateDirectory(dir);
@@ -61,6 +44,25 @@ namespace EllipticBit.Services.Storage {
 			using (var fs = File.OpenWrite(cp)) {
 				await data.CopyToAsync(fs);
 			}
+		}
+
+		public Task<bool> Exists(string path) {
+			var cp = Path.Combine(rootPath, path);
+			return Task.FromResult(File.Exists(cp));
+		}
+
+		public Task<bool> Move(string sourcePath, string targetPath) {
+			var src = Path.Combine(rootPath, sourcePath);
+			var tgt = Path.Combine(rootPath, targetPath);
+			File.Move(src, tgt);
+			return Task.FromResult(true);
+		}
+
+		public Task<bool> Copy(string sourcePath, string targetPath) {
+			var src = Path.Combine(rootPath, sourcePath);
+			var tgt = Path.Combine(rootPath, targetPath);
+			File.Copy(src, tgt);
+			return Task.FromResult(true);
 		}
 	}
 }

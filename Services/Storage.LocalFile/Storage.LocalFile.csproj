@@ -9,7 +9,7 @@
 		<Authors>EllipticBit LLC</Authors>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>BSL-1.0</PackageLicenseExpression>
-		<Copyright>Copyright (c) 2020-2023 EllipticBit, LLC</Copyright>
+		<Copyright>Copyright (c) 2020-2024 EllipticBit, LLC</Copyright>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<AssemblyVersion>0.0.0.0</AssemblyVersion>
 		<FileVersion>0.0.0.0</FileVersion>
@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EllipticBit.Services.Storage.Abstractions" Version="1.0.1" />
+		<PackageReference Include="EllipticBit.Services.Storage.Abstractions" Version="1.0.16" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
 	</ItemGroup>
