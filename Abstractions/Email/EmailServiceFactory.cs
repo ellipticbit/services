@@ -1,4 +1,8 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------------
+// Copyright (c) 2020-2024 EllipticBit, LLC All Rights Reserved.
+//-----------------------------------------------------------------------------
+
+using System;
 using System.Collections.Immutable;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,7 +11,6 @@ namespace EllipticBit.Services.Email
 	internal class EmailServiceFactory : IEmailServiceFactory , IEmailServiceBuilder
 	{
 		internal static ImmutableDictionary<string, EmailServiceOptions> options = ImmutableDictionary<string, EmailServiceOptions>.Empty;
-		internal static EmailServiceOptions defaultOptions;
 
 		private readonly IServiceProvider provider;
 
@@ -17,10 +20,7 @@ namespace EllipticBit.Services.Email
 			this.provider = provider;
 		}
 
-		public IEmailService Create(string name = null) {
-			if (string.IsNullOrWhiteSpace(name)) {
-				return (IEmailService)ActivatorUtilities.CreateInstance(provider, defaultOptions.EmailServiceType, defaultOptions);
-			}
+		public IEmailService Create(string name) {
 			if (options.TryGetValue(name, out EmailServiceOptions eso)) {
 				return (IEmailService)ActivatorUtilities.CreateInstance(provider, eso.EmailServiceType, eso);
 			}
@@ -39,23 +39,11 @@ namespace EllipticBit.Services.Email
 			throw new ArgumentOutOfRangeException(nameof(name), $"Unable to locate Email Service: {name}");
 		}
 
-		public IEmailScheduleService CreateSchedule(string name) {
-			if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
-
-			if (options.TryGetValue(name, out EmailServiceOptions eso))
-			{
-				if (eso.ServiceImplementation == EmailServiceImplementation.Service || eso.ServiceImplementation == EmailServiceImplementation.Template) throw new ArgumentOutOfRangeException(nameof(name), $"Email Service '{name}' does not implement 'IEmailScheduleService'.");
-				return (IEmailScheduleService)ActivatorUtilities.CreateInstance(provider, eso.EmailServiceType, eso);
-			}
-
-			throw new ArgumentOutOfRangeException(nameof(name), $"Unable to locate Email Service: {name}");
-		}
-
 		//
 		// IEmailServiceBuilder implementation
 		//
 
-		public IEmailServiceBuilder AddEmailService(string name, EmailServiceOptions value) {
+		public IEmailServiceBuilder AddEmailService<T>(string name, EmailServiceOptions<T> value) where T : IEmailService {
 			if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
 			if (value == null) throw new ArgumentNullException(nameof(value));
 			EmailServiceFactory.options = EmailServiceFactory.options.Add(name, value);

@@ -4,8 +4,12 @@
 
 namespace EllipticBit.Services.Email
 {
-	public interface IEmailServiceBuilder
+	public abstract class EmailTemplateBase
 	{
-		IEmailServiceBuilder AddEmailService<T>(string name, EmailServiceOptions<T> options) where T : IEmailService;
+		public EmailAddress ToAddress { get; }
+
+		protected EmailTemplateBase(EmailAddress toAddress) {
+			this.ToAddress = toAddress;
+		}
 	}
 }

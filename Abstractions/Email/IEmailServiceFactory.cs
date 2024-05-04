@@ -1,4 +1,8 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------------
+// Copyright (c) 2020-2024 EllipticBit, LLC All Rights Reserved.
+//-----------------------------------------------------------------------------
+
+using System;
 
 namespace EllipticBit.Services.Email
 {
@@ -10,7 +14,7 @@ namespace EllipticBit.Services.Email
 		/// <param name="name">The name of the service to create.</param>
 		/// <returns cref="IEmailService">An IEmailService interface to the implementation.</returns>
 		/// <exception cref="ArgumentOutOfRangeException">No service was registered the implements the IEmailService interface.</exception>
-		IEmailService Create(string name = null);
+		IEmailService Create(string name);
 
 		/// <summary>
 		/// Create an Email Service that supports sending templated emails.
@@ -20,14 +24,5 @@ namespace EllipticBit.Services.Email
 		/// <exception cref="ArgumentNullException">No email service was specified.</exception>
 		/// <exception cref="ArgumentOutOfRangeException">No service was registered the implements the IEmailTemplateService interface.</exception>
 		IEmailTemplateService CreateTemplate(string name);
-
-		/// <summary>
-		/// Create an Email Service that supports scheduling of emails.
-		/// </summary>
-		/// <param name="name">The name of the service to create.</param>
-		/// <returns cref="IEmailScheduleService">An IEmailScheduleService interface to the implementation.</returns>
-		/// <exception cref="ArgumentNullException">No email service was specified.</exception>
-		/// <exception cref="ArgumentOutOfRangeException">No service was registered the implements the IEmailScheduleService interface.</exception>
-		IEmailScheduleService CreateSchedule(string name);
 	}
 }

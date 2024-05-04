@@ -5,7 +5,6 @@ namespace EllipticBit.Services.Email
 	internal enum EmailServiceImplementation {
 		Service,
 		Template,
-		Schedule,
 	}
 
 	public abstract class EmailServiceOptions
@@ -13,26 +12,34 @@ namespace EllipticBit.Services.Email
 		internal Type EmailServiceType { get; }
 		internal EmailServiceImplementation ServiceImplementation { get; }
 
-		public EmailAddress FromAddress { get; }
-
-		protected EmailServiceOptions(Type emailServiceType, EmailAddress fromAddress) {
+		protected internal EmailServiceOptions(Type emailServiceType)
+		{
 			EmailServiceType = emailServiceType;
-			FromAddress = fromAddress;
 
-			var ess = EmailServiceType.GetInterface("IEmailScheduleService");
 			var ets = EmailServiceType.GetInterface("IEmailTemplateService");
 			var es = EmailServiceType.GetInterface("IEmailService");
-			if (ess != null) {
-				ServiceImplementation = EmailServiceImplementation.Schedule;
-			}
-			else if (ets != null) {
+			if (ets != null)
+			{
 				ServiceImplementation = EmailServiceImplementation.Template;
 			}
-			else if (es != null) {
-				ServiceImplementation = EmailServiceImplementation.Service;}
-			else {
+			else if (es != null)
+			{
+				ServiceImplementation = EmailServiceImplementation.Service;
+			}
+			else
+			{
 				throw new ArgumentNullException(nameof(emailServiceType), "Email Service Type does not implement an appropriate interface.");
 			}
+		}
+	}
+
+	public abstract class EmailServiceOptions<T> : EmailServiceOptions
+		where T : IEmailService
+	{
+		public EmailAddress FromAddress { get; }
+
+		protected EmailServiceOptions(EmailAddress fromAddress) : base(typeof(T)) {
+			FromAddress = fromAddress;
 		}
 	}
 }
