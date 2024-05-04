@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace EllipticBit.Services.Email
 {
-	public interface IEmailTemplateService : IEmailService
+	public interface IEmailTemplateService<in TTemplate, TResult> : IEmailService<TResult>
+		where TTemplate : EmailTemplateBase
 	{
-		Task<TResult> Send<T, TResult>(IEnumerable<T> templateData, EmailAddress from = null) where T : EmailTemplateBase;
-		Task<TResult> Send<T, TResult>(T templateData, EmailAddress from = null) where T : EmailTemplateBase;
+		Task<TResult> Send(IEnumerable<TTemplate> templateData, EmailAddress from = null);
+		Task<TResult> Send(TTemplate templateData, EmailAddress from = null);
 	}
 }

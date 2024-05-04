@@ -10,7 +10,7 @@ namespace EllipticBit.Services.Email
 {
 	internal class EmailServiceFactory : IEmailServiceFactory , IEmailServiceBuilder
 	{
-		internal static ImmutableDictionary<string, EmailServiceOptions> options = ImmutableDictionary<string, EmailServiceOptions>.Empty;
+		private static ImmutableDictionary<string, EmailServiceOptions> options = ImmutableDictionary<string, EmailServiceOptions>.Empty;
 
 		private readonly IServiceProvider provider;
 
@@ -20,20 +20,9 @@ namespace EllipticBit.Services.Email
 			this.provider = provider;
 		}
 
-		public IEmailService Create(string name) {
+		public T Create<T>(string name) where T : class, IEmailService {
 			if (options.TryGetValue(name, out EmailServiceOptions eso)) {
-				return (IEmailService)ActivatorUtilities.CreateInstance(provider, eso.EmailServiceType, eso);
-			}
-
-			throw new ArgumentOutOfRangeException(nameof(name), $"Unable to locate Email Service: {name}");
-		}
-
-		public IEmailTemplateService CreateTemplate(string name) {
-			if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
-
-			if (options.TryGetValue(name, out EmailServiceOptions eso)) {
-				if (eso.ServiceImplementation == EmailServiceImplementation.Service) throw new ArgumentOutOfRangeException(nameof(name), $"Email Service '{name}' does not implement 'IEmailTemplateService'.");
-				return (IEmailTemplateService)ActivatorUtilities.CreateInstance(provider, eso.EmailServiceType, eso);
+				return (T)ActivatorUtilities.CreateInstance(provider, typeof(T), eso);
 			}
 
 			throw new ArgumentOutOfRangeException(nameof(name), $"Unable to locate Email Service: {name}");
@@ -43,7 +32,7 @@ namespace EllipticBit.Services.Email
 		// IEmailServiceBuilder implementation
 		//
 
-		public IEmailServiceBuilder AddEmailService<T>(string name, EmailServiceOptions<T> value) where T : IEmailService {
+		public IEmailServiceBuilder AddEmailService(string name, EmailServiceOptions value) {
 			if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
 			if (value == null) throw new ArgumentNullException(nameof(value));
 			EmailServiceFactory.options = EmailServiceFactory.options.Add(name, value);

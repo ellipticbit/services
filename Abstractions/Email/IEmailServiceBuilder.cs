@@ -6,6 +6,6 @@ namespace EllipticBit.Services.Email
 {
 	public interface IEmailServiceBuilder
 	{
-		IEmailServiceBuilder AddEmailService<T>(string name, EmailServiceOptions<T> options) where T : IEmailService;
+		IEmailServiceBuilder AddEmailService(string name, EmailServiceOptions options);
 	}
 }
