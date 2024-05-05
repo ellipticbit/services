@@ -11,6 +11,13 @@ namespace EllipticBit.Services.Email
 		where TTemplate : EmailTemplateBase
 	{
 		Task<TResult> Send(IEnumerable<TTemplate> templateData, EmailAddress from = null);
-		Task<TResult> Send(TTemplate templateData, EmailAddress from = null);
+	}
+
+	public static class EmailTemplateServiceExtensions
+	{
+		public static Task<TResult> Send<TTemplate, TResult>(this IEmailTemplateService<TTemplate, TResult> service, TTemplate templateData, EmailAddress from = null)
+			where TTemplate : EmailTemplateBase {
+			return service.Send(new[] { templateData }, from);
+		}
 	}
 }
