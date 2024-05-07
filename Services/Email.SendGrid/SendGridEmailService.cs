@@ -30,16 +30,17 @@ namespace EllipticBit.Services.Email
 			var tl = to.ToArray();
 			if (tl == null || !tl.Any()) throw new ArgumentNullException(nameof(to));
 
-			var msg = new SendGridMessage();
+			var msg = new SendGridMessage {
+				Subject = subject,
+				Attachments = attachments?.Select(a => a.ToAttachment()).ToList(),
+				SendAt = sendAt?.ToUnixTimeSeconds()
+			};
 			msg.SetFrom(from?.ToEmailAddress() ?? options.FromAddress.ToEmailAddress());
 			msg.AddTos(tl.Select(a => a.ToEmailAddress()).ToList());
 			if (cc != null) msg.AddCcs(cc.Select(a => a.ToEmailAddress()).ToList());
 			if (bcc != null) msg.AddCcs(bcc.Select(a => a.ToEmailAddress()).ToList());
-			msg.Subject = subject;
 			if (!string.IsNullOrEmpty(html)) msg.HtmlContent = html;
 			if (!string.IsNullOrEmpty(text)) msg.PlainTextContent = text;
-			msg.Attachments = attachments?.Select(a => a.ToAttachment()).ToList();
-			msg.SendAt = sendAt?.ToUnixTimeSeconds();
 
 			var res = await client.SendEmailAsync(msg);
 			return new SendGridResult(res);
@@ -56,15 +57,17 @@ namespace EllipticBit.Services.Email
 			uint pc = 0;
 
 			foreach (var data in ed) {
-				var msg = new SendGridMessage();
-				msg.BatchId = batchId;
+				var msg = new SendGridMessage {
+					BatchId = batchId,
+					Attachments = data.Attachments?.Select(a => a.ToAttachment()).ToList(),
+					SendAt = data.SendAt?.ToUnixTimeSeconds(),
+				};
 				msg.SetFrom(from?.ToEmailAddress() ?? options.FromAddress.ToEmailAddress());
 				msg.AddTo(data.ToAddress.ToEmailAddress());
 				msg.SetTemplateId(data.TemplateId);
 				msg.SetTemplateData(data.TemplateData);
-				if (data.UnsubscribeGroupId.HasValue) msg.SetAsm(data.UnsubscribeGroupId.Value, data.UnsubscribeGroups.ToList());
-				msg.Attachments = data.Attachments?.Select(a => a.ToAttachment()).ToList();
-				msg.SendAt = data.SendAt?.ToUnixTimeSeconds();
+				if (data.UnsubscribeGroupId.HasValue) msg.SetAsm(data.UnsubscribeGroupId.Value, data.UnsubscribeGroups?.ToList());
+
 				sgr = await client.SendEmailAsync(msg);
 				if (!sgr.IsSuccessStatusCode) break;
 				pc++;
