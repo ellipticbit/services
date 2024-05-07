@@ -3,13 +3,14 @@
 //-----------------------------------------------------------------------------
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace EllipticBit.Services.Email
 {
 	public static class ServiceCollectionExtensions
 	{
 		public static IEmailServiceBuilder AddEmailServices(this IServiceCollection services) {
-			services.AddTransient<IEmailServiceFactory, EmailServiceFactory>();
+			services.TryAddTransient<IEmailServiceFactory, EmailServiceFactory>();
 			return new EmailServiceFactory();
 		}
 	}
