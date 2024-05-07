@@ -20,9 +20,11 @@ namespace EllipticBit.Services.Email
 			this.provider = provider;
 		}
 
-		public T Create<T>(string name) where T : class, IEmailService {
-			if (options.TryGetValue(name, out EmailServiceOptions eso)) {
-				return (T)ActivatorUtilities.CreateInstance(provider, typeof(T), eso);
+		public IEmailService Create(string name)
+		{
+			if (options.TryGetValue(name, out EmailServiceOptions eso))
+			{
+				return (IEmailService)ActivatorUtilities.CreateInstance(provider, eso.ImplementationType, eso);
 			}
 
 			throw new ArgumentOutOfRangeException(nameof(name), $"Unable to locate Email Service: {name}");

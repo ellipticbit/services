@@ -15,6 +15,6 @@ namespace EllipticBit.Services.Email
 		/// <returns cref="IEmailService">An IEmailService interface to the implementation.</returns>
 		/// <exception cref="ArgumentNullException">No email service was specified.</exception>
 		/// <exception cref="ArgumentOutOfRangeException">No service was registered the implements the IEmailService interface.</exception>
-		T Create<T>(string name) where T : class, IEmailService;
+		IEmailService Create(string name);
 	}
 }
