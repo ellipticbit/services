@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -87,6 +86,10 @@ namespace EllipticBit.Services.Email
 			}
 
 			return new SmtpClientResult(true);
+		}
+
+		public Task<IEmailResult> Send<TTemplate>(IEnumerable<TTemplate> templateData, EmailAddress from = null) where TTemplate : EmailTemplateBase {
+			throw new NotImplementedException();
 		}
 	}
 }

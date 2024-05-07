@@ -20,7 +20,7 @@ namespace EllipticBit.Services.Email
 		public TimeSpan DeltaBackOff { get; set; } = TimeSpan.FromSeconds(1);
 
 		public SendGridEmailServiceOptions(string apiKey, string fromAddress, string fromName)
-		: base(new EmailAddress(fromAddress, fromName)) {
+		: base(typeof(SendGridEmailService), new EmailAddress(fromAddress, fromName)) {
 			this.ApiKey = apiKey;
 		}
 

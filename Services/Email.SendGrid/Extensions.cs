@@ -11,7 +11,7 @@ namespace EllipticBit.Services.Email
 	public static class Extensions
 	{
 		public static IEmailServiceBuilder AddSendGridEmailService(this IServiceCollection services) {
-			services.AddTransient<IEmailTemplateService, SendGridEmailService>();
+			services.AddTransient<IEmailService, SendGridEmailService>();
 			return services.AddEmailServices();
 		}
 

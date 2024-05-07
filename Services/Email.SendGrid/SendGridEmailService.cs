@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace EllipticBit.Services.Email
 {
-	public sealed class SendGridEmailService : IEmailTemplateService
+	public sealed class SendGridEmailService : IEmailService
 	{
 		private readonly SendGridClient client;
 		private readonly SendGridEmailServiceOptions options;
