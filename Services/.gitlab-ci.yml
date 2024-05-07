@@ -207,6 +207,39 @@ Publish Dialog WPF Packages:
 
 # Email
 
+Build Email SmtpClient Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - dev
+    changes:
+      - Services/Email.SmtpClient/**/*
+
+  script:
+    - "dotnet restore ./Services/Email.SmtpClient/Email.SmtpClient.csproj"
+    - "dotnet build -c Debug ./Services/Email.SmtpClient/Email.SmtpClient.csproj"
+
+Publish Email SmtpClient Package:
+  extends: .before_script_template
+  stage: services
+  tags:
+    - linux
+    - dotnet
+  only:
+    refs:
+      - master
+    changes:
+      - Services/Email.SmtpClient/**/*
+
+  script:
+    - "dotnet restore ./Services/Email.SmtpClient/Email.SmtpClient.csproj"
+    - "dotnet build -c Release ./Services/Email.SmtpClient/Email.SmtpClient.csproj"
+    - "dotnet nuget push ./Services/Email.SmtpClient/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+
 Build Email SendGrid Package:
   extends: .before_script_template
   stage: services

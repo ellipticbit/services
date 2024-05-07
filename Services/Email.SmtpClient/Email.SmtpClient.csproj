@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<AssemblyName>EllipticBit.Services.Email.SmtpClient</AssemblyName>
+		<RootNamespace>EllipticBit.Services.Email</RootNamespace>
+		<Company>EllipticBit LLC</Company>
+		<Product>EllipticBit Services</Product>
+		<Authors>EllipticBit LLC</Authors>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageLicenseExpression>BSL-1.0</PackageLicenseExpression>
+		<Copyright>Copyright (c) 2024 EllipticBit, LLC</Copyright>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<AssemblyVersion>0.0.0.0</AssemblyVersion>
+		<FileVersion>0.0.0.0</FileVersion>
+		<Version>0.0.0</Version>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="EllipticBit.Services.Email.Abstractions" Version="1.0.21" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+	</ItemGroup>
+</Project>
