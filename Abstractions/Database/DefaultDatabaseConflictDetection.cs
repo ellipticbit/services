@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // Copyright (c) 2020-2022 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
@@ -39,12 +39,16 @@ namespace EllipticBit.Services.Database
 
 		public bool IsConflicted(DateTimeOffset? local, DateTimeOffset? remote) => local != remote;
 
-		public bool IsConflicted(string local, string remote) => !local.Equals(remote, StringComparison.Ordinal);
+		public bool IsConflicted(string local, string remote) {
+			if (local == null && remote == null) return false;
+			if (local != null && remote == null) return true;
+			return local == null || !local.Equals(remote, StringComparison.Ordinal);
+		}
 
 		public bool IsConflicted(byte[] local, byte[] remote) {
 			if (local == null && remote == null) return false;
 			if (local != null && remote == null) return true;
-			return local == null || local.SequenceEqual(remote);
+			return local == null || !local.SequenceEqual(remote);
 		}
 
 		public bool IsConflicted(DataValue local, DataValue remote) {
