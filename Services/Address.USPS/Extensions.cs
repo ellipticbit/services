@@ -1,6 +1,15 @@
-﻿namespace EllipticBit.Services.Address
+//-----------------------------------------------------------------------------
+// Copyright (c) 2020-2025 EllipticBit, LLC All Rights Reserved.
+//-----------------------------------------------------------------------------
+
+using System;
+using System.Text.Json;
+using EllipticBit.Coalescence.Request;
+using EllipticBit.Coalescence.Shared;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+
+namespace EllipticBit.Services.Address
 {
-	using System.Net.Http;
 	using System.Threading.Tasks;
 
 	using Microsoft.Extensions.Configuration;
@@ -8,12 +17,22 @@
 
 	public static class Extensions
 	{
-		public static async Task AddAddressUsps(this IServiceCollection services, IConfiguration config)
+		public static void AddAddressUsps(this IServiceCollection services, IConfiguration config, UspsAddressServiceOptions options)
 		{
 			var section = config.GetSection("Address").GetSection("USPS");
-			var uspsUser = section.GetSection("User").Value;
 
-			services.AddTransient<IAddressService>((icc) => new AddressSanitizer(icc.GetRequiredService<IHttpClientFactory>(), uspsUser));
+			string endpoint = "https://apis.usps.com/";
+			var ute = section.GetSection("UseTestingEndpoint").Value;
+			if (ute?.Equals("true", StringComparison.OrdinalIgnoreCase) ?? false) endpoint = "https://apis-tem.usps.com/";
+
+			services.AddCoalescenceServices().AddCoalescenceRequestOptions("USPS", new CoalescenceRequestOptions("USPS", "USPS", JsonSerializerOptions.Web));
+
+			services.AddHttpClient("USPS").ConfigureHttpClient((client) => {
+				client.BaseAddress = new Uri(endpoint);
+			});
+			services.TryAddTransient<IAddressService, UspsAddressService>();
+			services.TryAddTransient<ICoalescenceAuthentication, UspsAuthenticationHandler>();
+			services.TryAddSingleton(options);
 		}
 	}
 }

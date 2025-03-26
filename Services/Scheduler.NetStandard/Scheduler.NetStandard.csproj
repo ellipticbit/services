@@ -18,10 +18,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="1.0.23" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
-		<PackageReference Include="System.Collections.Immutable" Version="9.0.0" />
+		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="1.0.28" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.3" />
+		<PackageReference Include="System.Collections.Immutable" Version="9.0.3" />
 	</ItemGroup>
 
 </Project>
