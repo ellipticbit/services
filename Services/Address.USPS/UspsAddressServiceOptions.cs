@@ -9,6 +9,8 @@ namespace EllipticBit.Services.Address
 
 	public class UspsAddressServiceOptions
 	{
+		public bool UseTestingEndpoint { get; set; } = false;
+
 		public Func<string, Task<UspsCredential>> GetCredential { get; }
 
 		public UspsAddressServiceOptions(Func<string, Task<UspsCredential>> getCredential) {
