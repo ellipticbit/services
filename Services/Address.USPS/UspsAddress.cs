@@ -38,7 +38,9 @@ namespace EllipticBit.Services.Address
 		[JsonPropertyName("ZIPPlus4")]
 		public string PostalCodeSuffix { get; set; } = null;
 
-		public UspsAddress(Address fromAddress) {
+		public UspsAddress() {}
+
+		internal UspsAddress(Address fromAddress) {
 			this.Address1 = fromAddress.Address1;
 			this.Address2 = fromAddress.Address2;
 			this.City = fromAddress.City;
@@ -72,7 +74,9 @@ namespace EllipticBit.Services.Address
 		[JsonPropertyName("ZIPCode")]
 		public string PostalCode { get; set; } = null;
 
-		public UspsCityRegion(CityRegion fromCityRegion)
+		public UspsCityRegion() {}
+
+		internal UspsCityRegion(CityRegion fromCityRegion)
 		{
 			this.City = fromCityRegion.City;
 			this.Region = fromCityRegion.Region;

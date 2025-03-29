@@ -2,6 +2,8 @@
 // Copyright (c) 2025 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace EllipticBit.Services.Address {
 	using EllipticBit.Coalescence.Shared.Request;
 
@@ -15,11 +17,14 @@ namespace EllipticBit.Services.Address {
 		}
 
 		public async Task<Address> GetAddress(Address address, string tenantId = null) {
+			if (string.IsNullOrWhiteSpace(address.Address1)) throw new ArgumentNullException(nameof(address), "Address1 may not be null or whitespace.");
+			if (string.IsNullOrWhiteSpace(address.City)) throw new ArgumentNullException(nameof(address), "City may not be null or whitespace.");
+			if (string.IsNullOrWhiteSpace(address.Region)) throw new ArgumentNullException(nameof(address), "Region may not be null or whitespace.");
+
 			var request = requests.CreateRequest("USPS", tenantId).Get().Path("addresses", "v3", "address").Authentication("USPS")
-				.Query("streetAddress", address.Address1).Query("state", address.Region);
+				.Query("streetAddress", address.Address1).Query("state", address.Region).Query("city", address.City);
 
 			if (!string.IsNullOrWhiteSpace(address.Address2)) request.Query("secondaryAddress", address.Address2);
-			if (!string.IsNullOrWhiteSpace(address.City)) request.Query("city", address.City);
 			if (!string.IsNullOrWhiteSpace(address.SubRegion)) request.Query("urbanization", address.SubRegion);
 			if (!string.IsNullOrWhiteSpace(address.PostalCode)) request.Query("ZIPCode", address.PostalCode);
 			if (!string.IsNullOrWhiteSpace(address.PostalCodeSuffix)) request.Query("ZIPPlus4", address.PostalCodeSuffix);
@@ -31,7 +36,7 @@ namespace EllipticBit.Services.Address {
 
 		public async Task<CityRegion> GetCityRegion(string postalCode, string tenantId = null) {
 			var response = await requests.CreateRequest("USPS", tenantId).Get()
-				.Path("addresses", "v3", "address").Query("ZIPCode", postalCode)
+				.Path("addresses", "v3", "city-state").Query("ZIPCode", postalCode)
 				.Authentication("USPS").Send();
 
 			var result = await response.ThrowOnFailureResponse().AsDeserialized<UspsCityRegion>();
@@ -39,7 +44,7 @@ namespace EllipticBit.Services.Address {
 		}
 
 		public async Task<string> GetPostalCode(string streetAddress, string city, string region, bool includeSuffix = true, string tenantId = null) {
-			var request = requests.CreateRequest("USPS", tenantId).Get().Path("addresses", "v3", "address").Authentication("USPS")
+			var request = requests.CreateRequest("USPS", tenantId).Get().Path("addresses", "v3", "zipcode").Authentication("USPS")
 				.Query("streetAddress", streetAddress).Query("city", city).Query("state", region);
 
 			var response = await request.Send();

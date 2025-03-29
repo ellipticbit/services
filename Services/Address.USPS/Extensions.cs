@@ -17,11 +17,12 @@ namespace EllipticBit.Services.Address
 			string endpoint = "https://apis.usps.com/";
 			if (options.UseTestingEndpoint) endpoint = "https://apis-tem.usps.com/";
 
-			services.AddCoalescenceServices().AddCoalescenceRequestOptions("USPS", new CoalescenceRequestOptions("USPS", "USPS", JsonSerializerOptions.Web));
-
 			services.AddHttpClient("USPS").ConfigureHttpClient((client) => {
 				client.BaseAddress = new Uri(endpoint);
 			});
+			services.AddCoalescenceServices().AddCoalescenceRequestOptions("USPS", new CoalescenceRequestOptions("USPS", "USPS", JsonSerializerOptions.Web));
+			services.AddCoalescenceRequestServices();
+
 			services.TryAddTransient<IAddressService, UspsAddressService>();
 			services.AddTransient<ICoalescenceAuthentication, UspsAuthenticationHandler>();
 			services.TryAddSingleton(options);
