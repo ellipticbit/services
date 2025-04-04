@@ -18,7 +18,7 @@ namespace EllipticBit.Services.Address {
 
 		public async Task<Address> GetAddress(Address address, string tenantId = null) {
 			if (string.IsNullOrWhiteSpace(address.Address1)) throw new ArgumentNullException(nameof(address), "Address1 may not be null or whitespace.");
-			if (string.IsNullOrWhiteSpace(address.City)) throw new ArgumentNullException(nameof(address), "City may not be null or whitespace.");
+			if (string.IsNullOrWhiteSpace(address.City) && string.IsNullOrWhiteSpace(address.PostalCode)) throw new ArgumentNullException(nameof(address), "City and ZIP Code may not both be null or whitespace.");
 			if (string.IsNullOrWhiteSpace(address.Region)) throw new ArgumentNullException(nameof(address), "Region may not be null or whitespace.");
 
 			var request = requests.CreateRequest("USPS", tenantId).Get().Path("addresses", "v3", "address").Authentication("USPS")
