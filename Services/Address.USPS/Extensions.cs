@@ -27,5 +27,15 @@ namespace EllipticBit.Services.Address
 			services.AddTransient<ICoalescenceAuthentication, UspsAuthenticationHandler>();
 			services.TryAddSingleton(options);
 		}
+
+		public static bool IsValidUspsZipCode(this Address addr) => (addr.PostalCode?.Trim().Length ?? 0) == 5 && int.TryParse(addr.PostalCode?.Trim(), out var tpc);
+
+		public static bool IsCheckableUspsAddress(this Address addr) {
+			if (addr.IsValidUspsZipCode()) {
+				return !string.IsNullOrWhiteSpace(addr.Address1) && !string.IsNullOrWhiteSpace(addr.City);
+			}
+
+			return !string.IsNullOrWhiteSpace(addr.Address1) && !string.IsNullOrWhiteSpace(addr.City) && !string.IsNullOrWhiteSpace(addr.Region) && addr.Region.Trim().Length == 2;
+		}
 	}
 }
