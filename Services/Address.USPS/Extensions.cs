@@ -32,7 +32,7 @@ namespace EllipticBit.Services.Address
 
 		public static bool IsCheckableUspsAddress(this Address addr) {
 			if (addr.IsValidUspsZipCode()) {
-				return !(string.IsNullOrWhiteSpace(addr.Address1) || string.IsNullOrWhiteSpace(addr.City));
+				return !(string.IsNullOrWhiteSpace(addr.Address1) || string.IsNullOrWhiteSpace(addr.Region));
 			}
 
 			return !(string.IsNullOrWhiteSpace(addr.Address1) || string.IsNullOrWhiteSpace(addr.City) || string.IsNullOrWhiteSpace(addr.Region) || addr.Region.Trim().Length != 2);
