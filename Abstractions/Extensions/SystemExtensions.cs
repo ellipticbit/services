@@ -1,7 +1,8 @@
 //-----------------------------------------------------------------------------
-// Copyright (c) 2020 EllipticBit, LLC All Rights Reserved.
+// Copyright (c) 2020-2025 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
+using System.Globalization;
 using System.Text;
 
 namespace System
@@ -11,8 +12,67 @@ namespace System
 		public static DateTime StartOfWeek(this DateTime date) {
 			return date.AddDays(-(int)date.DayOfWeek);
 		}
+
 		public static DateTimeOffset StartOfWeek(this DateTimeOffset date) {
 			return date.AddDays(-(int)date.DayOfWeek);
+		}
+
+		public static bool IsLastOfMonth(this DateTime date, DayOfWeek weekDay)
+		{
+			if (date.DayOfWeek != weekDay) return false;
+
+			return date.AddDays(7).Month != date.Month;
+		}
+
+		public static bool IsLastOfMonth(this DateTimeOffset date, DayOfWeek weekDay)
+		{
+			if (date.DayOfWeek != weekDay) return false;
+
+			return date.AddDays(7).Month != date.Month;
+		}
+
+		public static int GetWeekNumber(this DateTime date)
+		{
+			return GetWeekNumber(date, CultureInfo.CurrentCulture);
+		}
+
+		public static int GetWeekNumber(this DateTime date, CultureInfo culture)
+		{
+			return culture.Calendar.GetWeekOfYear(date,
+				culture.DateTimeFormat.CalendarWeekRule,
+				culture.DateTimeFormat.FirstDayOfWeek);
+		}
+
+		public static int GetWeekNumber(this DateTimeOffset date)
+		{
+			return GetWeekNumber(date, CultureInfo.CurrentCulture);
+		}
+
+		public static int GetWeekNumber(this DateTimeOffset date, CultureInfo culture)
+		{
+			return culture.Calendar.GetWeekOfYear(date.DateTime,
+				culture.DateTimeFormat.CalendarWeekRule,
+				culture.DateTimeFormat.FirstDayOfWeek);
+		}
+
+		public static int GetWeekOfMonth(this DateTime date)
+		{
+			return GetWeekOfMonth(date, CultureInfo.CurrentCulture);
+		}
+
+		public static int GetWeekOfMonth(this DateTime date, CultureInfo culture)
+		{
+			return date.GetWeekNumber(culture) - new DateTime(date.Year, date.Month, 1).GetWeekNumber(culture) + 1;
+		}
+
+		public static int GetWeekOfMonth(this DateTimeOffset date)
+		{
+			return GetWeekOfMonth(date, CultureInfo.CurrentCulture);
+		}
+
+		public static int GetWeekOfMonth(this DateTimeOffset date, CultureInfo culture)
+		{
+			return date.GetWeekNumber(culture) - new DateTime(date.Year, date.Month, 1).GetWeekNumber(culture) + 1;
 		}
 
 		public static bool Contains(this string str, string substring, StringComparison comp) {
