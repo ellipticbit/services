@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------------
-// Copyright (c) -2023 EllipticBit, LLC All Rights Reserved.
+//-----------------------------------------------------------------------------
+// Copyright (c) 2023-2025 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
 using System;
@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EllipticBit.Services.Scheduler
 {
+	/// <summary>
+	/// Defines the interface used by the Scheduler to synchronize the execution of ISchedulerAction tasks, preventing multiple executions.
+	/// </summary>
 	public interface ISchedulerSynchronizationContext
 	{
 		/// <summary>

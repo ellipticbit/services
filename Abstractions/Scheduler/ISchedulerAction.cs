@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------------
-// Copyright (c) 2023 EllipticBit, LLC All Rights Reserved.
+//-----------------------------------------------------------------------------
+// Copyright (c) 2023-2025 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
 using System;
@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EllipticBit.Services.Scheduler
 {
+	/// <summary>
+	/// Specifies the synchronization mode used by an ISchedulerAction.
+	/// </summary>
 	public enum SchedulerActionSynchronizationMode
 	{
 		/// <summary>
@@ -23,6 +26,9 @@ namespace EllipticBit.Services.Scheduler
 		Network,
 	}
 
+	/// <summary>
+	/// Specifies the interval on which an ISchedulerAction is executed.
+	/// </summary>
 	public enum SchedulerActionIntervalMode
 	{
 		/// <summary>
