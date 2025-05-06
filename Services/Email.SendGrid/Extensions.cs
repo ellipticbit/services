@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------------
-// Copyright (c) 2020-2024 EllipticBit, LLC All Rights Reserved.
+//-----------------------------------------------------------------------------
+// Copyright (c) 2020-2025 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
 using System;
@@ -10,9 +10,8 @@ namespace EllipticBit.Services.Email
 {
 	public static class Extensions
 	{
-		public static IEmailServiceBuilder AddSendGridEmailService(this IServiceCollection services) {
-			services.AddTransient<IEmailService, SendGridEmailService>();
-			return services.AddEmailServices();
+		public static IEmailServiceBuilder<SendGridEmailServiceOptions> AddSendGridEmailServices(this IServiceCollection services) {
+			return services.AddEmailServices<SendGridEmailServiceOptions>();
 		}
 
 		internal static SendGrid.Helpers.Mail.EmailAddress ToEmailAddress(this EmailAddress address) {

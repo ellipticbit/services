@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace EllipticBit.Services.Scheduler
 	internal class InstanceSchedulerService<TInstance> : ISchedulerService
 		where TInstance : class, ISchedulerSynchronizationContext
 	{
-		private static ImmutableDictionary<int, ISchedulerAction> actions = ImmutableDictionary<int, ISchedulerAction>.Empty;
-		private static ImmutableDictionary<int, ActionExecution> enabledActions = ImmutableDictionary<int, ActionExecution>.Empty;
+		private static FrozenDictionary<string, ISchedulerAction> actions;
+		private static ImmutableDictionary<string, ActionExecution> enabledActions = ImmutableDictionary<string, ActionExecution>.Empty;
 
 #if WPF
 		private static readonly DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Background);
@@ -50,7 +51,7 @@ namespace EllipticBit.Services.Scheduler
 		private readonly ISchedulerSynchronizationContext instanceSync;
 
 		public InstanceSchedulerService(IEnumerable<ISchedulerAction> actions, TInstance instanceSync) {
-			InstanceSchedulerService<TInstance>.actions = actions.ToImmutableDictionary(a => a.Id);
+			InstanceSchedulerService<TInstance>.actions = actions.ToFrozenDictionary(a => a.GetType().FullName);
 			this.instanceSync = instanceSync;
 		}
 
@@ -66,29 +67,30 @@ namespace EllipticBit.Services.Scheduler
 			timer.Stop();
 		}
 
-		public void Enable(int actionId) {
-			if (!actions.TryGetValue(actionId, out ISchedulerAction action)) {
-				throw new ArgumentOutOfRangeException(nameof(actionId), $"No action registered with ID: {actionId}");
+		public void Enable<TAction>() where TAction : class, ISchedulerAction {
+			var typeStr = typeof(TAction).FullName;
+			if (!actions.TryGetValue(typeStr, out ISchedulerAction action)) {
+				throw new ArgumentOutOfRangeException(nameof(TAction), $"No registered action of type: {typeStr}");
 			}
 
-			if (enabledActions.ContainsKey(actionId)) return;
-			if (action.SynchronizationMode == SchedulerActionSynchronizationMode.Network) throw new ArgumentOutOfRangeException($"Unable to enable service ID: {actionId}. Service {actionId} is registered as a network service and no network synchronization context has been registered with this scheduler.");
+			if (enabledActions.ContainsKey(typeStr)) return;
+			if (action.SynchronizationMode == SchedulerActionSynchronizationMode.Network) throw new ArgumentOutOfRangeException($"Unable to enable service: {typeStr}. Service '{typeStr}' is registered as a network service and no network synchronization context has been registered with this scheduler.");
 
 			var ctx = action.SynchronizationMode == SchedulerActionSynchronizationMode.Instance ? instanceSync : null;
-			enabledActions = enabledActions.Add(action.Id, new ActionExecution(action, ctx));
+			enabledActions = enabledActions.Add(typeStr, new ActionExecution(action, ctx));
 		}
 
-		public void Disable(int actionId) {
-			enabledActions = enabledActions.Remove(actionId);
+		public void Disable<TAction>() where TAction : class, ISchedulerAction {
+			enabledActions = enabledActions.Remove(typeof(TAction).FullName);
 		}
 
-		public Task Execute(int actionId) {
-			if (!actions.TryGetValue(actionId, out ISchedulerAction action))
-			{
-				throw new ArgumentOutOfRangeException(nameof(actionId), $"No action registered with ID: {actionId}");
+		public Task Execute<TAction>() where TAction : class, ISchedulerAction {
+			var typeStr = typeof(TAction).FullName;
+			if (!actions.TryGetValue(typeStr, out ISchedulerAction action)) {
+				throw new ArgumentOutOfRangeException(nameof(TAction), $"No action registered of type: {typeStr}");
 			}
 
-			if (action.SynchronizationMode == SchedulerActionSynchronizationMode.Network) throw new ArgumentOutOfRangeException($"Unable to enable service ID: {actionId}. Service {actionId} is registered as a network service and no network synchronization context has been registered with this scheduler.");
+			if (action.SynchronizationMode == SchedulerActionSynchronizationMode.Network) throw new ArgumentOutOfRangeException($"Unable to enable service: {typeStr}. Service '{typeStr}' is registered as a network service and no network synchronization context has been registered with this scheduler.");
 
 			var ctx = action.SynchronizationMode == SchedulerActionSynchronizationMode.Instance ? instanceSync : null;
 			var execution = new ActionExecution(action, ctx);

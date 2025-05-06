@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -14,8 +15,8 @@ namespace EllipticBit.Services.Scheduler
 		where TInstance : class, ISchedulerSynchronizationContext
 		where TNetwork : class, ISchedulerSynchronizationContext
 	{
-		private static ImmutableDictionary<int, ISchedulerAction> actions = ImmutableDictionary<int, ISchedulerAction>.Empty;
-		private static ImmutableDictionary<int, ActionExecution> enabledActions = ImmutableDictionary<int, ActionExecution>.Empty;
+		private static FrozenDictionary<string, ISchedulerAction> actions;
+		private static ImmutableDictionary<string, ActionExecution> enabledActions = ImmutableDictionary<string, ActionExecution>.Empty;
 
 #if WPF
 		private static readonly DispatcherTimer itimer = new DispatcherTimer(DispatcherPriority.Background);
@@ -81,7 +82,7 @@ namespace EllipticBit.Services.Scheduler
 				throw new InvalidOperationException($"Unable to register actions. Multiple actions with the same ID found.");
 			}
 
-			NetworkSchedulerService<TInstance, TNetwork>.actions = schedulerActions.ToImmutableDictionary(a => a.Id);
+			NetworkSchedulerService<TInstance, TNetwork>.actions = schedulerActions.ToFrozenDictionary(a => a.GetType().FullName);
 			this.instanceSync = instanceSync;
 			this.networkSync = networkSync;
 		}
@@ -101,25 +102,26 @@ namespace EllipticBit.Services.Scheduler
 			ntimer.Stop();
 		}
 
-		public void Enable(int actionId) {
-			if (!actions.TryGetValue(actionId, out ISchedulerAction action)) {
-				throw new ArgumentOutOfRangeException(nameof(actionId), $"No action registered with ID: {actionId}");
+		public void Enable<TAction>() where TAction : class, ISchedulerAction {
+			var typeStr = typeof(TAction).FullName;
+			if (!actions.TryGetValue(typeStr, out ISchedulerAction action)) {
+				throw new ArgumentOutOfRangeException(nameof(TAction), $"No registered action of type: {typeStr}");
 			}
 
-			if (enabledActions.ContainsKey(actionId)) return;
+			if (enabledActions.ContainsKey(typeStr)) return;
 
 			var ctx = action.SynchronizationMode == SchedulerActionSynchronizationMode.Network ? networkSync : action.SynchronizationMode == SchedulerActionSynchronizationMode.Instance ? instanceSync : null;
-			enabledActions = enabledActions.Add(action.Id, new ActionExecution(action, ctx));
+			enabledActions = enabledActions.Add(typeStr, new ActionExecution(action, ctx));
 		}
 
-		public void Disable(int actionId) {
-			enabledActions = enabledActions.Remove(actionId);
+		public void Disable<TAction>() where TAction : class, ISchedulerAction {
+			enabledActions = enabledActions.Remove(typeof(TAction).FullName);
 		}
 
-		public Task Execute(int actionId) {
-			if (!actions.TryGetValue(actionId, out ISchedulerAction action))
-			{
-				throw new ArgumentOutOfRangeException(nameof(actionId), $"No action registered with ID: {actionId}");
+		public Task Execute<TAction>() where TAction : class, ISchedulerAction {
+			var typeStr = typeof(TAction).FullName;
+			if (!actions.TryGetValue(typeStr, out ISchedulerAction action)) {
+				throw new ArgumentOutOfRangeException(nameof(TAction), $"No action registered of type: {typeStr}");
 			}
 
 			var ctx = action.SynchronizationMode == SchedulerActionSynchronizationMode.Network ? networkSync : action.SynchronizationMode == SchedulerActionSynchronizationMode.Instance ? instanceSync : null;

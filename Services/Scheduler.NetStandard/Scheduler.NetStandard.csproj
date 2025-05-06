@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<AssemblyName>EllipticBit.Services.Scheduler.NetCore</AssemblyName>
+		<AssemblyName>EllipticBit.Services.Scheduler.NetStandard</AssemblyName>
 		<RootNamespace>EllipticBit.Services.Scheduler</RootNamespace>
 		<Company>EllipticBit LLC</Company>
 		<Product>EllipticBit Services</Product>
@@ -10,7 +10,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageLicenseExpression>BSL-1.0</PackageLicenseExpression>
-		<Copyright>Copyright (c) 2023 EllipticBit, LLC</Copyright>
+		<Copyright>Copyright (c) 2023-2025 EllipticBit, LLC</Copyright>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<AssemblyVersion>0.0.0.0</AssemblyVersion>
 		<FileVersion>0.0.0.0</FileVersion>
@@ -18,10 +18,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="1.0.28" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.3" />
-		<PackageReference Include="System.Collections.Immutable" Version="9.0.3" />
+		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="1.0.33" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.4" />
+		<PackageReference Include="System.Collections.Immutable" Version="9.0.4" />
 	</ItemGroup>
 
 </Project>

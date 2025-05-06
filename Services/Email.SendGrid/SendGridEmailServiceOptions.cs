@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------------
-// Copyright (c) 2020-2024 EllipticBit, LLC All Rights Reserved.
+//-----------------------------------------------------------------------------
+// Copyright (c) 2020-2025 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
 using System;
@@ -9,7 +9,7 @@ using SendGrid.Helpers.Reliability;
 
 namespace EllipticBit.Services.Email
 {
-	public sealed class SendGridEmailServiceOptions : EmailServiceOptions
+	public sealed class SendGridEmailServiceOptions : EmailServiceOptions<SendGridEmailService>
 	{
 		public string ApiKey { get; }
 		public string HttpClientName { get; set; } = null;
@@ -20,7 +20,7 @@ namespace EllipticBit.Services.Email
 		public TimeSpan DeltaBackOff { get; set; } = TimeSpan.FromSeconds(1);
 
 		public SendGridEmailServiceOptions(string apiKey, string fromAddress, string fromName)
-		: base(typeof(SendGridEmailService), new EmailAddress(fromAddress, fromName)) {
+		: base(new EmailAddress(fromAddress, fromName)) {
 			this.ApiKey = apiKey;
 		}
 

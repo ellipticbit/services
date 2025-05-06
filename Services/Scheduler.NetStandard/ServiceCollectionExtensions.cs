@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace EllipticBit.Services.Scheduler
@@ -38,8 +38,14 @@ namespace EllipticBit.Services.Scheduler
 			this.collection = collection;
 		}
 
-		public ISchedulerServiceBuilder AddAction<T>() where T : class, ISchedulerAction {
-			this.collection.AddTransient<ISchedulerAction, T>();
+		public ISchedulerServiceBuilder AddAction<TAction>() where TAction : class, ISchedulerAction {
+			this.collection.AddTransient<ISchedulerAction, TAction>();
+			return this;
+		}
+
+		public ISchedulerServiceBuilder AddAction<TAction, TOptions>(TOptions options) where TAction : class, ISchedulerAction where TOptions : class {
+			this.collection.AddTransient<ISchedulerAction, TAction>();
+			this.collection.AddSingleton(options);
 			return this;
 		}
 	}
