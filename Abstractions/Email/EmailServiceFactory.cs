@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------------
-// Copyright (c) 2020-2024 EllipticBit, LLC All Rights Reserved.
+//-----------------------------------------------------------------------------
+// Copyright (c) 2020-2025 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
 using System;
@@ -8,9 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EllipticBit.Services.Email
 {
-	internal class EmailServiceFactory : IEmailServiceFactory , IEmailServiceBuilder
+	internal class EmailServiceFactory : IEmailServiceFactory
 	{
-		private static ImmutableDictionary<string, EmailServiceOptions> options = ImmutableDictionary<string, EmailServiceOptions>.Empty;
+		internal static ImmutableDictionary<string, EmailServiceOptionsBase> options = ImmutableDictionary<string, EmailServiceOptionsBase>.Empty;
 
 		private readonly IServiceProvider provider;
 
@@ -20,25 +20,12 @@ namespace EllipticBit.Services.Email
 			this.provider = provider;
 		}
 
-		public IEmailService Create(string name)
-		{
-			if (options.TryGetValue(name, out EmailServiceOptions eso))
-			{
+		public IEmailService Create(string name) {
+			if (options.TryGetValue(name, out EmailServiceOptionsBase eso)) {
 				return (IEmailService)ActivatorUtilities.CreateInstance(provider, eso.ImplementationType, eso);
 			}
 
 			throw new ArgumentOutOfRangeException(nameof(name), $"Unable to locate Email Service: {name}");
-		}
-
-		//
-		// IEmailServiceBuilder implementation
-		//
-
-		public IEmailServiceBuilder AddEmailService(string name, EmailServiceOptions value) {
-			if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
-			if (value == null) throw new ArgumentNullException(nameof(value));
-			EmailServiceFactory.options = EmailServiceFactory.options.Add(name, value);
-			return this;
 		}
 	}
 }

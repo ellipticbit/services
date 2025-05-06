@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------------
-// Copyright (c) 2020-2024 EllipticBit, LLC All Rights Reserved.
+//-----------------------------------------------------------------------------
+// Copyright (c) 2020-2025 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
 using System;
@@ -7,15 +7,21 @@ using System;
 namespace EllipticBit.Services.Email
 {
 
-	public abstract class EmailServiceOptions
+	public abstract class EmailServiceOptionsBase
 	{
 		internal Type ImplementationType;
 
 		public EmailAddress FromAddress { get; }
 
-		protected EmailServiceOptions(Type implementationType, EmailAddress fromAddress) {
-			this.ImplementationType = implementationType;
+		private protected EmailServiceOptionsBase(Type emailServiceType, EmailAddress fromAddress) {
+			this.ImplementationType = emailServiceType;
 			this.FromAddress = fromAddress;
 		}
+	}
+
+	public abstract class EmailServiceOptions<T> : EmailServiceOptionsBase
+		where T : class, IEmailService
+	{
+		protected EmailServiceOptions(EmailAddress fromAddress) : base(typeof(T), fromAddress) { }
 	}
 }
