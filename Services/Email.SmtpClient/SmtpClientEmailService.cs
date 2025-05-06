@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------------
-// Copyright (c) 2024 EllipticBit, LLC All Rights Reserved.
+//-----------------------------------------------------------------------------
+// Copyright (c) 2024-2025 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
 using System;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EllipticBit.Services.Email
 {
-	internal class SmtpClientEmailService : IEmailService
+	public sealed class SmtpClientEmailService : IEmailService
 	{
 		private readonly SmtpClientEmailServiceOptions options;
 
