@@ -1,12 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// Copyright (c) 2020-2024 EllipticBit, LLC All Rights Reserved.
+// Copyright (c) 2020-2025 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
-
-using System;
 
 namespace EllipticBit.Services.Email
 {
-	public sealed class EmailAttachment
+	public sealed class EmailAttachment : IEmailAttachment
 	{
 		public string Id { get; }
 		public byte[] Content { get; }

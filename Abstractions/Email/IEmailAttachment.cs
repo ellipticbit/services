@@ -4,8 +4,11 @@
 
 namespace EllipticBit.Services.Email
 {
-	public interface IEmailResult
+	public interface IEmailAttachment
 	{
-		bool IsSuccess { get; }
+		string Id { get; }
+		byte[] Content { get; }
+		string FileName { get; }
+		string Type { get; }
 	}
 }

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// Copyright (c) 2020-2024 EllipticBit, LLC All Rights Reserved.
+// Copyright (c) 2020-2025 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
 using System;
@@ -10,7 +10,7 @@ namespace EllipticBit.Services.Email
 {
 	public interface IEmailService
 	{
-		Task<IEmailResult> Send(IEnumerable<EmailAddress> to, string subject, string text, string html = null, EmailAddress from = null, DateTimeOffset? sendAt = null, IEnumerable<EmailAddress> cc = null, IEnumerable<EmailAddress> bcc = null, IEnumerable<EmailAttachment> attachments = null);
+		Task<IEmailResult> Send(IEnumerable<EmailAddress> to, string subject, string text, string html = null, EmailAddress from = null, DateTimeOffset? sendAt = null, IEnumerable<EmailAddress> cc = null, IEnumerable<EmailAddress> bcc = null, IEnumerable<IEmailAttachment> attachments = null);
 
 		Task<IEmailResult> Send<TTemplate>(IEnumerable<TTemplate> templateData, EmailAddress from = null)
 			where TTemplate : EmailTemplateBase;
@@ -18,7 +18,7 @@ namespace EllipticBit.Services.Email
 
 	public static class EmailServiceExtensions
 	{
-		public static Task<IEmailResult> Send(this IEmailService service, EmailAddress to, string subject, string text, string html = null, EmailAddress from = null,  DateTimeOffset? sendAt = null,IEnumerable<EmailAttachment> attachments = null)
+		public static Task<IEmailResult> Send(this IEmailService service, EmailAddress to, string subject, string text, string html = null, EmailAddress from = null,  DateTimeOffset? sendAt = null,IEnumerable<IEmailAttachment> attachments = null)
 		{
 			return service.Send(new [] {to}, subject, text, html, from, sendAt,null, null, attachments);
 		}
