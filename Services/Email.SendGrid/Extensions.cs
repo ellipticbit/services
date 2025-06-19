@@ -18,7 +18,7 @@ namespace EllipticBit.Services.Email
 			return new SendGrid.Helpers.Mail.EmailAddress(address.Email, address.Name);
 		}
 
-		internal static Attachment ToAttachment(this EmailAttachment attachment) {
+		internal static Attachment ToAttachment(this IEmailAttachment attachment) {
 			return new Attachment() {
 				Content = Convert.ToBase64String(attachment.Content),
 				ContentId = attachment.Id,

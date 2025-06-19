@@ -24,7 +24,7 @@ namespace EllipticBit.Services.Email
 			this.options = options;
 		}
 
-		public async Task<IEmailResult> Send(IEnumerable<EmailAddress> to, string subject, string text, string html, EmailAddress from, DateTimeOffset? sendAt, IEnumerable<EmailAddress> cc, IEnumerable<EmailAddress> bcc, IEnumerable<EmailAttachment> attachments)
+		public async Task<IEmailResult> Send(IEnumerable<EmailAddress> to, string subject, string text, string html, EmailAddress from, DateTimeOffset? sendAt, IEnumerable<EmailAddress> cc, IEnumerable<EmailAddress> bcc, IEnumerable<IEmailAttachment> attachments)
 		{
 			if (string.IsNullOrWhiteSpace(html) && string.IsNullOrWhiteSpace(text)) throw new ArgumentNullException(nameof(html), "No HTML or Text body content provided. Please provide at least one type of email body content.");
 			var tl = to.ToArray();

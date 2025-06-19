@@ -20,7 +20,7 @@ namespace EllipticBit.Services.Email
 			this.options = options;
 		}
 
-		public async Task<IEmailResult> Send(IEnumerable<EmailAddress> to, string subject, string text, string html = null, EmailAddress from = null, DateTimeOffset? sendAt = null, IEnumerable<EmailAddress> cc = null, IEnumerable<EmailAddress> bcc = null, IEnumerable<EmailAttachment> attachments = null) {
+		public async Task<IEmailResult> Send(IEnumerable<EmailAddress> to, string subject, string text, string html = null, EmailAddress from = null, DateTimeOffset? sendAt = null, IEnumerable<EmailAddress> cc = null, IEnumerable<EmailAddress> bcc = null, IEnumerable<IEmailAttachment> attachments = null) {
 			if (sendAt != null) throw new ArgumentOutOfRangeException(nameof(sendAt), "SmtpClient does not support delayed send.");
 
 			using (var client = options.GetSmtpClient()) {

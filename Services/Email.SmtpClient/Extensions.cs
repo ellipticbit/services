@@ -20,7 +20,7 @@ namespace EllipticBit.Services.Email
 			return new MailAddress(address.Email, address.Name);
 		}
 
-		internal static Attachment ToAttachment(this EmailAttachment attachment) {
+		internal static Attachment ToAttachment(this IEmailAttachment attachment) {
 			var ms = new MemoryStream(attachment.Content);
 			ms.Position = 0;
 			var na =  new Attachment(ms, new ContentType(attachment.Type)) {
