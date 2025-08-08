@@ -22,7 +22,7 @@ namespace EllipticBit.Services.Email
 		public string Id { get; }
 		public byte[] Content => GetContent();
 		public string FileName => "invite.ics";
-		public string Type => "text/calendar; method=REQUEST";
+		public string Type => "text/calendar; charset=UTF-8; method=REQUEST";
 
 		public string EventId { get; }
 
@@ -61,13 +61,13 @@ namespace EllipticBit.Services.Email
 			str.AppendLine(string.Format("DTEND:{0:yyyyMMddTHHmmssZ}", EndTime.ToUniversalTime()));
 			str.AppendLine($"DTSTAMP:{DateTime.Now.ToUniversalTime():yyyyMMddTHHmmss}");
 			if (!string.IsNullOrWhiteSpace(Summary)) str.AppendLine(string.Format("LOCATION:{0}", Location));
-			if (!string.IsNullOrWhiteSpace(Description)) str.AppendLine(string.Format("DESCRIPTION:{0}", Description));
+			if (!string.IsNullOrWhiteSpace(Description)) str.AppendLine(string.Format("DESCRIPTION:{0}", Description.Replace("\n", "\\n")));
 			if (!string.IsNullOrWhiteSpace(Description)) str.AppendLine(string.Format("X-ALT-DESC;FMTTYPE=text/html:{0}", Description.Replace("\n", "<br>")));
 			if (!string.IsNullOrWhiteSpace(Summary)) str.AppendLine(string.Format("SUMMARY:{0}", Summary));
 
-			str.AppendLine($"ORGANIZER;CN=\"{FromAddress.Name}\":MAILTO:{FromAddress.Email}");
+			str.AppendLine($"ORGANIZER;CN={FromAddress.Email}:mailto:{FromAddress.Email}");
 			foreach (var ta in ToAddresses) {
-				str.AppendLine($"ATTENDEE;CUTYPE=INDIVIDUAL;PARTSTAT={(DefaultStatus == ParticipationStatus.NeedsAction ? "NEEDS-ACTION" : DefaultStatus.ToString().ToUpperInvariant())};RSVP=TRUE;CN=\"{ta.Name}\";mailto:{ta.Email}");
+				str.AppendLine($"ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT={(DefaultStatus == ParticipationStatus.NeedsAction ? "NEEDS-ACTION" : DefaultStatus.ToString().ToUpperInvariant())};RSVP=TRUE;CN={ta.Name};mailto:{ta.Email}");
 			}
 
 			if (AlarmMinutes > 0) {
