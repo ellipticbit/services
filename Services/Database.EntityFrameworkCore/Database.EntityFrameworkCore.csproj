@@ -9,7 +9,7 @@
 		<Authors>EllipticBit LLC</Authors>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>BSL-1.0</PackageLicenseExpression>
-		<Copyright>Copyright (c) 2020-2023 EllipticBit, LLC</Copyright>
+		<Copyright>Copyright (c) 2020-2025 EllipticBit, LLC</Copyright>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<AssemblyVersion>0.0.0.0</AssemblyVersion>
 		<FileVersion>0.0.0.0</FileVersion>
@@ -17,9 +17,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EllipticBit.Services.Database.Abstractions" Version="1.0.34" />
+		<PackageReference Include="EllipticBit.Services.Database.Abstractions" Version="1.1.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.32" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.6" Condition="'$(TargetFramework)' == 'net8.0'" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.8" Condition="'$(TargetFramework)' == 'net8.0'" />
 	</ItemGroup>
 
 </Project>

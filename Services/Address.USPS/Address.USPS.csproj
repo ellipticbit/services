@@ -20,11 +20,11 @@
 	<ItemGroup>
 		<PackageReference Include="EllipticBit.Coalescence.Request" Version="1.5.2" />
 		<PackageReference Include="EllipticBit.Services.Address.Abstractions" Version="1.0.30" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.6" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.6" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.6" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.6" />
-		<PackageReference Include="System.Net.Http.Json" Version="9.0.6" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.8" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.8" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.8" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.8" />
+		<PackageReference Include="System.Net.Http.Json" Version="9.0.8" />
 	</ItemGroup>
 
 </Project>
