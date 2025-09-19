@@ -4,11 +4,25 @@
 
 using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace System
 {
 	public static class SystemExtensions
 	{
+		// Compiled regex for better performance
+		private static readonly Regex UrlRegex = new Regex(@"^(https?|ftps?):\/\/(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?::(?:0|[1-9]\d{0,3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5]))?(?:\/(?:[-a-zA-Z0-9@%_\+.~#?&=]+\/?)*)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+		/// <summary>
+		///     Validates a URL using a regular expression.
+		/// </summary>
+		/// <param name="url">The URL to validate.</param>
+		/// <returns>true if the URL is valid; otherwise, false.</returns>
+		public static bool IsValidUrl(this string url)
+		{
+			return UrlRegex.IsMatch(url);
+		}
+
 		public static DateTime StartOfWeek(this DateTime date) {
 			return date.AddDays(-(int)date.DayOfWeek);
 		}
