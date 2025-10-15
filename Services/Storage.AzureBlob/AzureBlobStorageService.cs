@@ -34,11 +34,20 @@ namespace EllipticBit.Services.Storage
 			return ms;
 		}
 
-		public Task Upload(string path, Stream data) {
+		public async Task Upload(string path, Stream data, bool overwrite = false) {
 			var srcparts = path.Split(new[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
 			if (srcparts.Length < 2) throw new ArgumentException("No blob container specified. Use the format <container>\\<blob name>.", nameof(path));
 
-			return this._blobClient.GetBlobContainerClient(srcparts[0]).UploadBlobAsync(string.Join("\\", srcparts.Skip(1)), data);
+			var container = this._blobClient.GetBlobContainerClient(srcparts[0]);
+			var blob = container.GetBlobClient(string.Join("\\", srcparts.Skip(1)));
+			if (!overwrite && await blob.ExistsAsync()) {
+				throw new IOException($"The specified target file already exists: {blob.Name}");
+			}
+			if (overwrite) {
+				await blob.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
+			}
+
+			await container.UploadBlobAsync(string.Join("\\", srcparts.Skip(1)), data);
 		}
 
 		public Task Delete(string path) {
@@ -57,7 +66,7 @@ namespace EllipticBit.Services.Storage
 			return result.Value;
 		}
 
-		public async Task<bool> Move(string sourcePath, string targetPath) {
+		public async Task<bool> Move(string sourcePath, string targetPath, bool overwrite = false) {
 			var srcparts = sourcePath.Split(new[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
 			var tgtparts = targetPath.Split(new[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
 			if (srcparts.Length < 2) throw new ArgumentException("No blob container specified. Use the format <container>\\<blob name>.", nameof(sourcePath));
@@ -68,6 +77,13 @@ namespace EllipticBit.Services.Storage
 			if (!exists) return false;
 
 			var tgt = this._blobClient.GetBlobContainerClient(tgtparts[0]).GetBlobClient(string.Join("\\", tgtparts.Skip(1)));
+			if (!overwrite && await tgt.ExistsAsync()) {
+				throw new IOException($"The specified target file already exists: {tgt.Name}");
+			}
+			if (overwrite) {
+				await tgt.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
+			}
+
 			var copy = await tgt.StartCopyFromUriAsync(src.Uri);
 			await copy.WaitForCompletionAsync();
 
@@ -76,7 +92,7 @@ namespace EllipticBit.Services.Storage
 			return true;
 		}
 
-		public async Task<bool> Copy(string sourcePath, string targetPath) {
+		public async Task<bool> Copy(string sourcePath, string targetPath, bool overwrite = false) {
 			var srcparts = sourcePath.Split(new[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
 			var tgtparts = targetPath.Split(new[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
 			if (srcparts.Length < 2) throw new ArgumentException("No blob container specified. Use the format <container>\\<blob name>.", nameof(sourcePath));
@@ -87,6 +103,13 @@ namespace EllipticBit.Services.Storage
 			if (!exists) return false;
 
 			var tgt = this._blobClient.GetBlobContainerClient(tgtparts[0]).GetBlobClient(string.Join("\\", tgtparts.Skip(1)));
+			if (!overwrite && await tgt.ExistsAsync()) {
+				throw new IOException($"The specified target file already exists: {tgt.Name}");
+			}
+			if (overwrite) {
+				await tgt.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
+			}
+
 			var copy = await tgt.StartCopyFromUriAsync(src.Uri);
 			await copy.WaitForCompletionAsync();
 
