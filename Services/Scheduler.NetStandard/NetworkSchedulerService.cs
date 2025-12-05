@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using EllipticBit.Services.Cryptography;
 #if WPF
 using System.Windows.Threading;
 #else
@@ -41,7 +42,7 @@ namespace EllipticBit.Services.Scheduler
 
 #else
 		private static readonly Timer itimer = new Timer(1000);
-		private static readonly Timer ntimer = new Timer(10000);
+		private static readonly Timer ntimer = new Timer(60000);
 
 		static NetworkSchedulerService() {
 			itimer.Elapsed += ITimer_Elapsed;
@@ -63,20 +64,21 @@ namespace EllipticBit.Services.Scheduler
 		{
 			var el = enabledActions.Values.Where(a => a.IntervalMode != SchedulerActionIntervalMode.Manual && a.Mode != SchedulerActionSynchronizationMode.Network && a.Next < DateTimeOffset.UtcNow).ToList();
 
-			return Task.WhenAll(el.Select(action => action.Execute()).ToArray());
+			return Task.WhenAll(el.Where(a => a.Mode == SchedulerActionSynchronizationMode.Instance).Select(action => action.Execute()).ToArray());
 		}
 
 		private static Task RunNetworkScheduled()
 		{
 			var el = enabledActions.Values.Where(a => a.IntervalMode != SchedulerActionIntervalMode.Manual && a.Mode == SchedulerActionSynchronizationMode.Network).ToList();
 
-			return Task.WhenAll(el.Select(action => action.Execute()).ToArray());
+			return Task.WhenAll(el.Where(a => a.Mode == SchedulerActionSynchronizationMode.Network).Select(action => action.Execute()).ToArray());
 		}
 
 		private readonly ISchedulerSynchronizationContext instanceSync;
 		private readonly ISchedulerSynchronizationContext networkSync;
+		private readonly Random randomGen;
 
-		public NetworkSchedulerService(IEnumerable<ISchedulerAction> actions, TInstance instanceSync, TNetwork networkSync) {
+		public NetworkSchedulerService(IEnumerable<ISchedulerAction> actions, TInstance instanceSync, TNetwork networkSync, ICryptographyService cryptographyService) {
 			var schedulerActions = actions as ISchedulerAction[] ?? actions.ToArray();
 			if (schedulerActions.GroupBy(a => a.Id).Any(b => b.Count() > 1)) {
 				throw new InvalidOperationException($"Unable to register actions. Multiple actions with the same ID found.");
@@ -85,6 +87,7 @@ namespace EllipticBit.Services.Scheduler
 			NetworkSchedulerService<TInstance, TNetwork>.actions = schedulerActions.ToFrozenDictionary(a => a.GetType().FullName);
 			this.instanceSync = instanceSync;
 			this.networkSync = networkSync;
+			this.randomGen = new Random(BitConverter.ToInt32(cryptographyService.RandomBytes(4), 0));
 		}
 
 		public async void Start() {
@@ -118,15 +121,20 @@ namespace EllipticBit.Services.Scheduler
 			enabledActions = enabledActions.Remove(typeof(TAction).FullName);
 		}
 
-		public Task Execute<TAction>() where TAction : class, ISchedulerAction {
+		public async Task Execute<TAction>() where TAction : class, ISchedulerAction {
 			var typeStr = typeof(TAction).FullName;
 			if (!actions.TryGetValue(typeStr, out ISchedulerAction action)) {
 				throw new ArgumentOutOfRangeException(nameof(TAction), $"No action registered of type: {typeStr}");
 			}
 
+			//Introduce some jitter into the timing so that many instance deployments aren't hitting the sync context at the same time.
+			if (action.SynchronizationMode == SchedulerActionSynchronizationMode.Network) {
+				await Task.Delay(randomGen.Next(0, 5000));
+			}
+
 			var ctx = action.SynchronizationMode == SchedulerActionSynchronizationMode.Network ? networkSync : action.SynchronizationMode == SchedulerActionSynchronizationMode.Instance ? instanceSync : null;
 			var execution = new ActionExecution(action, ctx);
-			return execution.Execute();
+			await execution.Execute();
 		}
 	}
 }

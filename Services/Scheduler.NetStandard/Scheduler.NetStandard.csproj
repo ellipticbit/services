@@ -18,6 +18,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="EllipticBit.Services.Cryptography.Abstractions" Version="1.0.32" />
 		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="1.1.4" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.10" />
