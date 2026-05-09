@@ -10,7 +10,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageLicenseExpression>BSL-1.0</PackageLicenseExpression>
-		<Copyright>Copyright (c) 2023-2025 EllipticBit, LLC</Copyright>
+		<Copyright>Copyright (c) 2026 EllipticBit, LLC</Copyright>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<AssemblyVersion>0.0.0.0</AssemblyVersion>
 		<FileVersion>0.0.0.0</FileVersion>
@@ -19,10 +19,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="EllipticBit.Services.Cryptography.Abstractions" Version="1.0.32" />
-		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="1.1.4" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.10" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.10" />
-		<PackageReference Include="System.Collections.Immutable" Version="9.0.10" />
+		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="1.1.5" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.7" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
+		<PackageReference Include="System.Collections.Immutable" Version="10.0.7" />
 	</ItemGroup>
 
 </Project>

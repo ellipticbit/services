@@ -75,21 +75,15 @@ namespace EllipticBit.Services.Cryptography
 	{
 		public static byte[] Hash(byte[] data, HashAlgorithm func) {
 			var result = new byte[func.GetHashLength()];
-			unsafe {
-				fixed (byte* pResult = result)
-				fixed (byte* pData = data) {
-					var tr = new IntPtr(pResult);
-					var r = BCrypt.BCryptOpenAlgorithmProvider(out BCrypt.SafeBCRYPT_ALG_HANDLE pAlgorithm, func.ToAlgId(), BCrypt.KnownProvider.MS_PRIMITIVE_PROVIDER, 0);
-					if (r!= NTStatus.STATUS_SUCCESS) throw new CryptographicException($"{func.ToAlgId()} is not supported on this Operating System.");
+			var r = BCrypt.BCryptOpenAlgorithmProvider(out BCrypt.SafeBCRYPT_ALG_HANDLE pAlgorithm, func.ToAlgId(), BCrypt.KnownProvider.MS_PRIMITIVE_PROVIDER, 0);
+			if (r!= NTStatus.STATUS_SUCCESS) throw new CryptographicException($"{func.ToAlgId()} is not supported on this Operating System.");
 
-					try
-					{
-						BCrypt.BCryptHash(pAlgorithm, default(IntPtr), 0, new IntPtr(pData), (uint)data.Length, tr, (uint)result.Length);
-					}
-					finally {
-						BCrypt.BCryptCloseAlgorithmProvider(pAlgorithm);
-					}
-				}
+			try
+			{
+				BCrypt.BCryptHash(pAlgorithm, null, 0, data, (uint)data.Length, result, (uint)result.Length);
+			}
+			finally {
+				BCrypt.BCryptCloseAlgorithmProvider(pAlgorithm);
 			}
 
 			return result;

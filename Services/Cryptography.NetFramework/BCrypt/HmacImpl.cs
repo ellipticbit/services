@@ -76,25 +76,16 @@ namespace EllipticBit.Services.Cryptography
 		public static byte[] Hmac(byte[] key, byte[] data, HashAlgorithm func)
 		{
 			var result = new byte[func.GetHashLength()];
-			unsafe
-			{
-				fixed (byte* pKey = key)
-				fixed (byte* pResult = result)
-				fixed (byte* pData = data)
-				{
-					var tr = new IntPtr(pResult);
-					var r = BCrypt.BCryptOpenAlgorithmProvider(out BCrypt.SafeBCRYPT_ALG_HANDLE pAlgorithm, func.ToAlgId(), BCrypt.KnownProvider.MS_PRIMITIVE_PROVIDER, BCrypt.AlgProviderFlags.BCRYPT_ALG_HANDLE_HMAC_FLAG);
-					if (r != NTStatus.STATUS_SUCCESS) throw new CryptographicException($"{func.ToAlgId()} is not supported on this Operating System.");
+			var r = BCrypt.BCryptOpenAlgorithmProvider(out BCrypt.SafeBCRYPT_ALG_HANDLE pAlgorithm, func.ToAlgId(), BCrypt.KnownProvider.MS_PRIMITIVE_PROVIDER, BCrypt.AlgProviderFlags.BCRYPT_ALG_HANDLE_HMAC_FLAG);
+			if (r != NTStatus.STATUS_SUCCESS) throw new CryptographicException($"{func.ToAlgId()} is not supported on this Operating System.");
 
-					try
-					{
-						BCrypt.BCryptHash(pAlgorithm, new IntPtr(pKey), (uint)key.Length, new IntPtr(pData), (uint)data.Length, tr, (uint)result.Length);
-					}
-					finally
-					{
-						BCrypt.BCryptCloseAlgorithmProvider(pAlgorithm);
-					}
-				}
+			try
+			{
+				BCrypt.BCryptHash(pAlgorithm, key, (uint)key.Length, data, (uint)data.Length, result, (uint)result.Length);
+			}
+			finally
+			{
+				BCrypt.BCryptCloseAlgorithmProvider(pAlgorithm);
 			}
 
 			return result;
