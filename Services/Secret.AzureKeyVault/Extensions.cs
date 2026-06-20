@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// Copyright (c) 2020 EllipticBit, LLC All Rights Reserved.
+// Copyright (c) 2020-2026 EllipticBit, LLC All Rights Reserved.
 //-----------------------------------------------------------------------------
 
 using Azure.Core;
@@ -24,9 +24,17 @@ namespace EllipticBit.Services.Secret
 			if (!akv.Exists()) throw new InvalidCredentialException("Unable to locate Credential configuration for Azure KeyVault");
 
 			var uri = new Uri(akv.GetSection("VaultUri").Value);
-			TokenCredential kvcreds = akv.GetSection("IsCertificate").Value.Equals("true", StringComparison.OrdinalIgnoreCase) ?
-				(TokenCredential)new ClientCertificateCredential(akv.GetSection("TenantId").Value, akv.GetSection("ClientId").Value, GetKeyVaultCertificate(akv.GetSection("Key").Value)) :
-				(TokenCredential)new ClientSecretCredential(akv.GetSection("TenantId").Value, akv.GetSection("ClientId").Value, akv.GetSection("Key").Value);
+			var tenantId = akv.GetSection("TenantId").Value;
+			var clientId = akv.GetSection("ClientId").Value;
+
+			TokenCredential kvcreds;
+			if (!string.IsNullOrEmpty(akv.GetSection("CertificateFilePath").Value)) {
+				kvcreds = new ClientCertificateCredential(tenantId, clientId, new X509Certificate2(akv.GetSection("CertificateFilePath").Value));
+			} else if (!string.IsNullOrEmpty(akv.GetSection("KeyFilePath").Value)) {
+				kvcreds = new ClientSecretCredential(tenantId, clientId, System.IO.File.ReadAllText(akv.GetSection("KeyFilePath").Value).Trim());
+			} else {
+				kvcreds = new ClientSecretCredential(tenantId, clientId, akv.GetSection("Key").Value);
+			}
 
 			services.TryAddSingleton(new SecretClient(uri, kvcreds, new SecretClientOptions(SecretClientOptions.ServiceVersion.V7_1)));
 			services.TryAddTransient<ISecretService, AzureKeyVaultSecretService>();
@@ -45,9 +53,17 @@ namespace EllipticBit.Services.Secret
 			if (!akv.Exists()) throw new InvalidCredentialException("Unable to locate Credential configuration for Azure KeyVault");
 
 			var uri = new Uri(akv.GetSection("VaultUri").Value);
-			TokenCredential kvcreds = akv.GetSection("IsCertificate").Value.Equals("true", StringComparison.OrdinalIgnoreCase) ?
-				(TokenCredential)new ClientCertificateCredential(akv.GetSection("TenantId").Value, akv.GetSection("ClientId").Value, GetKeyVaultCertificate(akv.GetSection("Key").Value)) :
-				(TokenCredential)new ClientSecretCredential(akv.GetSection("TenantId").Value, akv.GetSection("ClientId").Value, akv.GetSection("Key").Value);
+			var tenantId = akv.GetSection("TenantId").Value;
+			var clientId = akv.GetSection("ClientId").Value;
+
+			TokenCredential kvcreds;
+			if (!string.IsNullOrEmpty(akv.GetSection("CertificateFilePath").Value)) {
+				kvcreds = new ClientCertificateCredential(tenantId, clientId, new X509Certificate2(akv.GetSection("CertificateFilePath").Value));
+			} else if (!string.IsNullOrEmpty(akv.GetSection("KeyFilePath").Value)) {
+				kvcreds = new ClientSecretCredential(tenantId, clientId, System.IO.File.ReadAllText(akv.GetSection("KeyFilePath").Value).Trim());
+			} else {
+				kvcreds = new ClientSecretCredential(tenantId, clientId, akv.GetSection("Key").Value);
+			}
 
 			services.TryAddSingleton(new SecretClient(uri, kvcreds, new SecretClientOptions(SecretClientOptions.ServiceVersion.V7_1)));
 			services.TryAddTransient<ISecretService, AzureKeyVaultCachedSecretService>();
@@ -59,21 +75,6 @@ namespace EllipticBit.Services.Secret
 			services.TryAddTransient<IKeyCryptographyService, AzureKeyVaultKeyCryptographyService>();
 
 			return services;
-		}
-
-		private static X509Certificate2 GetKeyVaultCertificate(string thumbprint) {
-			using (X509Store certStore = new X509Store(StoreName.My, StoreLocation.CurrentUser)) {
-				certStore.Open(OpenFlags.ReadOnly);
-
-				X509Certificate2Collection certCollection = certStore.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, true);
-				X509Certificate2 cert = certCollection.OfType<X509Certificate2>().FirstOrDefault();
-
-				if (cert is null) {
-					throw new ArgumentException($"Certificate with thumbprint {thumbprint} was not found", nameof(thumbprint));
-				}
-
-				return cert;
-			}
 		}
 	}
 }
