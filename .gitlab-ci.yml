@@ -5,6 +5,7 @@ include:
 .before_script_template:
     before_script:
       - "git clean -fdxq"
+      - "dotnet tool install --global sign"
       - "pwsh -f ./Abstractions/AbstractionsReplaceVersion.ps1"
       - "pwsh -f ./Services/ServicesReplaceVersion.ps1"
 

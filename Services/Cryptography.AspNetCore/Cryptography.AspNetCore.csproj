@@ -14,11 +14,34 @@
 		<AssemblyVersion>0.0.0.0</AssemblyVersion>
 		<FileVersion>0.0.0.0</FileVersion>
 		<Version>0.0.0</Version>
+		<Title>EllipticBit Services - ASP.NET Core Cryptography</Title>
+		<Description>ASP.NET Core Identity password hashing built on the EllipticBit cryptography services, providing a drop-in password hasher implementation.</Description>
+		<PackageTags>ellipticbit services cryptography aspnetcore identity password-hashing</PackageTags>
+		<PackageProjectUrl>https://ellipticbit.com/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/ellipticbit/services.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="EllipticBit.Services.Cryptography.Abstractions" Version="1.0.32" />
 		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="10.0.7" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\icon.png" Pack="true" PackagePath="\" Visible="false" />
+		<None Include="README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<Target Name="SignAssembly" AfterTargets="AfterBuild" Condition="'$(TargetFramework)' != '' And '$(AZURE_SIGNING_ENDPOINT)' != ''">
+		<Message Importance="high" Text="Signing assembly '$(TargetPath)' with Azure Trusted Signing." />
+		<Exec Command="sign code trusted-signing &quot;$(TargetPath)&quot; --trusted-signing-endpoint &quot;$(AZURE_SIGNING_ENDPOINT)&quot; --trusted-signing-account &quot;$(AZURE_SIGNING_ACCOUNT)&quot; --trusted-signing-certificate-profile &quot;$(AZURE_SIGNING_PROFILE)&quot; --description &quot;$(Product)&quot; --description-url &quot;$(PackageProjectUrl)&quot;" />
+	</Target>
+
+	<Target Name="SignPackage" AfterTargets="Pack" Condition="'$(AZURE_SIGNING_ENDPOINT)' != ''">
+		<Message Importance="high" Text="Signing package '$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg' with Azure Trusted Signing." />
+		<Exec Command="sign code trusted-signing &quot;$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg&quot; --trusted-signing-endpoint &quot;$(AZURE_SIGNING_ENDPOINT)&quot; --trusted-signing-account &quot;$(AZURE_SIGNING_ACCOUNT)&quot; --trusted-signing-certificate-profile &quot;$(AZURE_SIGNING_PROFILE)&quot; --description &quot;$(Product)&quot; --description-url &quot;$(PackageProjectUrl)&quot;" />
+	</Target>
 
 </Project>
