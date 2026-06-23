@@ -1,7 +1,7 @@
 # Address
 
 Build Address USPS Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: services
   tags:
     - windows
@@ -18,7 +18,7 @@ Build Address USPS Package:
     - "dotnet build -c Debug ./Services/Address.USPS/Address.USPS.csproj"
 
 Publish Address USPS Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: services
   tags:
     - windows
@@ -38,7 +38,7 @@ Publish Address USPS Package:
 # Cryptography
 
 Build Cryptography AspNetCore Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: services
   tags:
     - windows
@@ -55,7 +55,7 @@ Build Cryptography AspNetCore Package:
     - "dotnet build -c Debug ./Services/Cryptography.AspNetCore/Cryptography.AspNetCore.csproj"
 
 Build Cryptography DotNet Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: services
   tags:
     - windows
@@ -72,7 +72,7 @@ Build Cryptography DotNet Package:
     - "dotnet build -c Debug ./Services/Cryptography.DotNet/Cryptography.DotNet.csproj"
 
 Build Cryptography NetStandard Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: services
   tags:
     - windows
@@ -89,7 +89,7 @@ Build Cryptography NetStandard Package:
     - "dotnet build -c Debug ./Services/Cryptography.NetStandard/Cryptography.NetStandard.csproj"
 
 Publish Cryptography AspNetCore Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: services
   tags:
     - windows
@@ -107,7 +107,7 @@ Publish Cryptography AspNetCore Package:
     - "dotnet nuget push ./Services/Cryptography.AspNetCore/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 Publish Cryptography DotNet Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: services
   tags:
     - windows
@@ -125,7 +125,7 @@ Publish Cryptography DotNet Package:
     - "dotnet nuget push ./Services/Cryptography.DotNet/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 Publish Cryptography NetFramework Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: services
   tags:
     - windows
@@ -146,7 +146,7 @@ Publish Cryptography NetFramework Package:
 # Database
 
 Build Database EntityFrameworkCore Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: services
   tags:
     - windows
@@ -163,7 +163,7 @@ Build Database EntityFrameworkCore Package:
     - "dotnet build -c Debug ./Services/Database.EntityFrameworkCore/Database.EntityFrameworkCore.csproj"
 
 Publish Database EntityFrameworkCore Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: services
   tags:
     - windows
@@ -183,7 +183,7 @@ Publish Database EntityFrameworkCore Package:
 # Dialog
 
 Build Dialog WPF Packages:
-  extends: .before_script_template
+  extends: .build_template
   stage: services
   tags:
     - windows
@@ -200,7 +200,7 @@ Build Dialog WPF Packages:
     - "dotnet build -c Debug ./Services/Dialog.WPF/Dialog.WPF.csproj"
 
 Publish Dialog WPF Packages:
-  extends: .before_script_template
+  extends: .publish_template
   stage: services
   tags:
     - windows
@@ -220,7 +220,7 @@ Publish Dialog WPF Packages:
 # Email
 
 Build Email SmtpClient Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: services
   tags:
     - windows
@@ -237,7 +237,7 @@ Build Email SmtpClient Package:
     - "dotnet build -c Debug ./Services/Email.SmtpClient/Email.SmtpClient.csproj"
 
 Publish Email SmtpClient Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: services
   tags:
     - windows
@@ -255,7 +255,7 @@ Publish Email SmtpClient Package:
     - "dotnet nuget push ./Services/Email.SmtpClient/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 Build Email SendGrid Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: services
   tags:
     - windows
@@ -272,7 +272,7 @@ Build Email SendGrid Package:
     - "dotnet build -c Debug ./Services/Email.SendGrid/Email.SendGrid.csproj"
 
 Publish Email SendGrid Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: services
   tags:
     - windows
@@ -292,7 +292,7 @@ Publish Email SendGrid Package:
 #Scheduler
 
 Build Scheduler WPF Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: services
   tags:
     - windows
@@ -310,7 +310,7 @@ Build Scheduler WPF Package:
     - "dotnet build -c Debug ./Services/Scheduler.WPF/Scheduler.WPF.csproj"
 
 Build Scheduler NetStandard Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: services
   tags:
     - windows
@@ -327,7 +327,7 @@ Build Scheduler NetStandard Package:
     - "dotnet build -c Debug ./Services/Scheduler.NetStandard/Scheduler.NetStandard.csproj"
 
 Build Scheduler SqlServer Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: services
   tags:
     - windows
@@ -344,7 +344,7 @@ Build Scheduler SqlServer Package:
     - "dotnet build -c Debug ./Services/Scheduler.SqlServer/Scheduler.SqlServer.csproj"
 
 Publish Scheduler WPF Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: services
   tags:
     - windows
@@ -363,7 +363,7 @@ Publish Scheduler WPF Package:
     - "dotnet nuget push .\\Services\\Scheduler.WPF\\bin\\Release\\*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 Publish Scheduler NetStandard Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: services
   tags:
     - windows
@@ -381,7 +381,7 @@ Publish Scheduler NetStandard Package:
     - "dotnet nuget push ./Services/Scheduler.NetStandard/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 Publish Scheduler SqlServer Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: services
   tags:
     - windows
@@ -401,7 +401,7 @@ Publish Scheduler SqlServer Package:
 # Secret
 
 Build Secret AzureKeyVault Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: services
   tags:
     - windows
@@ -418,7 +418,7 @@ Build Secret AzureKeyVault Package:
     - "dotnet build -c Debug ./Services/Secret.AzureKeyVault/Secret.AzureKeyVault.csproj"
 
 Publish Secret AzureKeyVault Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: services
   tags:
     - windows
@@ -438,7 +438,7 @@ Publish Secret AzureKeyVault Package:
 # Storage
 
 Build Storage AzureBlob Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: services
   tags:
     - windows
@@ -455,7 +455,7 @@ Build Storage AzureBlob Package:
     - "dotnet build -c Debug ./Services/Storage.AzureBlob/Storage.AzureBlob.csproj"
 
 Build Storage LocalFile Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: services
   tags:
     - windows
@@ -472,7 +472,7 @@ Build Storage LocalFile Package:
     - "dotnet build -c Debug ./Services/Storage.LocalFile/Storage.LocalFile.csproj"
 
 Publish Storage AzureBlob Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: services
   tags:
     - windows
@@ -490,7 +490,7 @@ Publish Storage AzureBlob Package:
     - "dotnet nuget push ./Services/Storage.AzureBlob/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 Publish Storage LocalFile Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: services
   tags:
     - windows

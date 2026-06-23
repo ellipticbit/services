@@ -1,7 +1,7 @@
 # Address
 
 Build Address Abstractions Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: abstractions
   tags:
     - windows
@@ -18,7 +18,7 @@ Build Address Abstractions Package:
     - "dotnet build -c Debug ./Abstractions/Address/Address.csproj"
 
 Publish Address Abstractions Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: abstractions
   tags:
     - windows
@@ -38,7 +38,7 @@ Publish Address Abstractions Package:
 # Cryptography
 
 Build Cryptography Abstractions Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: abstractions
   tags:
     - windows
@@ -55,7 +55,7 @@ Build Cryptography Abstractions Package:
     - "dotnet build -c Debug ./Abstractions/Cryptography/Cryptography.csproj"
 
 Publish Cryptography Abstractions Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: abstractions
   tags:
     - windows
@@ -75,7 +75,7 @@ Publish Cryptography Abstractions Package:
 # Database
 
 Build Database Abstractions Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: abstractions
   tags:
     - windows
@@ -92,7 +92,7 @@ Build Database Abstractions Package:
     - "dotnet build -c Debug ./Abstractions/Database/Database.csproj"
 
 Publish Database Abstractions Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: abstractions
   tags:
     - windows
@@ -112,7 +112,7 @@ Publish Database Abstractions Package:
 # Email
 
 Build Email Abstractions Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: abstractions
   tags:
     - windows
@@ -129,7 +129,7 @@ Build Email Abstractions Package:
     - "dotnet build -c Debug ./Abstractions/Email/Email.csproj"
 
 Publish Email Abstractions Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: abstractions
   tags:
     - windows
@@ -149,7 +149,7 @@ Publish Email Abstractions Package:
 # Extensions
 
 Build Extensions Abstractions Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: abstractions
   tags:
     - windows
@@ -166,7 +166,7 @@ Build Extensions Abstractions Package:
     - "dotnet build -c Debug ./Abstractions/Extensions/Extensions.csproj"
 
 Publish Extensions Abstractions Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: abstractions
   tags:
     - windows
@@ -186,7 +186,7 @@ Publish Extensions Abstractions Package:
 # Scheduler
 
 Build Scheduler Abstractions Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: abstractions
   tags:
     - windows
@@ -203,7 +203,7 @@ Build Scheduler Abstractions Package:
     - "dotnet build -c Debug ./Abstractions/Scheduler/Scheduler.csproj"
 
 Publish Scheduler Abstractions Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: abstractions
   tags:
     - windows
@@ -223,7 +223,7 @@ Publish Scheduler Abstractions Package:
 # Secret
 
 Build Secret Abstractions Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: abstractions
   tags:
     - windows
@@ -240,7 +240,7 @@ Build Secret Abstractions Package:
     - "dotnet build -c Debug ./Abstractions/Secret/Secret.csproj"
 
 Publish Secret Abstractions Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: abstractions
   tags:
     - windows
@@ -260,7 +260,7 @@ Publish Secret Abstractions Package:
 # Storage
 
 Build Storage Abstractions Package:
-  extends: .before_script_template
+  extends: .build_template
   stage: abstractions
   tags:
     - windows
@@ -277,7 +277,7 @@ Build Storage Abstractions Package:
     - "dotnet build -c Debug ./Abstractions/Storage/Storage.csproj"
 
 Publish Storage Abstractions Package:
-  extends: .before_script_template
+  extends: .publish_template
   stage: abstractions
   tags:
     - windows

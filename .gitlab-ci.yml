@@ -2,20 +2,31 @@ include:
   - local: "Abstractions/.gitlab-ci.yml"
   - local: "Services/.gitlab-ci.yml"
 
-.before_script_template:
+.publish_template:
     before_script:
       - "git clean -fdxq"
       - "dotnet tool install --global --prerelease sign"
       - "pwsh -f ./Abstractions/AbstractionsReplaceVersion.ps1"
       - "pwsh -f ./Services/ServicesReplaceVersion.ps1"
+      - "az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID"
+      - "az account set --subscription $AZURE_SUBSCRIPTION"
+    after_script:
+      - "az logout"
+
+.build_template:
+    before_script:
+      - "git clean -fdxq"
+      - "pwsh -f ./Abstractions/AbstractionsReplaceVersion.ps1"
+      - "pwsh -f ./Services/ServicesReplaceVersion.ps1"
 
 stages:
   - abstractions
+  - abstractions-post
   - services
-  - post
+  - services-post
 
 Increment Abstraction Build Counter:
-  stage: post
+  stage: abstractions-post
   tags:
     - linux
     - dotnet
@@ -28,7 +39,7 @@ Increment Abstraction Build Counter:
     - "pwsh -f ./Abstractions/AbstractionsIncrementVersion.ps1"
 
 Increment Services Build Counter:
-  stage: post
+  stage: services-post
   tags:
     - linux
     - dotnet
