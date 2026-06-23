@@ -7,6 +7,7 @@
 		<Company>EllipticBit LLC</Company>
 		<Product>EllipticBit Services</Product>
 		<Authors>EllipticBit LLC</Authors>
+		<DebugType>embedded</DebugType>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>BSL-1.0</PackageLicenseExpression>
 		<Copyright>Copyright (c) 2026 EllipticBit, LLC</Copyright>
@@ -26,7 +27,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="1.1.7" />
+		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="1.1.8" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.9" />
@@ -37,7 +38,7 @@
 		<None Include="README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
-	<Target Name="SignAssembly" AfterTargets="AfterBuild" Condition="'$(TargetFramework)' != '' And '$(AZURE_SIGNING_ENDPOINT)' != ''">
+	<Target Name="SignAssembly" AfterTargets="AfterBuild" Condition="'$(Configuration)' == 'Release' And '$(TargetFramework)' != '' And '$(AZURE_SIGNING_ENDPOINT)' != ''">
 		<Message Importance="high" Text="Signing assembly '$(TargetPath)' with Azure Trusted Signing." />
 		<Exec Command="sign code trusted-signing &quot;$(TargetPath)&quot; --trusted-signing-endpoint &quot;$(AZURE_SIGNING_ENDPOINT)&quot; --trusted-signing-account &quot;$(AZURE_SIGNING_ACCOUNT)&quot; --trusted-signing-certificate-profile &quot;$(AZURE_SIGNING_PROFILE)&quot; --description &quot;$(Product)&quot; --description-url &quot;$(PackageProjectUrl)&quot;" />
 	</Target>
