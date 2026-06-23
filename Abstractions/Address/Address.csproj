@@ -7,6 +7,7 @@
 		<Company>EllipticBit LLC</Company>
 		<Product>EllipticBit Services</Product>
 		<Authors>EllipticBit LLC</Authors>
+		<DebugType>embedded</DebugType>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageLicenseExpression>BSL-1.0</PackageLicenseExpression>
@@ -30,7 +31,7 @@
 		<None Include="README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
-	<Target Name="SignAssembly" AfterTargets="AfterBuild" Condition="'$(TargetFramework)' != '' And '$(AZURE_SIGNING_ENDPOINT)' != ''">
+	<Target Name="SignAssembly" AfterTargets="AfterBuild" Condition="'$(Configuration)' == 'Release' And '$(TargetFramework)' != '' And '$(AZURE_SIGNING_ENDPOINT)' != ''">
 		<Message Importance="high" Text="Signing assembly '$(TargetPath)' with Azure Trusted Signing." />
 		<Exec Command="sign code artifact-signing &quot;$(TargetPath)&quot; --artifact-signing-endpoint &quot;$(AZURE_SIGNING_ENDPOINT)&quot; --artifact-signing-account &quot;$(AZURE_SIGNING_ACCOUNT)&quot; --artifact-signing-certificate-profile &quot;$(AZURE_SIGNING_PROFILE)&quot; --description &quot;$(Product)&quot; --description-url &quot;$(PackageProjectUrl)&quot;" />
 	</Target>
