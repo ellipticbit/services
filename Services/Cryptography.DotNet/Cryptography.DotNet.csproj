@@ -26,9 +26,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EllipticBit.Services.Cryptography.Abstractions" Version="1.0.32" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.7" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.7" />
+		<PackageReference Include="EllipticBit.Services.Cryptography.Abstractions" Version="1.1.6" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.9" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
 		<PackageReference Include="Konscious.Security.Cryptography.Argon2" Version="1.3.1" />
 		<PackageReference Include="Norgerman.Cryptography.Scrypt" Version="2.5.0" />
 	</ItemGroup>
@@ -41,11 +41,6 @@
 	<Target Name="SignAssembly" AfterTargets="AfterBuild" Condition="'$(TargetFramework)' != '' And '$(AZURE_SIGNING_ENDPOINT)' != ''">
 		<Message Importance="high" Text="Signing assembly '$(TargetPath)' with Azure Trusted Signing." />
 		<Exec Command="sign code trusted-signing &quot;$(TargetPath)&quot; --trusted-signing-endpoint &quot;$(AZURE_SIGNING_ENDPOINT)&quot; --trusted-signing-account &quot;$(AZURE_SIGNING_ACCOUNT)&quot; --trusted-signing-certificate-profile &quot;$(AZURE_SIGNING_PROFILE)&quot; --description &quot;$(Product)&quot; --description-url &quot;$(PackageProjectUrl)&quot;" />
-	</Target>
-
-	<Target Name="SignPackage" AfterTargets="Pack" Condition="'$(AZURE_SIGNING_ENDPOINT)' != ''">
-		<Message Importance="high" Text="Signing package '$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg' with Azure Trusted Signing." />
-		<Exec Command="sign code trusted-signing &quot;$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg&quot; --trusted-signing-endpoint &quot;$(AZURE_SIGNING_ENDPOINT)&quot; --trusted-signing-account &quot;$(AZURE_SIGNING_ACCOUNT)&quot; --trusted-signing-certificate-profile &quot;$(AZURE_SIGNING_PROFILE)&quot; --description &quot;$(Product)&quot; --description-url &quot;$(PackageProjectUrl)&quot;" />
 	</Target>
 
 </Project>

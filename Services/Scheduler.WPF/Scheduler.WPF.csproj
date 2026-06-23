@@ -28,35 +28,35 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|AnyCPU'">
-	  <DefineConstants>$(DefineConstants)TRACE;WPF</DefineConstants>
+		<DefineConstants>$(DefineConstants)TRACE;WPF</DefineConstants>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows|AnyCPU'">
-	  <DefineConstants>$(DefineConstants)TRACE;WPF</DefineConstants>
+		<DefineConstants>$(DefineConstants)TRACE;WPF</DefineConstants>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net47|AnyCPU'">
-	  <DefineConstants>$(DefineConstants)TRACE;WPF</DefineConstants>
+		<DefineConstants>$(DefineConstants)TRACE;WPF</DefineConstants>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net47|AnyCPU'">
-	  <DefineConstants>$(DefineConstants)TRACE;WPF</DefineConstants>
+		<DefineConstants>$(DefineConstants)TRACE;WPF</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Include="..\Scheduler.NetStandard\ActionExecution.cs" Link="ActionExecution.cs" />
-	  <Compile Include="..\Scheduler.NetStandard\DefaultInstanceSynchronizationContext.cs" Link="DefaultInstanceSynchronizationContext.cs" />
-	  <Compile Include="..\Scheduler.NetStandard\InstanceSchedulerService.cs" Link="InstanceSchedulerService.cs" />
-	  <Compile Include="..\Scheduler.NetStandard\NetworkSchedulerService.cs" Link="NetworkSchedulerService.cs" />
-	  <Compile Include="..\Scheduler.NetStandard\ServiceCollectionExtensions.cs" Link="ServiceCollectionExtensions.cs" />
+		<Compile Include="..\Scheduler.NetStandard\ActionExecution.cs" Link="ActionExecution.cs" />
+		<Compile Include="..\Scheduler.NetStandard\DefaultInstanceSynchronizationContext.cs" Link="DefaultInstanceSynchronizationContext.cs" />
+		<Compile Include="..\Scheduler.NetStandard\InstanceSchedulerService.cs" Link="InstanceSchedulerService.cs" />
+		<Compile Include="..\Scheduler.NetStandard\NetworkSchedulerService.cs" Link="NetworkSchedulerService.cs" />
+		<Compile Include="..\Scheduler.NetStandard\ServiceCollectionExtensions.cs" Link="ServiceCollectionExtensions.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EllipticBit.Services.Cryptography.Abstractions" Version="1.0.32" />
-		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="1.1.5" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.7" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
-		<PackageReference Include="System.Collections.Immutable" Version="10.0.7" />
+		<PackageReference Include="EllipticBit.Services.Cryptography.Abstractions" Version="1.1.6" />
+		<PackageReference Include="EllipticBit.Services.Scheduler.Abstractions" Version="1.1.7" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.9" />
+		<PackageReference Include="System.Collections.Immutable" Version="10.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -67,11 +67,6 @@
 	<Target Name="SignAssembly" AfterTargets="AfterBuild" Condition="'$(TargetFramework)' != '' And '$(AZURE_SIGNING_ENDPOINT)' != ''">
 		<Message Importance="high" Text="Signing assembly '$(TargetPath)' with Azure Trusted Signing." />
 		<Exec Command="sign code trusted-signing &quot;$(TargetPath)&quot; --trusted-signing-endpoint &quot;$(AZURE_SIGNING_ENDPOINT)&quot; --trusted-signing-account &quot;$(AZURE_SIGNING_ACCOUNT)&quot; --trusted-signing-certificate-profile &quot;$(AZURE_SIGNING_PROFILE)&quot; --description &quot;$(Product)&quot; --description-url &quot;$(PackageProjectUrl)&quot;" />
-	</Target>
-
-	<Target Name="SignPackage" AfterTargets="Pack" Condition="'$(AZURE_SIGNING_ENDPOINT)' != ''">
-		<Message Importance="high" Text="Signing package '$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg' with Azure Trusted Signing." />
-		<Exec Command="sign code trusted-signing &quot;$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg&quot; --trusted-signing-endpoint &quot;$(AZURE_SIGNING_ENDPOINT)&quot; --trusted-signing-account &quot;$(AZURE_SIGNING_ACCOUNT)&quot; --trusted-signing-certificate-profile &quot;$(AZURE_SIGNING_PROFILE)&quot; --description &quot;$(Product)&quot; --description-url &quot;$(PackageProjectUrl)&quot;" />
 	</Target>
 
 </Project>

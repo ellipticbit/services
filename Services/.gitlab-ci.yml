@@ -33,7 +33,7 @@ Publish Address USPS Package:
   script:
     - "dotnet restore ./Services/Address.USPS/Address.USPS.csproj"
     - "dotnet build -c Release ./Services/Address.USPS/Address.USPS.csproj"
-    - "dotnet nuget push ./Services/Address.USPS/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push '.\\Services\\Address.USPS\\bin\\Release\\*.nupkg' -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 # Cryptography
 
@@ -104,7 +104,7 @@ Publish Cryptography AspNetCore Package:
   script:
     - "dotnet restore ./Services/Cryptography.AspNetCore/Cryptography.AspNetCore.csproj"
     - "dotnet build -c Release ./Services/Cryptography.AspNetCore/Cryptography.AspNetCore.csproj"
-    - "dotnet nuget push ./Services/Cryptography.AspNetCore/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push '.\\Services\\Cryptography.AspNetCore\\bin\\Release\\*.nupkg' -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 Publish Cryptography DotNet Package:
   extends: .publish_template
@@ -122,7 +122,7 @@ Publish Cryptography DotNet Package:
   script:
     - "dotnet restore ./Services/Cryptography.DotNet/Cryptography.DotNet.csproj"
     - "dotnet build -c Release ./Services/Cryptography.DotNet/Cryptography.DotNet.csproj"
-    - "dotnet nuget push ./Services/Cryptography.DotNet/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push '.\\Services\\Cryptography.DotNet\\bin\\Release\\*.nupkg' -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 Publish Cryptography NetFramework Package:
   extends: .publish_template
@@ -141,7 +141,7 @@ Publish Cryptography NetFramework Package:
   script:
     - "dotnet restore ./Services/Cryptography.NetFramework/Cryptography.NetFramework.csproj"
     - "dotnet build -c Release ./Services/Cryptography.NetFramework/Cryptography.NetFramework.csproj"
-    - "dotnet nuget push ./Services/Cryptography.NetFramework/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push '.\\Services\\Cryptography.NetFramework\\bin\\Release\\*.nupkg' -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 # Database
 
@@ -178,7 +178,7 @@ Publish Database EntityFrameworkCore Package:
   script:
     - "dotnet restore ./Services/Database.EntityFrameworkCore/Database.EntityFrameworkCore.csproj"
     - "dotnet build -c Release ./Services/Database.EntityFrameworkCore/Database.EntityFrameworkCore.csproj"
-    - "dotnet nuget push ./Services/Database.EntityFrameworkCore/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push '.\\Services\\Database.EntityFrameworkCore\\bin\\Release\\*.nupkg' -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 # Dialog
 
@@ -215,7 +215,7 @@ Publish Dialog WPF Packages:
   script:
     - "dotnet restore ./Services/Dialog.WPF/Dialog.WPF.csproj"
     - "dotnet build -c Release ./Services/Dialog.WPF/Dialog.WPF.csproj"
-    - "dotnet nuget push .\\Services\\Dialog.WPF\\bin\\Release\\*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push '.\\Services\\Dialog.WPF\\bin\\Release\\*.nupkg' -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 # Email
 
@@ -252,7 +252,7 @@ Publish Email SmtpClient Package:
   script:
     - "dotnet restore ./Services/Email.SmtpClient/Email.SmtpClient.csproj"
     - "dotnet build -c Release ./Services/Email.SmtpClient/Email.SmtpClient.csproj"
-    - "dotnet nuget push ./Services/Email.SmtpClient/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push '.\\Services\\Email.SmtpClient\\bin\\Release\\*.nupkg' -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 Build Email SendGrid Package:
   extends: .build_template
@@ -287,7 +287,7 @@ Publish Email SendGrid Package:
   script:
     - "dotnet restore ./Services/Email.SendGrid/Email.SendGrid.csproj"
     - "dotnet build -c Release ./Services/Email.SendGrid/Email.SendGrid.csproj"
-    - "dotnet nuget push ./Services/Email.SendGrid/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push '.\\Services\\Email.SendGrid\\bin\\Release\\*.nupkg' -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 #Scheduler
 
@@ -360,7 +360,7 @@ Publish Scheduler WPF Package:
   script:
     - "dotnet restore ./Services/Scheduler.WPF/Scheduler.WPF.csproj"
     - "dotnet build -c Release ./Services/Scheduler.WPF/Scheduler.WPF.csproj"
-    - "dotnet nuget push .\\Services\\Scheduler.WPF\\bin\\Release\\*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push '.\\Services\\Scheduler.WPF\\bin\\Release\\*.nupkg' -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 Publish Scheduler NetStandard Package:
   extends: .publish_template
@@ -378,7 +378,7 @@ Publish Scheduler NetStandard Package:
   script:
     - "dotnet restore ./Services/Scheduler.NetStandard/Scheduler.NetStandard.csproj"
     - "dotnet build -c Release ./Services/Scheduler.NetStandard/Scheduler.NetStandard.csproj"
-    - "dotnet nuget push ./Services/Scheduler.NetStandard/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push '.\\Services\\Scheduler.NetStandard\\bin\\Release\\*.nupkg' -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 Publish Scheduler SqlServer Package:
   extends: .publish_template
@@ -396,7 +396,7 @@ Publish Scheduler SqlServer Package:
   script:
     - "dotnet restore ./Services/Scheduler.SqlServer/Scheduler.SqlServer.csproj"
     - "dotnet build -c Release ./Services/Scheduler.SqlServer/Scheduler.SqlServer.csproj"
-    - "dotnet nuget push ./Services/Scheduler.SqlServer/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push '.\\Services\\Scheduler.SqlServer\\bin\\Release\\*.nupkg' -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 # Secret
 
@@ -433,7 +433,7 @@ Publish Secret AzureKeyVault Package:
   script:
     - "dotnet restore ./Services/Secret.AzureKeyVault/Secret.AzureKeyVault.csproj"
     - "dotnet build -c Release ./Services/Secret.AzureKeyVault/Secret.AzureKeyVault.csproj"
-    - "dotnet nuget push ./Services/Secret.AzureKeyVault/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push '.\\Services\\Secret.AzureKeyVault\\bin\\Release\\*.nupkg' -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 # Storage
 
@@ -487,7 +487,7 @@ Publish Storage AzureBlob Package:
   script:
     - "dotnet restore ./Services/Storage.AzureBlob/Storage.AzureBlob.csproj"
     - "dotnet build -c Release ./Services/Storage.AzureBlob/Storage.AzureBlob.csproj"
-    - "dotnet nuget push ./Services/Storage.AzureBlob/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push '.\\Services\\Storage.AzureBlob\\bin\\Release\\*.nupkg' -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
 
 Publish Storage LocalFile Package:
   extends: .publish_template
@@ -505,4 +505,4 @@ Publish Storage LocalFile Package:
   script:
     - "dotnet restore ./Services/Storage.LocalFile/Storage.LocalFile.csproj"
     - "dotnet build -c Release ./Services/Storage.LocalFile/Storage.LocalFile.csproj"
-    - "dotnet nuget push ./Services/Storage.LocalFile/**/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push '.\\Services\\Storage.LocalFile\\bin\\Release\\*.nupkg' -s \"https://api.nuget.org/v3/index.json\" -k $env:NUGET_TOKEN --skip-duplicate"
