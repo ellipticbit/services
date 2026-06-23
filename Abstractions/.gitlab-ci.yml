@@ -33,7 +33,7 @@ Publish Address Abstractions Package:
   script:
     - "dotnet restore ./Abstractions/Address/Address.csproj"
     - "dotnet build -c Release ./Abstractions/Address/Address.csproj"
-    - "dotnet nuget push ./Abstractions/Address/bin/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push \"./Abstractions/Address/bin/Release/*.nupkg\" -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 # Cryptography
 
@@ -70,7 +70,7 @@ Publish Cryptography Abstractions Package:
   script:
     - "dotnet restore ./Abstractions/Cryptography/Cryptography.csproj"
     - "dotnet build -c Release ./Abstractions/Cryptography/Cryptography.csproj"
-    - "dotnet nuget push ./Abstractions/Cryptography/bin/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push \"./Abstractions/Cryptography/bin/Release/*.nupkg\" -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 # Database
 
@@ -107,7 +107,7 @@ Publish Database Abstractions Package:
   script:
     - "dotnet restore ./Abstractions/Database/Database.csproj"
     - "dotnet build -c Release ./Abstractions/Database/Database.csproj"
-    - "dotnet nuget push ./Abstractions/Database/bin/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push \"./Abstractions/Database/bin/Release/*.nupkg\" -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 # Email
 
@@ -144,7 +144,7 @@ Publish Email Abstractions Package:
   script:
     - "dotnet restore ./Abstractions/Email/Email.csproj"
     - "dotnet build -c Release ./Abstractions/Email/Email.csproj"
-    - "dotnet nuget push ./Abstractions/Email/bin/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push \"./Abstractions/Email/bin/Release/*.nupkg\" -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 # Extensions
 
@@ -181,7 +181,7 @@ Publish Extensions Abstractions Package:
   script:
     - "dotnet restore ./Abstractions/Extensions/Extensions.csproj"
     - "dotnet build -c Release ./Abstractions/Extensions/Extensions.csproj"
-    - "dotnet nuget push ./Abstractions/Extensions/bin/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push \"./Abstractions/Extensions/bin/Release/*.nupkg\" -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 # Scheduler
 
@@ -218,7 +218,7 @@ Publish Scheduler Abstractions Package:
   script:
     - "dotnet restore ./Abstractions/Scheduler/Scheduler.csproj"
     - "dotnet build -c Release ./Abstractions/Scheduler/Scheduler.csproj"
-    - "dotnet nuget push ./Abstractions/Scheduler/bin/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push \"./Abstractions/Scheduler/bin/Release/*.nupkg\" -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 # Secret
 
@@ -255,7 +255,7 @@ Publish Secret Abstractions Package:
   script:
     - "dotnet restore ./Abstractions/Secret/Secret.csproj"
     - "dotnet build -c Release ./Abstractions/Secret/Secret.csproj"
-    - "dotnet nuget push ./Abstractions/Secret/bin/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push \"./Abstractions/Secret/bin/Release/*.nupkg\" -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
 # Storage
 
@@ -292,5 +292,5 @@ Publish Storage Abstractions Package:
   script:
     - "dotnet restore ./Abstractions/Storage/Storage.csproj"
     - "dotnet build -c Release ./Abstractions/Storage/Storage.csproj"
-    - "dotnet nuget push ./Abstractions/Storage/bin/Release/*.nupkg -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
+    - "dotnet nuget push \"./Abstractions/Storage/bin/Release/*.nupkg\" -s \"https://api.nuget.org/v3/index.json\" -k $NUGET_TOKEN --skip-duplicate"
 
