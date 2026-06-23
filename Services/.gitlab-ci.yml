@@ -4,12 +4,13 @@ Build Address USPS Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Services/Address.USPS/**/*
 
   script:
@@ -20,12 +21,13 @@ Publish Address USPS Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Services/Address.USPS/**/*
 
   script:
@@ -39,12 +41,13 @@ Build Cryptography AspNetCore Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Services/Cryptography.AspNetCore/**/*
 
   script:
@@ -55,12 +58,13 @@ Build Cryptography DotNet Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Services/Cryptography.DotNet/**/*
 
   script:
@@ -71,12 +75,13 @@ Build Cryptography NetStandard Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Services/Cryptography.NetStandard/**/*
 
   script:
@@ -87,12 +92,13 @@ Publish Cryptography AspNetCore Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Services/Cryptography.AspNetCore/**/*
 
   script:
@@ -104,12 +110,13 @@ Publish Cryptography DotNet Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Services/Cryptography.DotNet/**/*
 
   script:
@@ -121,12 +128,13 @@ Publish Cryptography NetFramework Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Services/Cryptography.DotNet/**/*
       - Services/Cryptography.NetFramework/**/*
 
@@ -141,12 +149,13 @@ Build Database EntityFrameworkCore Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Services/Database.EntityFrameworkCore/**/*
 
   script:
@@ -157,12 +166,13 @@ Publish Database EntityFrameworkCore Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Services/Database.EntityFrameworkCore/**/*
 
   script:
@@ -182,6 +192,7 @@ Build Dialog WPF Packages:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Services/Dialog.WPF/**/*
 
   script:
@@ -198,6 +209,7 @@ Publish Dialog WPF Packages:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Services/Dialog.WPF/**/*
 
   script:
@@ -211,12 +223,13 @@ Build Email SmtpClient Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Services/Email.SmtpClient/**/*
 
   script:
@@ -227,12 +240,13 @@ Publish Email SmtpClient Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Services/Email.SmtpClient/**/*
 
   script:
@@ -244,12 +258,13 @@ Build Email SendGrid Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Services/Email.SendGrid/**/*
 
   script:
@@ -260,12 +275,13 @@ Publish Email SendGrid Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Services/Email.SendGrid/**/*
 
   script:
@@ -285,6 +301,7 @@ Build Scheduler WPF Package:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Services/Scheduler.NetStandard/**/*
       - Services/Scheduler.WPF/**/*
 
@@ -296,12 +313,13 @@ Build Scheduler NetStandard Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Services/Scheduler.NetStandard/**/*
 
   script:
@@ -312,12 +330,13 @@ Build Scheduler SqlServer Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Scheduler/Scheduler.SqlServer/**/*
 
   script:
@@ -334,6 +353,7 @@ Publish Scheduler WPF Package:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Services/Scheduler.NetStandard/**/*
       - Services/Scheduler.WPF/**/*
 
@@ -346,12 +366,13 @@ Publish Scheduler NetStandard Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Services/Scheduler.NetStandard/**/*
 
   script:
@@ -363,12 +384,13 @@ Publish Scheduler SqlServer Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Services/Scheduler.SqlServer/**/*
 
   script:
@@ -382,12 +404,13 @@ Build Secret AzureKeyVault Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Services/Secret.AzureKeyVault/**/*
 
   script:
@@ -398,12 +421,13 @@ Publish Secret AzureKeyVault Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Services/Secret.AzureKeyVault/**/*
 
   script:
@@ -417,12 +441,13 @@ Build Storage AzureBlob Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Services/Storage.AzureBlob/**/*
 
   script:
@@ -433,12 +458,13 @@ Build Storage LocalFile Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Services/Storage.LocalFile/**/*
 
   script:
@@ -449,12 +475,13 @@ Publish Storage AzureBlob Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Services/Storage.AzureBlob/**/*
 
   script:
@@ -466,12 +493,13 @@ Publish Storage LocalFile Package:
   extends: .before_script_template
   stage: services
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Services/Storage.LocalFile/**/*
 
   script:

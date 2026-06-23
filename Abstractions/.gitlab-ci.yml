@@ -4,12 +4,13 @@ Build Address Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Address/**/*
 
   script:
@@ -20,12 +21,13 @@ Publish Address Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Address/**/*
 
   script:
@@ -39,12 +41,13 @@ Build Cryptography Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Cryptography/**/*
 
   script:
@@ -55,12 +58,13 @@ Publish Cryptography Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Cryptography/**/*
 
   script:
@@ -74,12 +78,13 @@ Build Database Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Database/**/*
 
   script:
@@ -90,12 +95,13 @@ Publish Database Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Database/**/*
 
   script:
@@ -109,12 +115,13 @@ Build Email Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Email/**/*
 
   script:
@@ -125,12 +132,13 @@ Publish Email Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Email/**/*
 
   script:
@@ -144,12 +152,13 @@ Build Extensions Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Extensions/**/*
 
   script:
@@ -160,12 +169,13 @@ Publish Extensions Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Extensions/**/*
 
   script:
@@ -179,12 +189,13 @@ Build Scheduler Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Scheduler/**/*
 
   script:
@@ -195,12 +206,13 @@ Publish Scheduler Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Scheduler/**/*
 
   script:
@@ -214,12 +226,13 @@ Build Secret Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Secret/**/*
 
   script:
@@ -230,12 +243,13 @@ Publish Secret Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Secret/**/*
 
   script:
@@ -249,12 +263,13 @@ Build Storage Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - dev
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Storage/**/*
 
   script:
@@ -265,12 +280,13 @@ Publish Storage Abstractions Package:
   extends: .before_script_template
   stage: abstractions
   tags:
-    - linux
+    - windows
     - dotnet
   only:
     refs:
       - master
     changes:
+      - .gitlab-ci.yml
       - Abstractions/Storage/**/*
 
   script:
