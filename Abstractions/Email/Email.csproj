@@ -39,9 +39,4 @@
 		<Exec Command="sign code artifact-signing &quot;$(TargetPath)&quot; --artifact-signing-endpoint &quot;$(AZURE_SIGNING_ENDPOINT)&quot; --artifact-signing-account &quot;$(AZURE_SIGNING_ACCOUNT)&quot; --artifact-signing-certificate-profile &quot;$(AZURE_SIGNING_PROFILE)&quot; --description &quot;$(Product)&quot; --description-url &quot;$(PackageProjectUrl)&quot;" />
 	</Target>
 
-	<Target Name="SignPackage" AfterTargets="Pack" Condition="'$(AZURE_SIGNING_ENDPOINT)' != ''">
-		<Message Importance="high" Text="Signing package '$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg' with Azure Trusted Signing." />
-		<Exec Command="sign code artifact-signing &quot;$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg&quot; --artifact-signing-endpoint &quot;$(AZURE_SIGNING_ENDPOINT)&quot; --artifact-signing-account &quot;$(AZURE_SIGNING_ACCOUNT)&quot; --artifact-signing-certificate-profile &quot;$(AZURE_SIGNING_PROFILE)&quot; --description &quot;$(Product)&quot; --description-url &quot;$(PackageProjectUrl)&quot;" />
-	</Target>
-
 </Project>
